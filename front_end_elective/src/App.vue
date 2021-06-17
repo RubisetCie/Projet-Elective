@@ -5,15 +5,15 @@
     <router-link to="/delivery">Delivery</router-link> |
     <router-link to="/order">Order</router-link> |
     <router-link to="/order-history">OrderHistory</router-link> |
-    <router-link to="/about">Sponsorship</router-link> |
-    <router-link to="/about">Notification</router-link> |
-    <router-link to="/about">Item</router-link> |
-    <router-link to="/about">Menu</router-link> |
-    <router-link to="/about">Component</router-link> |
-    <router-link to="/about">Statistic</router-link> |
-    <router-link to="/about">Dashboard</router-link> |
-    <router-link to="/about">Logs</router-link> |
-    <router-link to="/about">Research</router-link>
+    <router-link to="/sponsorship">Sponsorship</router-link> |
+    <router-link to="/notification">Notification</router-link> |
+    <router-link to="/item">Item</router-link> |
+    <router-link to="/menu">Menu</router-link> |
+    <router-link to="/component">Component</router-link> |
+    <router-link to="/statistic">Statistic</router-link> |
+    <router-link to="/dashboard">Dashboard</router-link> |
+    <router-link to="/logs">Logs</router-link> |
+    <router-link to="/research">Research</router-link>
   </div>
   <router-view/>
 </template>
