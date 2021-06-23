@@ -12,5 +12,5 @@ import Vue from 'vue';
     
   }),
 })
-export default class Account extends Vue {}
+export default class DeleteAccount extends Vue {}
 </script>

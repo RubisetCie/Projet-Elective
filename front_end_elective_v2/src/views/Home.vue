@@ -1,16 +1,25 @@
 <template>
-  <hello-world />
+  <div>
+    <div v-for="resto in restaurants" :key="resto">
+      <RestoCard />
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import HelloWorld from '../components/HelloWorld.vue';
+import RestoCard from '../components/UI/Home/RestoCard.vue';
 
 export default Vue.extend({
   name: 'Home',
 
   components: {
-    HelloWorld,
+    RestoCard,
+  },
+  data() {
+    return {
+      restaurants: ['yo', 'yoloooooooooooooooooooooooooo'],
+    };
   },
 });
 </script>
