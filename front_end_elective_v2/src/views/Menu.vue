@@ -1,7 +1,8 @@
 <template>
   <div class="menu">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <div v-for="Plat in Menus" :key="Plat">
+      <PlatCard />
+    </div>
   </div>
 </template>
 
