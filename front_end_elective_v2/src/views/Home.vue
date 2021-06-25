@@ -8,7 +8,7 @@
     <router-link to="/sponsorship">Sponsorship</router-link> |
     <router-link to="/notification">Notification</router-link> |
     <router-link to="/item">Item</router-link> |
-    <router-link to="/menu">Menu</router-link> |
+    <router-link to="/dishes">Menu</router-link> |
     <router-link to="/component">Component</router-link> |
     <router-link to="/statistic">Statistic</router-link> |
     <router-link to="/dashboard">Dashboard</router-link> |

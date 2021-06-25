@@ -1,5 +1,5 @@
 <template>
-  <div class="menu">
+  <div class="dishes">
     <router-link to="/">Home</router-link>
     <div v-for="Plat in Orders" :key="Plat">
       <OrderInCart />
