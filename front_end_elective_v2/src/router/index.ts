@@ -53,9 +53,9 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Item.vue'),
   },
   {
-    path: '/menu',
-    name: 'Menu',
-    component: () => import('../views/Menu.vue'),
+    path: '/dishes',
+    name: 'Dishes',
+    component: () => import('../views/Dishes.vue'),
   },
   {
     path: '/component',
