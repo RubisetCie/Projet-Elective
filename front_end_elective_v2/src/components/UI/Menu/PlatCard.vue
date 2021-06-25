@@ -40,8 +40,6 @@
 import Options from 'vue-class-component';
 import Vue from 'vue';
 
-@Options({
-  
-})
-export default class RestoCard extends Vue {}
+@Options({})
+export default class PlatCard extends Vue {}
 </script>

@@ -9,10 +9,16 @@
 <script lang="ts">
 import Options from 'vue-class-component';
 import Vue from 'vue';
+import PlatCard from '../components/UI/Menu/PlatCard.vue';
 
 @Options({
   components: {
-
+    PlatCard,
+  },
+  data() {
+    return {
+      restaurants: ['yo', 'yoloooooooooooooooooooooooooo'],
+    };
   },
 })
 export default class Menu extends Vue {}

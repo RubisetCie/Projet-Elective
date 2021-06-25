@@ -82,6 +82,7 @@ import Vue from 'vue';
   methods: {
     reserve() {
       console.log('test test test test');
+      this.$router.push('/menu');
       // this.loading = true
       // setTimeout(() => (this.loading = false), 2000)
     },
