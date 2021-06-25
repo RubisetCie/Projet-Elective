@@ -22,17 +22,6 @@
         color="grey"
       ></v-list-item-avatar>
     </v-list-item>
-
-    <v-card-actions>
-      <v-btn
-        outlined
-        rounded
-        text
-        @click="reserve"
-      >
-        Button
-      </v-btn>
-    </v-card-actions>
   </v-card>
   </div>
 </template>
@@ -42,14 +31,6 @@ import Options from 'vue-class-component';
 import Vue from 'vue';
 
 @Options({
-  methods: {
-    reserve() {
-      console.log('test test test test');
-      this.$router.push('/cart');
-      // this.loading = true
-      // setTimeout(() => (this.loading = false), 2000)
-    },
-  },
 })
-export default class PlatCard extends Vue {}
+export default class OrderInCart extends Vue {}
 </script>
