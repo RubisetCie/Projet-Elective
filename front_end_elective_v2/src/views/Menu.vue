@@ -1,5 +1,6 @@
 <template>
   <div class="menu">
+    <router-link to="/">Home</router-link>
     <div v-for="Plat in Menus" :key="Plat">
       <PlatCard />
     </div>
@@ -17,7 +18,7 @@ import PlatCard from '../components/UI/Menu/PlatCard.vue';
   },
   data() {
     return {
-      restaurants: ['yo', 'yoloooooooooooooooooooooooooo'],
+      Menus: ['yo', 'yolo', 'a', 'b', 'aa', 'df', 'ef'],
     };
   },
 })
