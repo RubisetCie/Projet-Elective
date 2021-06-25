@@ -22,16 +22,6 @@
         color="grey"
       ></v-list-item-avatar>
     </v-list-item>
-
-    <v-card-actions>
-      <v-btn
-        outlined
-        rounded
-        text
-      >
-        Button
-      </v-btn>
-    </v-card-actions>
   </v-card>
   </div>
 </template>
@@ -40,6 +30,7 @@
 import Options from 'vue-class-component';
 import Vue from 'vue';
 
-@Options({})
-export default class PlatCard extends Vue {}
+@Options({
+})
+export default class OrderInCart extends Vue {}
 </script>

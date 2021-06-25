@@ -3,13 +3,9 @@
     <router-link to="/">Home</router-link> |
     <router-link to="/account">Account</router-link> |
     <router-link to="/delivery">Delivery</router-link> |
-    <router-link to="/order">Order</router-link> |
-    <router-link to="/order-history">OrderHistory</router-link> |
     <router-link to="/sponsorship">Sponsorship</router-link> |
     <router-link to="/notification">Notification</router-link> |
-    <router-link to="/item">Item</router-link> |
-    <router-link to="/menu">Menu</router-link> |
-    <router-link to="/component">Component</router-link> |
+    <router-link to="/dishes">Menu</router-link> |
     <router-link to="/statistic">Statistic</router-link> |
     <router-link to="/dashboard">Dashboard</router-link> |
     <router-link to="/logs">Logs</router-link> |
