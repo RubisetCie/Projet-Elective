@@ -4,15 +4,21 @@
  */
 
 const express = require("express");
+//const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 
-const swaggerDocument = require("./swagger/api.json");
+const swaggerDocument = require("yamljs").load("./swagger/swagger.yaml");
 
-const PORT = 1234;
+const PORT = 3000;
 
 const app = express();
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+const swaggerOptions = {
+	explorer: false
+};
+
+// Documentation URL
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument, swaggerOptions));
 
 app.listen(PORT, () => {
     console.log(`Server is listening on port: ${PORT}`);

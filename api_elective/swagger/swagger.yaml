@@ -1,0 +1,72 @@
+swagger: '2.0'
+info:
+  description: The API that retrieves the data in from the platform.
+  version: 1.0.0
+  title: Elective API
+  contact:
+    email: matthieu.carteron@viacesi.fr
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: 'localhost:3000'
+basePath: /api
+tags:
+  - name: user
+    description: Operations about user
+schemes:
+  - https
+  - http
+paths:
+  /user:
+    post:
+      tags:
+        - user
+      summary: Test
+      description: Tests the API.
+      operationId: test
+      responses:
+        '200':
+          description: OK
+        '405':
+          description: Invalid input
+      security:
+        - BearerAuth: []
+securityDefinitions:
+  BearerAuth:
+    type: basic
+definitions:
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      username:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      userStatus:
+        type: integer
+        format: int32
+        description: User Status
+  ApiResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      type:
+        type: string
+      message:
+        type: string
+externalDocs:
+  description: Project repository
+  url: 'https://github.com/RubisetCie/Projet-Elective'
