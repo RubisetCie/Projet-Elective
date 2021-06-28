@@ -78,7 +78,9 @@ import Vue from 'vue';
       selection: 1,
     };
   },
-
+  props: {
+    info: Object,
+  },
   methods: {
     reserve() {
       console.log('test test test test');
