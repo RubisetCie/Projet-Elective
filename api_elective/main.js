@@ -4,21 +4,27 @@
  */
 
 const express = require("express");
-//const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 
 const swaggerDocument = require("yamljs").load("./swagger/swagger.yaml");
 
-const PORT = 3000;
-
 const app = express();
 
+// Port number
+const PORT = 3000;
+
+// Importing the different routes for every endpoint
+const userRouter = require("./route/userRoute");
+
+// Options for the documentation
 const swaggerOptions = {
-	explorer: false
+    explorer: false
 };
 
 // Documentation URL
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument, swaggerOptions));
+
+app.use("/user", userRouter);
 
 app.listen(PORT, () => {
     console.log(`Server is listening on port: ${PORT}`);
