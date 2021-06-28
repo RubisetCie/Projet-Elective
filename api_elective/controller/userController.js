@@ -1,18 +1,28 @@
 /* 
- * The controller for the User endpoint.
+ * The code containing functions associated with the User's requests.
  * Author	: Rubisetcie
  */
 
 const express = require("express");
 const router = express.Router();
 
+// Importing the associated service
+const service = require("../service/userService");
+
 // Retrieving user by ID
 module.exports.getById = function(req, res, next) {
-    const id = req.params.id;
+    const id = parseInt(req.params.id, 10);
     
     // Paramters verification
-    if (!parseInt(id, 10))
+    if (isNaN(id)) {
+        console.log("Not int !", id);
         return next();
+    }
     
-    res.send("Test");
+    service.getById(id).then((result) => {
+        res.json(result);
+    }).catch((error) => {
+        console.error("Exception caught while retrieving user: ", error);
+        res.status(400).send();
+    });
 };
