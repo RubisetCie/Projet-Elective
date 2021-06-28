@@ -1,15 +1,5 @@
 <template>
   <div>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/account">Account</router-link> |
-    <router-link to="/delivery">Delivery</router-link> |
-    <router-link to="/sponsorship">Sponsorship</router-link> |
-    <router-link to="/notification">Notification</router-link> |
-    <router-link to="/dishes">Menu</router-link> |
-    <router-link to="/statistic">Statistic</router-link> |
-    <router-link to="/dashboard">Dashboard</router-link> |
-    <router-link to="/logs">Logs</router-link> |
-    <router-link to="/research">Research</router-link>
     <div v-for="resto in restaurants" :key="resto">
       <RestoCard />
     </div>
