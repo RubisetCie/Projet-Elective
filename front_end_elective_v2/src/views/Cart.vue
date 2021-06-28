@@ -1,11 +1,20 @@
 <template>
   <div class="dishes">
-    <router-link to="/">Home</router-link>
-    <div v-for="Plat in Orders" :key="Plat">
-      <OrderInCart />
-    </div>
-    <DeliveryInfos :deliveryData="{ adresse: 'test', number: 'testcommand',
-    code: 'pricecommand', complement: 'adressecommande', }" />
+    <v-row no-gutters>
+      <v-col>
+        <v-card class="pa-2" outlined tile>
+          <div v-for="Plat in Orders" :key="Plat">
+            <OrderInCart />
+          </div>
+        </v-card>
+      </v-col>
+      <v-col>
+        <v-card class="pa-2" outlined tile>
+        <DeliveryInfos :deliveryData="{ adresse: 'test', number: 'testcommand',
+        code: 'pricecommand', complement: 'adressecommande', }" />
+        </v-card>
+      </v-col>
+    </v-row>
     <v-card-actions  class="justify-center">
       <v-btn outlined rounded text @click="pay"> Payer </v-btn>
     </v-card-actions>
