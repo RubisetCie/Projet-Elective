@@ -36,6 +36,11 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Dishes.vue'),
   },
   {
+    path: '/order',
+    name: 'Order',
+    component: () => import('../views/Dishes.vue'),
+  },
+  {
     path: '/statistic',
     name: 'Statistic',
     component: () => import('../views/Statistic.vue'),
@@ -64,6 +69,7 @@ const routes: Array<RouteConfig> = [
 
 const router = new VueRouter({
   routes,
+  mode: 'history',
 });
 
 export default router;

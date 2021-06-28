@@ -1,6 +1,5 @@
 <template>
   <div class='dishes'>
-    <router-link to='/'>Home</router-link>
     <div v-for='Plat in Dishes' :key='Plat'>
       <PlatCard />
     </div>
