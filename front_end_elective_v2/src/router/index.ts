@@ -36,6 +36,11 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Dishes.vue'),
   },
   {
+    path: '/menus',
+    name: 'Menus',
+    component: () => import('../views/Dishes.vue'),
+  },
+  {
     path: '/order',
     name: 'Order',
     component: () => import('../views/Dishes.vue'),

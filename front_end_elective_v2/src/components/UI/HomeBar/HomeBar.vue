@@ -8,7 +8,9 @@
         <v-spacer></v-spacer>
 
         <v-btn icon>
-          <v-icon>mdi-heart</v-icon>
+          <v-badge color='green' content='6'>
+          <v-icon>mdi-bell</v-icon>
+        </v-badge>
         </v-btn>
 
         <v-btn icon>
@@ -23,8 +25,23 @@
           </template>
 
           <v-list>
-            <v-list-item v-for='n in 5' :key='n' @click='() => {}'>
-              <v-list-item-title>Option {{ n }}</v-list-item-title>
+            <v-list-item @click='redirect("/account")'>
+              <v-list-item-title>Mon compte</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click='redirect("/")'>
+              <v-list-item-title>Connexion</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click='redirect("/")'>
+              <v-list-item-title>Inscription</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click='redirect("/dashboard")'>
+              <v-list-item-title>Tableau de bord</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click='redirect("/statistic")'>
+              <v-list-item-title>Statistiques</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click='redirect("/logs")'>
+              <v-list-item-title>Logs</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
