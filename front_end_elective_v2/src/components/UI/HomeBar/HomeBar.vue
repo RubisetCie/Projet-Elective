@@ -4,18 +4,40 @@
       <v-app-bar color='deep-purple' dark>
         <v-app-bar-nav-icon @click='drawer = true'></v-app-bar-nav-icon>
 
-        <v-toolbar-title>Title</v-toolbar-title>
+        <v-toolbar-title>Truc a changer</v-toolbar-title>
         <v-spacer></v-spacer>
 
-        <v-btn icon>
-          <v-badge color='green' content='6'>
-          <v-icon>mdi-bell</v-icon>
-        </v-badge>
-        </v-btn>
+        <v-menu offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn icon v-bind="attrs" v-on="on">
+              <v-badge color='green' content='3'>
+                <v-icon>mdi-bell</v-icon>
+              </v-badge>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item>
+              <v-list-item-title>un truc t'attend</v-list-item-title>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title>un autre truc t'attend</v-list-item-title>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title>voilà une notif</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
 
-        <v-btn icon>
+        <v-btn icon @click='showSearchBar()'>
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
+        <v-text-field
+          v-show='searchBar'
+          single-line
+          solo
+          style="margin-top: 30px;"
+        >
+        </v-text-field>
 
         <v-menu left bottom>
           <template v-slot:activator='{ on, attrs }'>
@@ -73,22 +95,32 @@
         <router-view />
       </v-main>
     </v-card>
+    <div v-if='result'></div>
   </div>
 </template>
 
-<script lang='ts'>
+<script>
 import Options from 'vue-class-component';
 import Vue from 'vue';
 
 @Options({
   components: {},
   data: () => ({
+    searchBar: false,
+    data: Array,
+    result: null,
     drawer: false,
     group: null,
   }),
   methods: {
     redirect(path) {
       this.$router.push(path);
+    },
+    search() {
+      return 0;
+    },
+    showSearchBar() {
+      this.searchBar = !this.searchBar;
     },
   },
 })

@@ -61,11 +61,6 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Logs.vue'),
   },
   {
-    path: '/research',
-    name: 'Research',
-    component: () => import('../views/Research.vue'),
-  },
-  {
     path: '/cart',
     name: 'Cart',
     component: () => import('../views/Cart.vue'),
