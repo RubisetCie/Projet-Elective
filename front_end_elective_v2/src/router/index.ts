@@ -7,22 +7,22 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
   {
     path: '/',
-    name: 'Home',
+    name: 'Acceuil',
     component: Home,
   },
   {
     path: '/account',
-    name: 'Account',
+    name: 'Compte',
     component: () => import('../views/Account.vue'),
   },
   {
     path: '/delivery',
-    name: 'Delivery',
+    name: 'Livraison',
     component: () => import('../views/Delivery.vue'),
   },
   {
     path: '/sponsorship',
-    name: 'Sponsorship',
+    name: 'Parrainage',
     component: () => import('../views/Sponsorship.vue'),
   },
   {
@@ -32,7 +32,7 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/dishes',
-    name: 'Dishes',
+    name: 'Plats',
     component: () => import('../views/Dishes.vue'),
   },
   {
@@ -42,17 +42,17 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/order',
-    name: 'Order',
+    name: 'Commande',
     component: () => import('../views/Dishes.vue'),
   },
   {
     path: '/statistic',
-    name: 'Statistic',
+    name: 'Statistiques',
     component: () => import('../views/Statistic.vue'),
   },
   {
     path: '/dashboard',
-    name: 'Dashboard',
+    name: 'Tableau de bord',
     component: () => import('../views/Dashboard.vue'),
   },
   {
@@ -62,7 +62,7 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/cart',
-    name: 'Cart',
+    name: 'Panier',
     component: () => import('../views/Cart.vue'),
   },
 ];

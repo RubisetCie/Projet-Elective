@@ -4,7 +4,7 @@
       <v-app-bar color='deep-purple' dark>
         <v-app-bar-nav-icon @click='drawer = true'></v-app-bar-nav-icon>
 
-        <v-toolbar-title>Truc a changer</v-toolbar-title>
+        <v-toolbar-title>{{ $route.name }}</v-toolbar-title>
         <v-spacer></v-spacer>
 
         <v-menu offset-y>
