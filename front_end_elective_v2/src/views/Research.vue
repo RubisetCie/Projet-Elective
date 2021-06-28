@@ -1,7 +1,14 @@
 <template>
   <div class="research">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <v-text-field
+            label="Solo"
+            single-line
+            solo
+          ></v-text-field>
+  <div v-if="result">
+
+  </div>
+
   </div>
 </template>
 
@@ -13,6 +20,17 @@ import Vue from 'vue';
   components: {
 
   },
+  data() {
+    return {
+      data: Array,
+    };
+  },
+  methods: {
+    search() {
+      return 0;
+    },
+  },
 })
 export default class Research extends Vue {}
+// v-input__slot grey lighten-3
 </script>
