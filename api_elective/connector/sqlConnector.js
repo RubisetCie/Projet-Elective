@@ -8,14 +8,17 @@ const Connection = require("tedious").Connection;
 const Request = require("tedious").Request;  
 const Types = require("tedious").TYPES;
 
+// Importing the models
+const User = require("../model/user");
+
 // Connection constants
-const SERVERNAME = "elective-sql-database.database.windows.net";
-const USERNAME = "rubis";
-const PASSWORD = "?NN9x*Bm#F%Qhn4?ECagc_knDm+UgK4TF@G6CT?Y=hpe*4y3#4XbsLg6teqq*Z4+PrcnhH%XfHNK%g@WH^h?^-BRh92Z!U9vXR&g!$^mMnBskG7sqan3udmbuzu#4+%J";
+const HOST = process.env.SQL_HOST;
+const USERNAME = process.env.SQL_USERNAME;
+const PASSWORD = process.env.SQL_PASSWORD;
 
 // Options for the connection
 const config = {
-    server: SERVERNAME,
+    server: HOST,
     authentication: {
         type: "default",
         options: {
@@ -52,23 +55,23 @@ module.exports.selectById = function(id) {
                 console.log(err);
             } else {
                 rows.forEach((columns) => {
-                    const res = {};
+                    const user = new User;
 
-                    res["username"] = columns[0].value;
-                    res["usertype"] = columns[1].value;
-                    res["email"] = columns[2].value;
-                    res["password"] = columns[3].value;
-                    res["firstname"] = columns[4].value === null ? null : columns[4].value;
-                    res["lastname"] = columns[5].value === null ? null : columns[5].value;
-                    res["country"] = columns[6].value === null ? null : columns[6].value;
-                    res["zipcode"] = columns[7].value === null ? null : columns[7].value;
-                    res["city"] = columns[8].value === null ? null : columns[8].value;
-                    res["address"] = columns[9].value === null ? null : columns[9].value;
-                    res["billingnumber"] = columns[10].value === null ? null : columns[10].value;
-                    res["billincrypto"] = columns[11].value === null ? null : columns[11].value;
-                    res["billinowner"] = columns[12].value === null ? null : columns[12].value;
+                    user.username = columns[0].value;
+                    user.usertype = columns[1].value;
+                    user.email = columns[2].value;
+                    user.password = columns[3].value;
+                    user.firstname = columns[4].value === null ? null : columns[4].value;
+                    user.lastname = columns[5].value === null ? null : columns[5].value;
+                    user.country = columns[6].value === null ? null : columns[6].value;
+                    user.zipcode = columns[7].value === null ? null : columns[7].value;
+                    user.city = columns[8].value === null ? null : columns[8].value;
+                    user.address = columns[9].value === null ? null : columns[9].value;
+                    user.billingnumber = columns[10].value === null ? null : columns[10].value;
+                    user.billincrypto = columns[11].value === null ? null : columns[11].value;
+                    user.billinowner = columns[12].value === null ? null : columns[12].value;
 
-                    result.push(res);
+                    result.push(user.toJson());
                 });
 
                 console.log(rowCount + " rows returned");

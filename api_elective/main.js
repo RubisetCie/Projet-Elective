@@ -10,8 +10,10 @@ const swaggerDocument = require("yamljs").load("./swagger/swagger.yaml");
 
 const app = express();
 
+require("dotenv").config();
+
 // Port number
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Importing the different routes for every endpoint
 const userRouter = require("./route/userRoute");

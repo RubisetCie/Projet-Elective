@@ -15,7 +15,7 @@ module.exports.getById = function(req, res, next) {
     
     // Paramters verification
     if (isNaN(id)) {
-        console.log("Not int !", id);
+        console.log("Parameter not recognized: ", id);
         return next();
     }
     
