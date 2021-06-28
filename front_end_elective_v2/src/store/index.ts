@@ -5,8 +5,15 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    // basket: [],
   },
   mutations: {
+    // resetBasket(state) {
+    //   state.basket = empt;
+    // },
+    // addToBasket(state, itemId) {
+    // state.basket.push({itemId});
+    // },
   },
   actions: {
   },
