@@ -10,7 +10,7 @@
     <router-link to='/dashboard'>Dashboard</router-link> |
     <router-link to='/logs'>Logs</router-link> |
     <router-link to='/research'>Research</router-link> -->
-    <div v-for='resto in restaurants' :key='resto'>
+    <div v-for='resto in restaurants' :key='resto.name'>
       <RestoCard :info='resto' />
     </div>
   </div>

@@ -79,7 +79,7 @@
               <v-list-item-icon>
                 <v-icon>mdi-home</v-icon>
               </v-list-item-icon>
-              <v-list-item-title>Acceuil</v-list-item-title>
+              <v-list-item-title>Accueil</v-list-item-title>
             </v-list-item>
 
             <v-list-item @click='redirect("/order")'>

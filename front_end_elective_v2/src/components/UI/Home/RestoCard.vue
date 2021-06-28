@@ -41,13 +41,13 @@
 
       <v-divider class="mx-4"></v-divider>
 
-      <v-card-title>Horraires :</v-card-title>
+      <v-card-title>Horaires :</v-card-title>
 
       <v-card-text>
         <v-chip-group
           v-model="selection"
           active-class="deep-purple accent-4 white--text"
-          column v-for="op in info.opening" :key="op"
+          column v-for="op in info.opening" :key="op.name"
         >
           <v-chip >{{op.open}}</v-chip>
           <v-chip >{{op.close}}</v-chip>
