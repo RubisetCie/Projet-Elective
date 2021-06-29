@@ -1,0 +1,23 @@
+{
+    "id": "istanbull_4242",
+	"name": "Istanbull",
+    "address":
+	{
+		"country": "France",
+		"zipcode": "92000",
+		"city": "Nanterre",
+		"address": "12 rue de la Gare",
+	},
+    "status": "open",
+    "image": { "url": "okdzq", "name": "dqz" },
+    "openings": [
+	{
+		"open": "09:04:16+02:00", "close": "22:04:16+02:00"
+	}],
+    "tags": [ "kebab", "grec", "pas cher" ],
+    "description": "Au kebab du soleil :)",
+    "menus": [
+		{ "id": "burger_8556" },
+		{ "id": "vegan_salade_6156460" }
+    ]
+}

@@ -1,0 +1,19 @@
+{
+    "clientId": "0",
+	"restaurantId": "istanbull_4242",
+    "address":
+	{
+		"country": "France",
+		"zipcode": "75003",
+		"city": "Paris",
+		"address": "42 rue du General de Gaule",
+	},
+    "date": { "$date":"2021-06-28T00:00:00+02:00" },
+    "status": "open",
+    "taxes": { "value": 0.20, "currency": "EUR" },
+    "menus": [
+        { "id": "burger_8556" },
+        { "id": "vegan_salade_6156460" }
+    ],
+    "assign": null
+}
