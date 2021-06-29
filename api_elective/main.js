@@ -17,6 +17,7 @@ const PORT = process.env.PORT || 3000;
 
 // Importing the different routes for every endpoint
 const userRouter = require("./route/userRoute");
+const restaurantRouter = require("./route/restaurantRoute");
 
 // Options for the documentation
 const swaggerOptions = {
@@ -24,9 +25,10 @@ const swaggerOptions = {
 };
 
 // Documentation URL
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument, swaggerOptions));
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument, swaggerOptions));
 
 app.use("/user", userRouter);
+app.use("/restaurant", restaurantRouter);
 
 app.listen(PORT, () => {
     console.log(`Server is listening on port: ${PORT}`);

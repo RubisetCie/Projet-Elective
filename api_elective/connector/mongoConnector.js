@@ -4,7 +4,7 @@
  */
 
 // Importing the connector components
-const MongoClient = require("mongodb");
+const { MongoClient } = require("mongodb");
 
 // Importing the models
 const User = require("../model/user");
@@ -13,8 +13,6 @@ const Billing = require("../model/billing");
 
 // Connection constants
 const HOST = process.env.MONGO_HOST;
-const USERNAME = process.env.MONGO_USERNAME;
-const PASSWORD = process.env.MONGO_PASSWORD;
 
 const client = new MongoClient(HOST, {
     useNewUrlParser: true,
