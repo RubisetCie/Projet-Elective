@@ -10,13 +10,9 @@ class User {
     password;
     firstname;
     lastname;
-    country;
-    zipcode;
-    city;
-    address;
-    billingnumber;
-    billincrypto;
-    billinowner;
+    
+    address = [];   // Reference to an Address object
+    billing = [];   // Reference to a Billing object
     
     toJson = function() {
         const json = {};
@@ -27,13 +23,16 @@ class User {
         json["password"] = this.password;
         json["firstname"] = this.firstname;
         json["lastname"] = this.lastname;
-        json["country"] = this.country;
-        json["zipcode"] = this.zipcode;
-        json["city"] = this.city;
-        json["address"] = this.address;
-        json["billingnumber"] = this.billingnumber;
-        json["billincrypto"] = this.billincrypto;
-        json["billinowner"] = this.billinowner;
+        
+        json["address"] = [];
+        this.address.forEach((obj) => {
+            json["address"].push(obj.toJson());
+        });
+        
+        json["billing"] = [];
+        this.billing.forEach((obj) => {
+            json["billing"].push(obj.toJson());
+        });
         
         return json;
     }

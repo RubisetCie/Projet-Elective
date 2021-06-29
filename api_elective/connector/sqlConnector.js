@@ -10,6 +10,8 @@ const Types = require("tedious").TYPES;
 
 // Importing the models
 const User = require("../model/user");
+const Address = require("../model/address");
+const Billing = require("../model/billing");
 
 // Connection constants
 const HOST = process.env.SQL_HOST;
@@ -44,39 +46,67 @@ connection.on("connect", function(err) {
     }
 });
 
-// Select entries by ID
-module.exports.selectById = function(id) {
-    return new Promise((resolve) => {
-        const query = 'SELECT "username", "usertype", "email", "password", "firstname", "lastname", "country", "zipcode", "city", "address", "billingnumber", "billincrypto", "billinowner" FROM dbo.users WHERE "id" = @id';
+// Select user by ID
+module.exports.selectUserById = function(id) {
+    return new Promise((resolve, reject) => {
+        const query = 'SELECT "username", "usertype", "email", "password", "firstname", "lastname", "addressid", "country", "zipcode", "city", "address", "billingid", "number", "crypto", "owner" FROM dbo.users INNER JOIN dbo.useraddress ON dbo.useraddress.userid = dbo.users.id INNER JOIN dbo.address ON dbo.address.id = dbo.useraddress.addressid INNER JOIN dbo.userbilling ON dbo.userbilling.userid = dbo.users.id INNER JOIN dbo.billing ON dbo.billing.id = dbo.userbilling.billingid WHERE dbo.users.id = @id';
         const result = [];
 
         const request = new Request(query, function(err, rowCount, rows) {
-            if (err) {
-                console.log(err);
-            } else {
-                rows.forEach((columns) => {
-                    const user = new User;
+            try {
+                if (err)
+                    throw err;
+                
+                const user = new User;
 
-                    user.username = columns[0].value;
-                    user.usertype = columns[1].value;
-                    user.email = columns[2].value;
-                    user.password = columns[3].value;
-                    user.firstname = columns[4].value === null ? null : columns[4].value;
-                    user.lastname = columns[5].value === null ? null : columns[5].value;
-                    user.country = columns[6].value === null ? null : columns[6].value;
-                    user.zipcode = columns[7].value === null ? null : columns[7].value;
-                    user.city = columns[8].value === null ? null : columns[8].value;
-                    user.address = columns[9].value === null ? null : columns[9].value;
-                    user.billingnumber = columns[10].value === null ? null : columns[10].value;
-                    user.billincrypto = columns[11].value === null ? null : columns[11].value;
-                    user.billinowner = columns[12].value === null ? null : columns[12].value;
+                const firstRow = rows[0];
+                const userAddresses = [];   // Workaround to prevent the inclusion of data twice
+                const userBillings = [];    // Workaround to prevent the inclusion of data twice
 
-                    result.push(user.toJson());
+                // Single attributes
+                user.username = firstRow[0].value;
+                user.usertype = firstRow[1].value;
+                user.email = firstRow[2].value;
+                user.password = firstRow[3].value;
+                user.firstname = firstRow[4].value === null ? null : firstRow[4].value;
+                user.lastname = firstRow[5].value === null ? null : firstRow[5].value;
+
+                // Multiple attributes
+                rows.forEach((row) => {
+                    const address = new Address;
+                    const billing = new Billing;
+
+                    // Check if the address has already been added
+                    if (!userAddresses.includes(row[6].value)) {
+                        userAddresses.push(row[6].value);
+
+                        address.country = row[7].value;
+                        address.zipcode = row[8].value;
+                        address.city = row[9].value === null ? null : row[9].value;
+                        address.address = row[10].value === null ? null : row[10].value;
+
+                        user.address.push(address);
+                    }
+
+                    // Check if the billing has already been added
+                    if (!userBillings.includes(row[11].value)) {
+                        userBillings.push(row[11].value);
+
+                        billing.number = row[12].value === null ? null : row[12].value;
+                        billing.crypto = row[13].value === null ? null : row[13].value;
+                        billing.owner = row[14].value === null ? null : row[14].value;
+
+                        user.billing.push(billing);
+                    }
                 });
+
+                result.push(user.toJson());
 
                 console.log(rowCount + " rows returned");
 
                 resolve(result);
+            } catch (ex) {
+                reject(ex);
             }
         });
         
