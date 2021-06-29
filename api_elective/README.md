@@ -19,11 +19,6 @@ Driver=<ODBC Driver 13 for SQL Server>;Server=tcp:elective-sql-database.database
 npm install
 ```
 
-### Rebuilds the Swagger UI
-```
-npm generate
-```
-
 ### Compiles and hot-reloads for development
 ```
 npm start
