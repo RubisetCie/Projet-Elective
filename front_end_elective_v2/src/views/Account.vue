@@ -4,9 +4,7 @@
       <v-card>
         <v-card-title class='cyan darken-1'>
           <span class='text-h5 white--text'>
-            <div v-if='seeMod === true'>
-              {{ lastname }} {{ name }}
-            </div>
+            <div v-if='seeMod === true'>{{ userInfo.lastname }} {{ userInfo.name }}</div>
             <div v-if='editMod === true'>
               <v-text-field
                 dark
@@ -43,10 +41,10 @@
               <v-list-item @click='switchMod()' v-if='editMod'>
                 <v-list-item-title>Annuler</v-list-item-title>
               </v-list-item>
-              <v-list-item @click="redirect('/')">
+              <v-list-item @click='redirect("/")'>
                 <v-list-item-title>Me déconnecter</v-list-item-title>
               </v-list-item>
-              <v-list-item @click="redirect('/')">
+              <v-list-item @click='redirect("/")'>
                 <v-list-item-title>Supprimer mon compte</v-list-item-title>
               </v-list-item>
             </v-list>
@@ -73,7 +71,7 @@
               </v-list-item-action>
 
               <v-list-item-content>
-                <v-list-item-title> {{ email }} </v-list-item-title>
+                <v-list-item-title> {{ userInfo.email }} </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
 
@@ -85,7 +83,7 @@
               </v-list-item-action>
 
               <v-list-item-content>
-                <v-list-item-title> {{ address }} </v-list-item-title>
+                <v-list-item-title> {{ userInfo.address[0].address }} </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
 
@@ -97,14 +95,20 @@
               </v-list-item-action>
 
               <v-list-item-content>
-                <v-list-item-title> {{ billingNumber }} </v-list-item-title>
+                <v-list-item-title>
+                  {{
+                    "**** **** **** "
+                    + userInfo.billing[0].number[userInfo.billing[0].number.length - 4]
+                    + userInfo.billing[0].number[userInfo.billing[0].number.length - 3]
+                    + userInfo.billing[0].number[userInfo.billing[0].number.length - 2]
+                    + userInfo.billing[0].number[userInfo.billing[0].number.length - 1]
+                  }}
+                </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-
           </div>
 
           <div v-if='editMod'>
-
             <v-list-item>
               <v-list-item-action>
                 <v-icon>mdi-phone</v-icon>
@@ -139,7 +143,9 @@
               </v-list-item-action>
 
               <v-list-item-content>
-                <v-btn outlined text @click='editCard()'> Modifier la carte </v-btn>
+                <v-btn outlined text @click='editCard()'>
+                  Modifier la carte
+                </v-btn>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
@@ -148,14 +154,18 @@
               </v-list-item-action>
 
               <v-list-item-content>
-                <v-btn outlined text @click='editPassword()'> Modifier le Mot de passe </v-btn>
+                <v-btn outlined text @click='editPassword()'>
+                  Modifier le Mot de passe
+                </v-btn>
               </v-list-item-content>
             </v-list-item>
-
           </div>
-
         </v-list>
-        <div v-if='editMod' class='d-flex justify-space-around' style='padding-bottom:15px'>
+        <div
+          v-if='editMod'
+          class='d-flex justify-space-around'
+          style='padding-bottom: 15px'
+        >
           <v-btn outlined rounded text @click='switchMod()'> Annuler </v-btn>
           <v-btn outlined rounded text @click='validate()'> Valider </v-btn>
         </div>
@@ -167,25 +177,49 @@
 <script>
 import Options from 'vue-class-component';
 import Vue from 'vue';
+import axios from 'axios';
+
+axios.defaults.baseURL = 'localhost:3000';
 
 @Options({
   components: {},
-  data: () => ({
-    editMod: false,
-    seeMod: true,
-    name: 'Dutru',
-    lastname: 'Micheline',
-    phoneNumber: '06 62 72 49 06',
-    email: 'micheline.dutru@example.com',
-    address: '7 rue des margerites 78400 Chatou',
-    billingNumber: '***********1242',
-    new_name: 'Dutru',
-    new_lastname: 'Micheline',
-    new_phoneNumber: '06 62 72 49 06',
-    new_email: 'micheline.dutru@example.com',
-    new_address: '7 rue des margerites 78400 Chatou',
-    new_billingNumber: '***********1242',
-  }),
+  data() {
+    return {
+      editMod: false,
+      seeMod: true,
+      phoneNumber: '06 62 72 49 06',
+      new_name: null,
+      new_lastname: null,
+      new_phoneNumber: null,
+      new_email: null,
+      new_address: null,
+      new_billingNumber: null,
+
+      userInfo: {
+        username: 'dupontmark',
+        usertype: 0,
+        email: 'mark.dupont@yopmail.com',
+        password: 'bcrypt',
+        firstname: 'Dupont',
+        lastname: 'Mark',
+        address: [
+          {
+            country: 'France',
+            zipcode: 75003,
+            city: 'Paris',
+            address: '42 rue du General de Gaule',
+          },
+        ],
+        billing: [
+          {
+            number: '4242424242424242',
+            crypto: '042',
+            owner: 'Mohamed Belgacem',
+          },
+        ],
+      },
+    };
+  },
   methods: {
     redirect(path) {
       this.$router.push(path);
@@ -199,14 +233,23 @@ import Vue from 'vue';
         this.editMod = false;
       }
     },
-    validate() {
+    async validate() {
       this.seeMod = true;
       this.editMod = false;
-      this.name = this.new_name;
-      this.lastname = this.new_lastname;
+      this.userInfo.firstname = this.new_name;
+      this.userInfo.lastname = this.new_lastname;
       this.phoneNumber = this.new_phoneNumber;
-      this.email = this.new_email;
-      this.address = this.new_address;
+      this.userInfo.email = this.new_email;
+      this.userInfo.address[0].address = this.new_address;
+      this.userInfo.billing[0].number = this.new_billingNumber;
+
+      // const response = await axios.put('user/0', {
+      //   firstname: this.userInfo.firstname,
+      //   lastname: this.userInfo.lastname,
+      //   email: this.userInfo.email,
+      //   address: this.userInfo.address,
+      //   billing: this.userInfo.billing,
+      // });
     },
     editCard() {
       console.log('editer la carte');
@@ -214,8 +257,23 @@ import Vue from 'vue';
     editPassword() {
       console.log('editer le mot de passe');
     },
+    async queryAccount() {
+      const response = await axios.get('user/0');
+      this.userInfo = response.data;
+    },
+    setDataforEdit() {
+      this.new_name = this.userInfo.firstname;
+      this.new_lastname = this.userInfo.lastname;
+      this.new_phoneNumber = '06 62 72 49 06';
+      this.new_email = this.userInfo.email;
+      this.new_address = this.userInfo.address[0].address;
+      this.new_billingNumber = this.userInfo.billing[0].number;
+    },
+  },
+  async created() {
+    this.setDataforEdit();
+    // this.queryResto();
   },
 })
-
 export default class Account extends Vue {}
 </script>
