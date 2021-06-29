@@ -73,7 +73,7 @@
             <v-list-item @click='redirect("/account")'>
               <v-list-item-title>Mon compte</v-list-item-title>
             </v-list-item>
-            <v-list-item @click='redirect("/")'>
+            <v-list-item @click='redirect("/Login")'>
               <v-list-item-title>Connexion</v-list-item-title>
             </v-list-item>
             <v-list-item @click='redirect("/")'>
