@@ -1,5 +1,5 @@
 {
-    "name": "Application",
+    "name": "Projet-Elective",
     "version": "1.0.0",
     "keywords": [
         "util",
@@ -9,11 +9,16 @@
         "browser"
     ],
     "scripts": {
-        "start": "{{node main}}"
+        "g-start": "prod.cmd",
+        "g-dev": "concurrently --kill-others \"npm run  --prefix api_elective dev-api\" \"npm run --prefix front_end_elective_v2 dev-front\"",
+        "g-env": "env.cmd"
     },
     "author": "rubisetcie",
     "contributors": [],
     "dependencies": {
         "@vue/cli": "^4.5.13"
+    },
+    "devDependencies": {
+        "concurrently": "^6.2.0"
     }
 }
