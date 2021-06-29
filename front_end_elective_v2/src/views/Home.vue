@@ -10,8 +10,10 @@
     <router-link to='/dashboard'>Dashboard</router-link> |
     <router-link to='/logs'>Logs</router-link> |
     <router-link to='/research'>Research</router-link> -->
-    <div v-for='resto in restaurants' :key='resto.name'>
-      <RestoCard :info='resto' />
+    <div class='d-flex align-content-start flex-wrap justify-space-around'>
+      <div v-for='resto in restaurants' :key='resto.name'>
+        <RestoCard :info='resto' />
+      </div>
     </div>
   </div>
 </template>
