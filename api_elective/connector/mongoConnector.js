@@ -4,90 +4,120 @@
  */
 
 // Importing the connector components
-const { MongoClient } = require("mongodb");
+const MongoClient = require("mongodb").MongoClient;
 
 // Importing the models
-const User = require("../model/user");
+const Restaurant = require("../model/restaurant");
+const Menu = require("../model/menu");
+const Order = require("../model/order");
+const Opening = require("../model/opening");
 const Address = require("../model/address");
-const Billing = require("../model/billing");
+const Price = require("../model/price");
+const Image = require("../model/image");
 
 // Connection constants
 const HOST = process.env.MONGO_HOST;
+const DATABASE = process.env.MONGO_DATABASE;
 
 const client = new MongoClient(HOST, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
 
-// Select user by ID
-module.exports.selectUserById = function(id) {
+// Select restaurant by ID
+module.exports.selectRestaurantById = function(id) {
     return new Promise((resolve, reject) => {
-        const query = 'SELECT "username", "usertype", "email", "password", "firstname", "lastname", "addressid", "country", "zipcode", "city", "address", "billingid", "number", "crypto", "owner" FROM dbo.users INNER JOIN dbo.useraddress ON dbo.useraddress.userid = dbo.users.id INNER JOIN dbo.address ON dbo.address.id = dbo.useraddress.addressid INNER JOIN dbo.userbilling ON dbo.userbilling.userid = dbo.users.id INNER JOIN dbo.billing ON dbo.billing.id = dbo.userbilling.billingid WHERE dbo.users.id = @id';
-        const result = [];
-
-        const request = new Request(query, function(err, rowCount, rows) {
+        const db = client.db(DATABASE);
+        const query = { _id: id };
+        
+        db.collection("restaurants").findOne(query, function(err, result) {
             try {
                 if (err)
                     throw err;
                 
-                const user = new User;
+                const restaurant = deserializeRestaurant(result)
+                
+                console.log("AR Request finished");
 
-                const firstRow = rows[0];
-                const userAddresses = [];   // Workaround to prevent the inclusion of data twice
-                const userBillings = [];    // Workaround to prevent the inclusion of data twice
-
-                // Single attributes
-                user.username = firstRow[0].value;
-                user.usertype = firstRow[1].value;
-                user.email = firstRow[2].value;
-                user.password = firstRow[3].value;
-                user.firstname = firstRow[4].value === null ? null : firstRow[4].value;
-                user.lastname = firstRow[5].value === null ? null : firstRow[5].value;
-
-                // Multiple attributes
-                rows.forEach((row) => {
-                    const address = new Address;
-                    const billing = new Billing;
-
-                    // Check if the address has already been added
-                    if (!userAddresses.includes(row[6].value)) {
-                        userAddresses.push(row[6].value);
-
-                        address.country = row[7].value;
-                        address.zipcode = row[8].value;
-                        address.city = row[9].value === null ? null : row[9].value;
-                        address.address = row[10].value === null ? null : row[10].value;
-
-                        user.address.push(address);
-                    }
-
-                    // Check if the billing has already been added
-                    if (!userBillings.includes(row[11].value)) {
-                        userBillings.push(row[11].value);
-
-                        billing.number = row[12].value === null ? null : row[12].value;
-                        billing.crypto = row[13].value === null ? null : row[13].value;
-                        billing.owner = row[14].value === null ? null : row[14].value;
-
-                        user.billing.push(billing);
-                    }
-                });
-
-                result.push(user.toJson());
-
-                console.log(rowCount + " rows returned");
-
-                resolve(result);
-            } catch (ex) {
-                reject(ex);
+                resolve(restaurant);
+            } catch (err) {
+                reject(err);
             }
         });
-        
-        // Request parameters
-        request.addParameter("id", Types.BigInt, id);
-
-        connection.execSql(request);
     });
+};
+
+// Creates a Restaurant object from JSON
+deserializeRestaurant = function(json) {
+    const restaurant = new Restaurant;
+    const address = new Address;
+    const image = new Image;
+            
+    const restaurantAddress = json["address"] === null ? null : json["address"];
+    if (restaurantAddress) {
+        address.country = restaurantAddress["country"] === null ? null : restaurantAddress["country"];
+        address.zipcode = restaurantAddress["zipcode"] === null ? null : restaurantAddress["zipcode"];
+        address.city = restaurantAddress["city"] === null ? null : restaurantAddress["city"];
+        address.country = restaurantAddress["address"] === null ? null : restaurantAddress["address"];
+    }
+
+    const restaurantImage = json["image"] === null ? null : json["image"];
+    if (restaurantImage) {
+        image.url = restaurantImage["url"] === null ? null : restaurantImage["url"];
+        image.alt = restaurantImage["alt"] === null ? null : restaurantImage["alt"];
+    }
+
+    restaurant.name = json["name"] === null ? null : json["name"];
+    restaurant.address = address;
+    restaurant.status = json["status"] === null ? null : json["status"];
+    restaurant.image = image;
+
+    restaurant.openings = [];
+    json["openings"].forEach((op) => {
+        const opening = new Opening;
+
+        opening.open = op["open"];
+        opening.close = op["close"];
+
+        restaurant.openings.push(opening);
+    });
+
+    restaurant.tags = json["tags"] === null ? [] : json["tags"];
+    restaurant.description = json["description"] === null ? null : json["description"];
+
+    restaurant.menus = [];
+    json["menus"].forEach((me) => {
+        restaurant.menus.push(deserializeMenu(me));
+    });
+    
+    return restaurant;
+};
+
+// Creates a Menu object from JSON
+deserializeMenu = function(json) {
+    const menu = new Menu;
+    const image = new Image;
+    const price = new Price;
+    
+    const menuImage = json["image"] === null ? null : json["image"];
+    if (menuImage) {
+        image.url = menuImage["url"] === null ? null : menuImage["url"];
+        image.alt = menuImage["alt"] === null ? null : menuImage["alt"];
+    }
+
+    const menuPrice = json["price"] === null ? null : json["price"];
+    if (menuPrice) {
+        price.value = menuPrice["value"] === null ? null : menuPrice["value"];
+        price.currency = menuPrice["currency"] === null ? null : menuPrice["currency"];
+    }
+
+    menu.name = json["name"] === null ? null : json["name"];
+    menu.image = image;
+    menu.price = price;
+
+    menu.items = json["items"] === null ? [] : json["items"];
+    
+    return menu;
 };
 
 // Trigger connection
