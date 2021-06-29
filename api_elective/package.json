@@ -11,7 +11,8 @@
   "author": "rubisetcie",
   "contributors": [],
   "scripts": {
-    "start": "nodemon main.js"
+    "start": "nodemon main.js",
+    "dev-api": "nodemon main.js"
   },
   "dependencies": {
     "dotenv": "^10.0.0",
