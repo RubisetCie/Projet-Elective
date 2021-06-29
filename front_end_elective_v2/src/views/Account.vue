@@ -44,7 +44,7 @@
                 <v-list-item-title>Annuler</v-list-item-title>
               </v-list-item>
               <v-list-item @click="redirect('/')">
-                <v-list-item-title>Me déconecter</v-list-item-title>
+                <v-list-item-title>Me déconnecter</v-list-item-title>
               </v-list-item>
               <v-list-item @click="redirect('/')">
                 <v-list-item-title>Supprimer mon compte</v-list-item-title>
