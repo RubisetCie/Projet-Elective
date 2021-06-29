@@ -9,7 +9,7 @@ const router = express.Router();
 // Importing the associated controller
 const controller = require("../controller/userController");
 
-// Retrieving user by ID
+// Retrieving user data by ID
 router.get('/:id', controller.getById);
 
 module.exports = router;

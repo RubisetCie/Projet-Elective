@@ -9,7 +9,7 @@ const router = express.Router();
 // Importing the associated service
 const service = require("../service/userService");
 
-// Retrieving user by ID
+// Retrieving user data by ID
 module.exports.getById = function(req, res, next) {
     const id = parseInt(req.params.id, 10);
     
