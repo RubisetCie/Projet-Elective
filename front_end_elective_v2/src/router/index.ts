@@ -70,6 +70,11 @@ const routes: Array<RouteConfig> = [
     name: 'Panier',
     component: () => import('../views/Cart.vue'),
   },
+  {
+    path: '/login',
+    name: 'Connexion',
+    component: () => import('../views/Login.vue'),
+  },
 ];
 
 const router = new VueRouter({
