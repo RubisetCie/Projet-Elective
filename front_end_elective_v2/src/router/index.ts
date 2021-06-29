@@ -7,22 +7,22 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
   {
     path: '/',
-    name: 'Home',
+    name: 'Accueil',
     component: Home,
   },
   {
     path: '/account',
-    name: 'Account',
+    name: 'Compte',
     component: () => import('../views/Account.vue'),
   },
   {
     path: '/delivery',
-    name: 'Delivery',
+    name: 'Livraison',
     component: () => import('../views/Delivery.vue'),
   },
   {
     path: '/sponsorship',
-    name: 'Sponsorship',
+    name: 'Parrainage',
     component: () => import('../views/Sponsorship.vue'),
   },
   {
@@ -32,17 +32,32 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/dishes',
-    name: 'Dishes',
+    name: 'Plats',
+    component: () => import('../views/Dishes.vue'),
+  },
+  {
+    path: '/menus/:id?',
+    name: 'Menus',
+    component: () => import('../views/Dishes.vue'),
+  },
+  {
+    path: '/order',
+    name: 'Commande',
+    component: () => import('../views/Dishes.vue'),
+  },
+  {
+    path: '/order-history',
+    name: 'Commande Terminée',
     component: () => import('../views/Dishes.vue'),
   },
   {
     path: '/statistic',
-    name: 'Statistic',
+    name: 'Statistiques',
     component: () => import('../views/Statistic.vue'),
   },
   {
     path: '/dashboard',
-    name: 'Dashboard',
+    name: 'Tableau de bord',
     component: () => import('../views/Dashboard.vue'),
   },
   {
@@ -51,19 +66,15 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Logs.vue'),
   },
   {
-    path: '/research',
-    name: 'Research',
-    component: () => import('../views/Research.vue'),
-  },
-  {
     path: '/cart',
-    name: 'Cart',
+    name: 'Panier',
     component: () => import('../views/Cart.vue'),
   },
 ];
 
 const router = new VueRouter({
   routes,
+  mode: 'history',
 });
 
 export default router;

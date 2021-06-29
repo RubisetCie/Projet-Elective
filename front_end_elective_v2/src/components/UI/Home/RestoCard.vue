@@ -11,15 +11,15 @@
 
       <v-img
         height="250"
-        src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+        :src="info.image.url"
       ></v-img>
 
-      <v-card-title>Cafe Badilico</v-card-title>
+      <v-card-title>{{info.name}}</v-card-title>
 
       <v-card-text>
         <v-row align="center" class="mx-0">
           <v-rating
-            :value="4.5"
+            :value="rating"
             color="amber"
             dense
             half-increments
@@ -27,40 +27,37 @@
             size="14"
           ></v-rating>
 
-          <div class="grey--text ms-4">4.5 (413)</div>
+          <div class="grey--text ms-4">
+            {{rating}} ({{Math.round(Math.random() * 2000)}})
+          </div>
         </v-row>
 
         <div class="my-4 text-subtitle-1">$ • Italian, Cafe</div>
 
         <div>
-          Small plates, salads & sandwiches - an intimate setting with 12 indoor
-          seats plus patio seating.
+            {{info.description}}
         </div>
       </v-card-text>
 
       <v-divider class="mx-4"></v-divider>
 
-      <v-card-title>Tonight's availability</v-card-title>
+      <v-card-title>Horaires :</v-card-title>
 
       <v-card-text>
         <v-chip-group
           v-model="selection"
           active-class="deep-purple accent-4 white--text"
-          column
+          column v-for="op in info.opening" :key="op.name"
         >
-          <v-chip>5:30PM</v-chip>
+          <v-chip >{{op.open}}</v-chip>
+          <v-chip >{{op.close}}</v-chip>
 
-          <v-chip>7:30PM</v-chip>
-
-          <v-chip>8:00PM</v-chip>
-
-          <v-chip>9:00PM</v-chip>
         </v-chip-group>
       </v-card-text>
 
       <v-card-actions>
-        <v-btn color="deep-purple lighten-2" text @click="reserve">
-          Reserve
+        <v-btn color="deep-purple lighten-2" text @click="reserve(info.restaurantId)">
+          Commander
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -76,13 +73,17 @@ import Vue from 'vue';
     return {
       loading: false,
       selection: 1,
+      rating: Math.round(Math.random() * 50) / 10,
+      tags: ['Italien', 'Grill', 'Kebab', 'Grec'],
     };
   },
-
+  props: {
+    info: Object,
+  },
   methods: {
-    reserve() {
+    reserve(restoId) {
       console.log('test test test test');
-      this.$router.push('/dishes');
+      this.$router.push(`/menus/${restoId}`);
       // this.loading = true
       // setTimeout(() => (this.loading = false), 2000)
     },
