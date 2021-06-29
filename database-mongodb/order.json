@@ -1,0 +1,20 @@
+{
+	"_id": 3,
+    "clientId": 0,
+	"restaurantId": 0,
+    "address":
+	{
+		"country": "France",
+		"zipcode": "75003",
+		"city": "Paris",
+		"address": "42 rue du General de Gaule"
+	},
+    "date": { "$date": "2021-06-28T00:00:00+02:00" },
+    "status": "open",
+    "taxes": { "value": 0.20, "currency": "EUR" },
+    "menus": [
+        { "id": 1 },
+        { "id": 2 }
+    ],
+    "assign": null
+}

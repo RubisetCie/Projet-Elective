@@ -1,12 +1,10 @@
 /* 
- * The code containing the connection procedures to the Microsoft SQL database.
+ * The code containing the connection procedures to the MongoDB database.
  * Author	: Rubisetcie
  */
 
-// Importing the Tedious components
-const Connection = require("tedious").Connection;
-const Request = require("tedious").Request;  
-const Types = require("tedious").TYPES;
+// Importing the connector components
+const { MongoClient } = require("mongodb");
 
 // Importing the models
 const User = require("../model/user");
@@ -14,36 +12,11 @@ const Address = require("../model/address");
 const Billing = require("../model/billing");
 
 // Connection constants
-const HOST = process.env.SQL_HOST;
-const USERNAME = process.env.SQL_USERNAME;
-const PASSWORD = process.env.SQL_PASSWORD;
+const HOST = process.env.MONGO_HOST;
 
-// Options for the connection
-const config = {
-    server: HOST,
-    authentication: {
-        type: "default",
-        options: {
-            userName: USERNAME,
-            password: PASSWORD
-        }
-    },
-    options: {
-        encrypt: true,
-        rowCollectionOnRequestCompletion: true,
-        database: "SQL-Elective"
-    }
-};
-
-const connection = new Connection(config);
-
-// Callback when connected
-connection.on("connect", function(err) {
-    if (err) {
-        console.error("Error while connecting to Microsoft SQL Database", err);
-    } else {
-        console.log("Connected to Microsoft SQL Database");
-    }
+const client = new MongoClient(HOST, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 });
 
 // Select user by ID
@@ -117,36 +90,11 @@ module.exports.selectUserById = function(id) {
     });
 };
 
-// Execute SQL statement (like 'INSERT)
-/*module.exports.executeStatement = function(sql) {
-    // Preparation
-    const request = new Request(sql, function(err) {
-        if (err) {
-            console.log(err);
-        }
-    });
-    
-    var result = "";
-    
-    request.on("row", function(columns) {
-        columns.forEach(function(column) {
-          if (column.value === null) {  
-            console.log('NULL');  
-          } else {  
-            result+= column.value + " ";  
-          }  
-        });  
-        console.log(result);  
-        result ="";  
-    });  
-
-    request.on('done', function(rowCount, more) {  
-    console.log(rowCount + ' rows returned');  
-    });
-    
-    // Execution
-    connection.execSql(request);
-};*/
-
 // Trigger connection
-connection.connect();
+client.connect((err) => {
+    if (err) {
+        console.error("Error while connecting to MongoDB Database", err);
+    } else {
+        console.log("Connected to MongoDB Database");
+    }
+});

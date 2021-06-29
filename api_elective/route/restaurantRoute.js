@@ -1,14 +1,14 @@
 /* 
- * The code containing the routes for the User endpoint.
+ * The code containing the routes for the Restaurant endpoint.
  * Author	: Rubisetcie
  */
 
 const router = require("express").Router();
 
 // Importing the associated controller
-const controller = require("../controller/userController");
+const controller = require("../controller/restaurantController");
 
-// Retrieving user data by ID
+// Retrieving restaurant data by ID
 router.get('/:id', controller.getById);
 
 module.exports = router;

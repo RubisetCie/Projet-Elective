@@ -6,7 +6,7 @@
 // Importing the associated connector
 const connector = require("../connector/sqlConnector");
 
-// Retrieving user by ID
+// Retrieving user data by ID
 module.exports.getById = function(id) {
-    return connector.selectById(id);
+    return connector.selectUserById(id);
 };
