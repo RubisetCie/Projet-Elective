@@ -5,13 +5,13 @@
 
 class Image {
     url;
-    name;
+    alt;
     
     toJson = function() {
         const json = {};
         
         json["url"] = this.url;
-        json["name"] = this.name;
+        json["alt"] = this.alt;
 
         return json;
     }

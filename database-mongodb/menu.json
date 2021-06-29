@@ -1,7 +1,7 @@
 {
-	"id": "burger_8556",
+	"_id": 1,
 	"name": "Menu Burger Raclette",
-	"image": { "url": "okdzq", "name": "dqz" },
+	"image": { "url": "okdzq", "alt": "dqz" },
 	"price": { "value": 8.00, "currency": "EUR" },
 	"items": [
 		"Burger Raclette",
@@ -11,10 +11,10 @@
 	]
 }
 {
-	"id": "vegan_salade_6156460",
+	"_id": 2,
 	"name": "Menu Salade Vegane",
 	"price": { "value": 14.00, "currency": "EUR" },
-	"image": { "url": "okdzq", "name": "dqz" },
+	"image": { "url": "okdzq", "alt": "dqz" },
 	"items": [
 		"Salade Vegane",
 		"Eau"
