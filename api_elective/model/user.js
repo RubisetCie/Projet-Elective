@@ -10,9 +10,8 @@ class User {
     password;
     firstname;
     lastname;
-    
-    address = [];   // Reference to an Address object
-    billing = [];   // Reference to a Billing object
+    address = [];   // Reference to a list of Address objects
+    billing = [];   // Reference to a list of Billing objects
     
     toJson = function() {
         const json = {};
