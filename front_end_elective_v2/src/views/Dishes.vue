@@ -1,15 +1,50 @@
 <template>
   <!-- <div class='dishes' v-if='resto || order'> -->
-    <div v-if='mode === 1'>
-      JULIEN AJOUTE UN ENDROIT POUR LES INFOS DU RESTO OUVERT A DROITE
-      <div v-for='menu in resto.menu' :key='menu.restaurantId'>
-        <PlatCard :info='menu' />
+    <div class="d-flex align-content-start flex-wrap justify-space-around">
+      <div v-if='mode === 1'>
+        <div v-for='menu in resto.menu' :key='menu.restaurantId'>
+          <PlatCard :info='menu' />
+        </div>
       </div>
-    </div>
-    <div v-else-if="mode > 1">
-      <div v-for='ords in order' :key='ords.date'>
-        <OrderCard :info='ords' />
+      <div v-else-if="mode > 1">
+        <div v-for='ords in order' :key='ords.date'>
+          <OrderCard :info='ords' />
+        </div>
       </div>
+      <v-card :loading='loading' class='mx-12 my-12' max-width='374'>
+      <template slot='progress'>
+        <v-progress-linear
+          color='deep-purple'
+          height='10'
+          indeterminate
+        ></v-progress-linear>
+      </template>
+
+      <v-card-title>{{resto.name}}</v-card-title>
+
+      <v-card-text>
+        <v-row align='center' class='mx-0'>
+          <v-rating
+            :value='resto.rating'
+            color='amber'
+            dense
+            half-increments
+            readonly
+            size='14'
+          ></v-rating>
+
+          <div class='grey--text ms-4'>
+            {{resto.rating}} ({{Math.round(Math.random() * 2000)}})
+          </div>
+        </v-row>
+
+        <div class='my-4 text-subtitle-1'>$ • Italian, Cafe</div>
+
+        <div>
+            {{resto.description}}
+        </div>
+      </v-card-text>
+    </v-card>
     </div>
   <!-- </div> -->
 </template>
@@ -38,6 +73,7 @@ axios.defaults.baseURL = 'localhost:3000';
         address: '12 rue de la gare, Nanterre 92000',
         status: 'open',
         image: { url: 'okdzq', name: 'dqz' },
+        rating: Math.round(Math.random() * 50) / 10,
         opening: [{ open: '09:04:16+00:00', close: '22:04:16+00:00' }],
         tags: ['kebab', 'grec', 'pas cher'],
         description: 'au kebab du soleil :)',

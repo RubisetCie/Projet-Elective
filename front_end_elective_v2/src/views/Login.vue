@@ -40,6 +40,17 @@
             Valider
           </v-btn>
         </div>
+        <v-row
+          align='center'
+          justify='space-around'
+          style='padding-bottom: 15px'
+        >
+          <div class='my-2'>
+            <v-btn x-small color='blue' @click='redirect("/register")'>
+              Créer un compte
+            </v-btn>
+          </div>
+        </v-row>
       </div>
       <div v-else>
         <forgottenPassword />
@@ -66,6 +77,9 @@ import forgottenPassword from '../components/UI/Login/forgottenPassword.vue';
     forgottenPassword,
   },
   methods: {
+    redirect(path) {
+      this.$router.push(path);
+    },
     validate() {
       this.$router.push('/');
     },

@@ -73,20 +73,14 @@
             <v-list-item @click='redirect("/account")'>
               <v-list-item-title>Mon compte</v-list-item-title>
             </v-list-item>
-            <v-list-item @click='redirect("/Login")'>
+            <v-list-item @click='redirect("/login")'>
               <v-list-item-title>Connexion</v-list-item-title>
             </v-list-item>
-            <v-list-item @click='redirect("/")'>
+            <v-list-item @click='redirect("/register")'>
               <v-list-item-title>Inscription</v-list-item-title>
             </v-list-item>
             <v-list-item @click='redirect("/dashboard")'>
               <v-list-item-title>Tableau de bord</v-list-item-title>
-            </v-list-item>
-            <v-list-item @click='redirect("/statistic")'>
-              <v-list-item-title>Statistiques</v-list-item-title>
-            </v-list-item>
-            <v-list-item @click='redirect("/logs")'>
-              <v-list-item-title>Logs</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -110,6 +104,13 @@
                 <v-icon>mdi-account</v-icon>
               </v-list-item-icon>
               <v-list-item-title>Commandes</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item @click='redirect("/order-history")'>
+              <v-list-item-icon>
+                <v-icon>mdi-account</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Commandes Terminées</v-list-item-title>
             </v-list-item>
           </v-list-item-group>
         </v-list>
