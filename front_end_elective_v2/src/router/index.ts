@@ -56,11 +56,6 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Dashboard.vue'),
   },
   {
-    path: '/logs',
-    name: 'Logs',
-    component: () => import('../views/Logs.vue'),
-  },
-  {
     path: '/cart',
     name: 'Panier',
     component: () => import('../views/Cart.vue'),
