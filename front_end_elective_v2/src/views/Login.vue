@@ -65,12 +65,19 @@
 <script>
 import Options from 'vue-class-component';
 import Vue from 'vue';
+import axios from 'axios';
+import bcrypt from 'bcryptjs';
+
 import forgottenPassword from '../components/UI/Login/forgottenPassword.vue';
+
+axios.defaults.baseURL = 'http://localhost:3000';
 
 @Options({
   data() {
     return {
       know: true,
+      new_password: null,
+      userEmail: null,
     };
   },
   components: {
@@ -80,8 +87,16 @@ import forgottenPassword from '../components/UI/Login/forgottenPassword.vue';
     redirect(path) {
       this.$router.push(path);
     },
-    validate() {
-      this.$router.push('/');
+    async validate() {
+      const response = await axios.get(`/user/${this.userEmail}}`);
+      if (response.data.password) {
+        const pswv = await bcrypt.compare(this.new_password, response.data.password);
+
+        if (pswv) {
+          this.$store.dispatch('fetchProfil', { loginStatus: true, userId: response.data.id, usertype: response.data.usertype });
+          this.$router.push('/');
+        }
+      }
     },
     changePassword() {
       this.know = true;

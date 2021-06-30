@@ -21,11 +21,11 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    fetchProfil(context) {
-      context.commit('SET_USER', 'id:qlz');
+    fetchProfil(context, payload) {
+      context.commit('SET_USER', payload);
     },
-    fetchBasket(context) {
-      context.commit('SET_BASKET', 'item');
+    fetchBasket(context, payload) {
+      context.commit('SET_BASKET', payload);
     },
   },
   modules: {
