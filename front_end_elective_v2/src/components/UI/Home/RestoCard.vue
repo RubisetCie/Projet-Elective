@@ -47,7 +47,7 @@
         <v-chip-group
           v-model='selection'
           active-class='deep-purple accent-4 white--text'
-          column v-for='op in info.opening' :key='op.name'
+          column v-for='op in info.openings' :key='op.name'
         >
           <v-chip >{{op.open}}</v-chip>
           <v-chip >{{op.close}}</v-chip>
@@ -83,7 +83,7 @@ import Vue from 'vue';
   methods: {
     reserve(restoId) {
       console.log('test test test test');
-      this.$router.push(`/menus/${restoId}`);
+      this.$router.push(`/menu/${restoId}`);
       // this.loading = true
       // setTimeout(() => (this.loading = false), 2000)
     },
