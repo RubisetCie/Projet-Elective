@@ -82,16 +82,19 @@ module.exports.selectUserById = function(id) {
 // Insert user
 module.exports.insertUser = function(user) {
     return new Promise((resolve, reject) => {
-        const statement = 'EXECUTE dbo.createUser @username, @usertype, @email, @password, @firstname, @lastname, @country, @zipcode, @city, @address, @number, @crypto, @owner;';
+        const statement = 'DECLARE @return_id INT; EXECUTE @return_id = dbo.createUser @username, @usertype, @email, @password, @firstname, @lastname, @country, @zipcode, @city, @address, @number, @crypto, @owner; SELECT "Return" = @return_id;';
 
-        const request = new Request(statement, function(err) {
+        const request = new Request(statement, function(err, rowCount, rows) {
             try {
                 if (err)
                     throw err;
-
+                
+                if (rowCount <= 0)
+                    throw new ApiError("Statement returned no rows", 400);
+                
                 console.log("Request finished");
 
-                resolve();
+                resolve(rows[0][0].value);
             } catch (err) {
                 reject(err);
             }
