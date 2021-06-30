@@ -12,7 +12,7 @@ const controller = require("../controller/menuController");
 router.get('/', controller.getAll);
 
 // Retrieving multiple menu data by restaurant ID
-router.get('/restaurant/:id', controller.getByRestaurantID);
+router.get('/restaurant/:id', controller.getByRestaurantId);
 
 // Retrieving menu data by ID
 router.get('/:id', controller.getById);
