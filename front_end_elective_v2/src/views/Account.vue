@@ -237,7 +237,7 @@ axios.defaults.baseURL = 'localhost:3000';
   },
   methods: {
     redirect(path) {
-      this.$router.push(path);
+      this.$router.push(path).catch();
     },
     switchMod() {
       if (this.seeMod) {

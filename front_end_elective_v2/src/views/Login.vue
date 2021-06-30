@@ -85,7 +85,7 @@ axios.defaults.baseURL = 'http://localhost:3000';
   },
   methods: {
     redirect(path) {
-      this.$router.push(path);
+      this.$router.push(path).catch();
     },
     async validate() {
       const response = await axios.get(`/user/${this.userEmail}}`);

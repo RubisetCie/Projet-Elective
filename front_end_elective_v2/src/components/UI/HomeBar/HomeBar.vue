@@ -112,6 +112,13 @@
               </v-list-item-icon>
               <v-list-item-title>Commandes Terminées</v-list-item-title>
             </v-list-item>
+
+            <v-list-item @click='redirect("/cart")'>
+              <v-list-item-icon>
+                <v-icon>mdi-basket</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Panier</v-list-item-title>
+            </v-list-item>
           </v-list-item-group>
         </v-list>
       </v-navigation-drawer>
@@ -140,7 +147,7 @@ axios.defaults.baseURL = 'localhost:3000';
   }),
   methods: {
     redirect(path) {
-      this.$router.push(path);
+      this.$router.push(path).catch();
     },
     async search(e) {
       // const response = await axios.get(`/research?match=${this.restoId}`);
