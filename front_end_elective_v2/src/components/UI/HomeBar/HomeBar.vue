@@ -115,7 +115,7 @@
           </v-list-item-group>
         </v-list>
       </v-navigation-drawer>
-      <v-main>
+      <v-main style='min-height: 95vh;'>
         <router-view />
       </v-main>
     </v-card>
