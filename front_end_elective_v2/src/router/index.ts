@@ -21,9 +21,9 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Delivery.vue'),
   },
   {
-    path: '/sponsorship',
-    name: 'Parrainage',
-    component: () => import('../views/Sponsorship.vue'),
+    path: '/register',
+    name: 'Inscription',
+    component: () => import('../views/Register.vue'),
   },
   {
     path: '/notification',
@@ -49,11 +49,6 @@ const routes: Array<RouteConfig> = [
     path: '/order-history',
     name: 'Commandes Terminées',
     component: () => import('../views/Dishes.vue'),
-  },
-  {
-    path: '/statistic',
-    name: 'Statistiques',
-    component: () => import('../views/Statistic.vue'),
   },
   {
     path: '/dashboard',
