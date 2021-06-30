@@ -12,28 +12,10 @@
     "date": { "$date": "2021-06-28T00:00:00+02:00" },
     "status": "open",
     "taxes": { "value": 0.20, "currency": "EUR" },
-    "menus": [
-    {
-		"_id": 1,
-		"name": "Menu Burger Raclette",
-		"image": { "url": "okdzq", "alt": "dqz" },
-		"price": { "value": 8.00, "currency": "EUR" },
-		"items": [
-			"Burger Raclette",
-			"Coca-Cola Taille L",
-			"Frites",
-			"Sorbet"
-		]
-	},
-	{
-		"_id": 2,
-		"name": "Menu Salade Vegane",
-		"price": { "value": 14.00, "currency": "EUR" },
-		"image": { "url": "okdzq", "alt": "dqz" },
-		"items": [
-			"Salade Vegane",
-			"Eau"
-		]
-	}],
+    "menus":
+	[
+		{ "_id": 1 },
+		{ "_id": 2 }
+	],
     "assign": null
 }

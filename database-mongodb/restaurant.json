@@ -16,27 +16,249 @@
 	],
     "tags": [ "kebab", "grec", "pas cher" ],
     "description": "Au kebab du soleil :)",
-    "menus": [
+    "menus":
+	[
+		{ "_id": 1 },
+		{ "_id": 2 }
+	]
+}
+{
+    "_id": 1,
+	"name": "Ouvert 1",
+    "address":
 	{
-		"_id": 1,
-		"name": "Menu Burger Raclette",
-		"image": { "url": "okdzq", "alt": "dqz" },
-		"price": { "value": 8.00, "currency": "EUR" },
-		"items": [
-			"Burger Raclette",
-			"Coca-Cola Taille L",
-			"Frites",
-			"Sorbet"
-		]
+		"country": "France",
+		"zipcode": "92000",
+		"city": "Nanterre",
+		"address": "12 rue de la Gare"
 	},
+    "status": "open",
+    "image": { "url": "okdzq", "alt": "dqz" },
+    "openings":
+	[
+		{ "open": "09:04:16+02:00", "close": "22:04:16+02:00" }
+	],
+    "tags": [ "kebab", "grec", "pas cher" ],
+    "description": "Au kebab du soleil :)",
+    "menus":
+	[
+		{ "_id": 1 },
+		{ "_id": 2 }
+	]
+}
+{
+    "_id": 2,
+	"name": "Ouvert 2",
+    "address":
 	{
-		"_id": 2,
-		"name": "Menu Salade Vegane",
-		"price": { "value": 14.00, "currency": "EUR" },
-		"image": { "url": "okdzq", "alt": "dqz" },
-		"items": [
-			"Salade Vegane",
-			"Eau"
-		]
-	}]
+		"country": "France",
+		"zipcode": "92000",
+		"city": "Nanterre",
+		"address": "12 rue de la Gare"
+	},
+    "status": "open",
+    "image": { "url": "okdzq", "alt": "dqz" },
+    "openings":
+	[
+		{ "open": "09:04:16+02:00", "close": "22:04:16+02:00" }
+	],
+    "tags": [ "kebab", "grec", "pas cher" ],
+    "description": "Au kebab du soleil :)",
+    "menus":
+	[
+		{ "_id": 1 },
+		{ "_id": 2 }
+	]
+}
+{
+    "_id": 3,
+	"name": "Ouvert 3",
+    "address":
+	{
+		"country": "France",
+		"zipcode": "92000",
+		"city": "Nanterre",
+		"address": "12 rue de la Gare"
+	},
+    "status": "open",
+    "image": { "url": "okdzq", "alt": "dqz" },
+    "openings":
+	[
+		{ "open": "09:04:16+02:00", "close": "22:04:16+02:00" }
+	],
+    "tags": [ "kebab", "grec", "pas cher" ],
+    "description": "Au kebab du soleil :)",
+    "menus":
+	[
+		{ "_id": 1 },
+		{ "_id": 2 }
+	]
+}
+{
+    "_id": 4,
+	"name": "Ouvert 4",
+    "address":
+	{
+		"country": "France",
+		"zipcode": "92000",
+		"city": "Nanterre",
+		"address": "12 rue de la Gare"
+	},
+    "status": "open",
+    "image": { "url": "okdzq", "alt": "dqz" },
+    "openings":
+	[
+		{ "open": "09:04:16+02:00", "close": "22:04:16+02:00" }
+	],
+    "tags": [ "kebab", "grec", "pas cher" ],
+    "description": "Au kebab du soleil :)",
+    "menus":
+	[
+		{ "_id": 1 },
+		{ "_id": 2 }
+	]
+}
+{
+    "_id": 5,
+	"name": "Ouvert 5",
+    "address":
+	{
+		"country": "France",
+		"zipcode": "92000",
+		"city": "Nanterre",
+		"address": "12 rue de la Gare"
+	},
+    "status": "open",
+    "image": { "url": "okdzq", "alt": "dqz" },
+    "openings":
+	[
+		{ "open": "09:04:16+02:00", "close": "22:04:16+02:00" }
+	],
+    "tags": [ "kebab", "grec", "pas cher" ],
+    "description": "Au kebab du soleil :)",
+    "menus":
+	[
+		{ "_id": 1 },
+		{ "_id": 2 }
+	]
+}
+{
+    "_id": 6,
+	"name": "Fermé 1",
+    "address":
+	{
+		"country": "France",
+		"zipcode": "92000",
+		"city": "Nanterre",
+		"address": "12 rue de la Gare"
+	},
+    "status": "closed",
+    "image": { "url": "okdzq", "alt": "dqz" },
+    "openings":
+	[
+		{ "open": "09:04:16+02:00", "close": "22:04:16+02:00" }
+	],
+    "tags": [ "kebab", "grec", "pas cher" ],
+    "description": "Au kebab du soleil :)",
+    "menus":
+	[
+		{ "_id": 1 },
+		{ "_id": 2 }
+	]
+}
+{
+    "_id": 7,
+	"name": "Fermé 2",
+    "address":
+	{
+		"country": "France",
+		"zipcode": "92000",
+		"city": "Nanterre",
+		"address": "12 rue de la Gare"
+	},
+    "status": "closed",
+    "image": { "url": "okdzq", "alt": "dqz" },
+    "openings":
+	[
+		{ "open": "09:04:16+02:00", "close": "22:04:16+02:00" }
+	],
+    "tags": [ "kebab", "grec", "pas cher" ],
+    "description": "Au kebab du soleil :)",
+    "menus":
+	[
+		{ "_id": 1 },
+		{ "_id": 2 }
+	]
+}
+{
+    "_id": 8,
+	"name": "Fermé 3",
+    "address":
+	{
+		"country": "France",
+		"zipcode": "92000",
+		"city": "Nanterre",
+		"address": "12 rue de la Gare"
+	},
+    "status": "closed",
+    "image": { "url": "okdzq", "alt": "dqz" },
+    "openings":
+	[
+		{ "open": "09:04:16+02:00", "close": "22:04:16+02:00" }
+	],
+    "tags": [ "kebab", "grec", "pas cher" ],
+    "description": "Au kebab du soleil :)",
+    "menus":
+	[
+		{ "_id": 1 },
+		{ "_id": 2 }
+	]
+}
+{
+    "_id": 9,
+	"name": "Fermé 4",
+    "address":
+	{
+		"country": "France",
+		"zipcode": "92000",
+		"city": "Nanterre",
+		"address": "12 rue de la Gare"
+	},
+    "status": "closed",
+    "image": { "url": "okdzq", "alt": "dqz" },
+    "openings":
+	[
+		{ "open": "09:04:16+02:00", "close": "22:04:16+02:00" }
+	],
+    "tags": [ "kebab", "grec", "pas cher" ],
+    "description": "Au kebab du soleil :)",
+    "menus":
+	[
+		{ "_id": 1 },
+		{ "_id": 2 }
+	]
+}
+{
+    "_id": 10,
+	"name": "Fermé 5",
+    "address":
+	{
+		"country": "France",
+		"zipcode": "92000",
+		"city": "Nanterre",
+		"address": "12 rue de la Gare"
+	},
+    "status": "closed",
+    "image": { "url": "okdzq", "alt": "dqz" },
+    "openings":
+	[
+		{ "open": "09:04:16+02:00", "close": "22:04:16+02:00" }
+	],
+    "tags": [ "kebab", "grec", "pas cher" ],
+    "description": "Au kebab du soleil :)",
+    "menus":
+	[
+		{ "_id": 1 },
+		{ "_id": 2 }
+	]
 }
