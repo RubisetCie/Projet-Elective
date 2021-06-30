@@ -34,26 +34,6 @@ export default Vue.extend({
   data() {
     return {
       restaurants: null,
-      // [
-      //   {
-      //     name: 'Istanbul Grill',
-      //     restaurantId: 'istanbul_4242',
-      //     address: '12 rue de la gare, Nanterre 92000',
-      //     status: 'open',
-      //     image: { url: 'https://www.telerama.fr/sites/tr_master/files/styles/simplecrop1000/public/fauves13_0.jpg?itok=SAX57ak4', name: 'dqz' },
-      //     tags: ['kebab', 'grec', 'pas cher'],
-      //     opening: [{ open: '09:04:16+00:00', close: '22:04:16+00:00' }],
-      //     description: 'au kebab du soleil :)',
-      //   },
-      //   {
-      //     name: 'Grace Neo Pizza',
-      //     restaurantId: 'neo_4242',
-      //     address: '24 rue de la port, Marseille 92000',
-      //     status: 'open',
-      //     image: { url: 'https://www.lesfilsamaman.com/wp-content/uploads/restaurant-a-orlean-1.jpg', name: 'dqz' },
-      //     opening: [{ open: '09:04:16+00:00', close: '22:04:16+00:00' }],
-      //   },
-      // ],
     };
   },
   methods: {
