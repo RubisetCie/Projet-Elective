@@ -47,7 +47,7 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/order-history',
-    name: 'Commande Terminée',
+    name: 'Commandes Terminées',
     component: () => import('../views/Dishes.vue'),
   },
   {
