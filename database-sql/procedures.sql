@@ -52,4 +52,7 @@ AS
     END
 
     SET NOCOUNT OFF;
+
+    -- Return the user ID
+    RETURN @userID;
 GO
