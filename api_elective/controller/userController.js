@@ -81,8 +81,8 @@ module.exports.post = function(req, res) {
         if (!address.country)       throw new ApiError("Missing mandatory parameter: country", 400);
         if (!address.zipcode)       throw new ApiError("Missing mandatory parameter: zipcode", 400);
 
-        service.post(user).then(() => {
-            res.status(204).send();
+        service.post(user).then((id) => {
+            res.json({ "id": id });
         }).catch((error) => {
             handleError(error, res, "creating user");
         });
