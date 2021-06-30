@@ -10,3 +10,8 @@ const connector = require("../connector/sqlConnector");
 module.exports.getById = function(id) {
     return connector.selectUserById(id);
 };
+
+// Create a new user
+module.exports.post = function(user) {
+    return connector.insertUser(user);
+};
