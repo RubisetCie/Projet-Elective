@@ -13,8 +13,8 @@ class Menu {
         const json = {};
         
         json["name"] = this.name;
-        json["image"] = this.image === null ? null : this.image.toJson();
-        json["price"] = this.price === null ? null : this.price.toJson();
+        json["image"] = this.image ? this.image.toJson() : null;
+        json["price"] = this.price ? this.price.toJson() : null;
         json["items"] = this.items;
 
         return json;

@@ -34,21 +34,39 @@ module.exports.getById = function(req, res) {
 // Retrieving multiple restaurant data by filter
 module.exports.getAll = function(req, res) {
     try {
-        const limit = req.body["limit"];
-        const offset = req.body["offset"];
-        const status = req.body["status"];
+        var limit = null;
+        var offset = null;
+        var status = null;
+        
+        // Parameters reading
+        if (req.query) {
+            limit = req.query["limit"] ? parseInt(req.query["limit"]) : null;
+            offset = req.query["offset"] ? parseInt(req.query["offset"]) : null;
+            status = req.query["status"] ? req.query["status"].split(';') : null;
+        }
         
         // Paramters verification
-        if (Number.isInteger(limit))    throw new ApiError("Parameter type not recognized: limit", 400);
-        if (limit < 1)                  throw new ApiError("Parameter below accepted value: limit below 1", 400);
+        if (limit) {
+            if (isNaN(limit))   throw new ApiError("Parameter type not recognized: limit", 400);
+            if (limit < 1)      throw new ApiError("Parameter below accepted value: limit below 1", 400);
+        }
         
-        if (Number.isInteger(offset))   throw new ApiError("Parameter type not recognized: offset", 400);
-        if (offset < 0)                 throw new ApiError("Parameter below accepted value: offset below 0", 400);
+        if (offset) {
+            if (isNaN(offset))  throw new ApiError("Parameter type not recognized: offset", 400);
+            if (offset < 0)     throw new ApiError("Parameter below accepted value: offset below 0", 400);
+        }
         
-        if (Array.isArray(status))      throw new ApiError("Parameter type not recognized: status", 400);
+        if (status) {
+            if (!Array.isArray(status))
+                throw new ApiError("Parameter type not recognized: status", 400);
+        }
         
         service.getAll(limit, offset, status).then((result) => {
-            res.json(result.toJson());
+            const json = [];
+            result.forEach((r) => {
+                json.push(r.toJson());
+            });
+            res.json(json);
         }).catch((error) => {
             handleError(error, res, "retrieving resturant");
         });
