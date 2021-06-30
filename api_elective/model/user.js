@@ -4,6 +4,7 @@
  */
 
 class User {
+    id;
     username;
     usertype;
     email;
@@ -16,6 +17,7 @@ class User {
     toJson = function() {
         const json = {};
         
+        json["id"] = this.id;
         json["username"] = this.username;
         json["usertype"] = this.usertype;
         json["email"] = this.email;
