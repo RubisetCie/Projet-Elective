@@ -79,36 +79,42 @@ module.exports.selectUserById = function(id) {
     });
 };
 
-// Execute SQL statement (like 'INSERT)
-/*module.exports.executeStatement = function(sql) {
-    // Preparation
-    const request = new Request(sql, function(err) {
-        if (err) {
-            console.log(err);
-        }
-    });
-    
-    var result = "";
-    
-    request.on("row", function(columns) {
-        columns.forEach(function(column) {
-          if (!column.value) {  
-            console.log('NULL');  
-          } else {  
-            result+= column.value + " ";  
-          }  
-        });  
-        console.log(result);  
-        result ="";  
-    });  
+// Insert user
+module.exports.insertUser = function(user) {
+    return new Promise((resolve, reject) => {
+        const statement = 'EXECUTE dbo.createUser @username, @usertype, @email, @password, @firstname, @lastname, @country, @zipcode, @city, @address, @number, @crypto, @owner;';
 
-    request.on('done', function(rowCount, more) {  
-    console.log(rowCount + ' rows returned');  
+        const request = new Request(statement, function(err) {
+            try {
+                if (err)
+                    throw err;
+
+                console.log("Request finished");
+
+                resolve();
+            } catch (err) {
+                reject(err);
+            }
+        });
+        
+        // Request parameters (@username, @usertype, @email, @password, @firstname, @lastname)
+        request.addParameter("username", Types.VarChar, user.username);
+        request.addParameter("usertype", Types.TinyInt, user.usertype);
+        request.addParameter("email", Types.VarChar, user.email);
+        request.addParameter("password", Types.VarChar, user.password);
+        request.addParameter("firstname", Types.VarChar, user.firstname);
+        request.addParameter("lastname", Types.VarChar, user.lastname);
+        request.addParameter("country", Types.VarChar, user.address.country);
+        request.addParameter("zipcode", Types.VarChar, user.address.zipcode);
+        request.addParameter("city", Types.VarChar, user.address.city);
+        request.addParameter("address", Types.VarChar, user.address.address);
+        request.addParameter("number", Types.Char, user.billing.number);
+        request.addParameter("crypto", Types.Char, user.billing.crypto);
+        request.addParameter("owner", Types.VarChar, user.billing.owner);
+
+        connection.execSql(request);
     });
-    
-    // Execution
-    connection.execSql(request);
-};*/
+};
 
 // Creates an User object from SQL data
 deserializeUser = function(rows) {

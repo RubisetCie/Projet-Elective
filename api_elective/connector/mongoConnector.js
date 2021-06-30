@@ -262,7 +262,7 @@ deserializeRestaurant = function(json) {
     restaurant.image = image;
 
     restaurant.openings = [];
-    if (json["openings"]) {
+    if (json["openings"] && Array.isArray(json["openings"])) {
         json["openings"].forEach((op) => {
             const opening = new Opening;
 
@@ -277,7 +277,7 @@ deserializeRestaurant = function(json) {
     restaurant.description = json["description"] ? json["description"] : null;
 
     restaurant.menus = [];
-    if (json["menus"]) {
+    if (json["menus"] && Array.isArray(json["menus"])) {
         json["menus"].forEach((me) => {
             restaurant.menus.push(deserializeMenu(me));
         });
