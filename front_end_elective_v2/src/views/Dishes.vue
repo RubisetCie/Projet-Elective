@@ -2,7 +2,7 @@
   <!-- <div class='dishes' v-if='resto || order'> -->
     <div class="d-flex align-content-start flex-wrap justify-space-around">
       <div v-if='mode === 1'>
-        <div v-for='menu in resto.menu' :key='menu.restaurantId'>
+        <div v-for='menu in resto.menus' :key='menu.restaurantId'>
           <PlatCard :info='menu' />
         </div>
       </div>
@@ -57,7 +57,7 @@ import axios from 'axios';
 import PlatCard from '@/components/UI/Dishes/PlatCard.vue';
 import OrderCard from '@/components/UI/Dishes/OrderCard.vue';
 
-axios.defaults.baseURL = 'localhost:3000';
+axios.defaults.baseURL = 'http://localhost:3000';
 
 @Options({
   components: {
@@ -132,7 +132,7 @@ axios.defaults.baseURL = 'localhost:3000';
         },
       ],
       mode: 0,
-      id: 0, // this.$route.params.id,
+      id: this.$route.params.id,
     };
   },
   methods: {
