@@ -4,6 +4,7 @@
  */
 
 class Restaurant {
+    id;
     name;
     address;        // Reference to an Address object
     status;
@@ -16,6 +17,7 @@ class Restaurant {
     toJson = function() {
         const json = {};
         
+        json["id"] = this.id;
         json["name"] = this.name;
         json["address"] = this.address ? this.address.toJson() : null;
         json["status"] = this.status;
