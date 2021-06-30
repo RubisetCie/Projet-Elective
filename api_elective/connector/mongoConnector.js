@@ -28,18 +28,91 @@ const client = new MongoClient(HOST, {
 module.exports.selectRestaurantById = function(id) {
     return new Promise((resolve, reject) => {
         const db = client.db(DATABASE);
-        const query = { _id: id };
+        const query = [
+            {
+                $match: { _id: id }
+            },
+            {
+                $lookup: {
+                    from: "menus",
+                    localField: "menus._id",
+                    foreignField: "_id",
+                    as: "menus"
+                }
+            }
+        ];
         
-        db.collection("restaurants").findOne(query, function(err, result) {
+        db.collection("restaurants").aggregate(query, async function(err, result) {
             try {
                 if (err)
                     throw err;
                 
-                const restaurant = deserializeRestaurant(result)
+                const restaurant = deserializeRestaurant(await result.next());
                 
-                console.log("AR Request finished");
+                console.log("Request finished");
 
                 resolve(restaurant);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+};
+
+// Select restaurant
+module.exports.selectRestaurant = function(limit, offset, status) {
+    return new Promise((resolve, reject) => {
+        const db = client.db(DATABASE);
+        const query = [
+            {
+                $lookup: {
+                    from: "menus",
+                    localField: "menus._id",
+                    foreignField: "_id",
+                    as: "menus"
+                }
+            },
+            {
+                $sort: { _id: 1 }
+            }
+        ];
+        
+        // Filter by status
+        if (status) {
+            const statusFilter = [];
+            status.forEach((s) => {statusFilter.push({ status: s });});
+            query.unshift({
+                $match: {
+                    $or: statusFilter
+                }
+            });
+        }
+        
+        // Offset handling
+        if (offset)
+            query.push({ $skip: offset });
+
+        // Limit handling
+        if (limit)
+            query.push({ $limit: limit });
+        
+        db.collection("restaurants").aggregate(query, async function(err, result) {
+            try {
+                if (err)
+                    throw err;
+                
+                const restaurants = [];
+                var count = 0;  // Counter for retrieved rows
+
+                while (await result.hasNext())
+                {
+                    restaurants.push(deserializeRestaurant(await result.next()));
+                    count++;
+                }
+                
+                console.log(count + " rows returned");
+
+                resolve(restaurants);
             } catch (err) {
                 reject(err);
             }
@@ -53,42 +126,46 @@ deserializeRestaurant = function(json) {
     const address = new Address;
     const image = new Image;
             
-    const restaurantAddress = json["address"] === null ? null : json["address"];
+    const restaurantAddress = json["address"] ? null : json["address"];
     if (restaurantAddress) {
-        address.country = restaurantAddress["country"] === null ? null : restaurantAddress["country"];
-        address.zipcode = restaurantAddress["zipcode"] === null ? null : restaurantAddress["zipcode"];
-        address.city = restaurantAddress["city"] === null ? null : restaurantAddress["city"];
-        address.country = restaurantAddress["address"] === null ? null : restaurantAddress["address"];
+        address.country = restaurantAddress["country"] ? restaurantAddress["country"] : null;
+        address.zipcode = restaurantAddress["zipcode"] ? restaurantAddress["zipcode"] : null;
+        address.city = restaurantAddress["city"] ? restaurantAddress["city"] : null;
+        address.country = restaurantAddress["address"] ? restaurantAddress["address"] : null;
     }
 
-    const restaurantImage = json["image"] === null ? null : json["image"];
+    const restaurantImage = json["image"] ? json["image"] : null;
     if (restaurantImage) {
-        image.url = restaurantImage["url"] === null ? null : restaurantImage["url"];
-        image.alt = restaurantImage["alt"] === null ? null : restaurantImage["alt"];
+        image.url = restaurantImage["url"] ? restaurantImage["url"] : null;
+        image.alt = restaurantImage["alt"] ? restaurantImage["alt"] : null;
     }
 
-    restaurant.name = json["name"] === null ? null : json["name"];
+    restaurant.name = json["name"] ? json["name"] : null;
     restaurant.address = address;
-    restaurant.status = json["status"] === null ? null : json["status"];
+    restaurant.status = json["status"] ? json["status"] : null;
     restaurant.image = image;
 
     restaurant.openings = [];
-    json["openings"].forEach((op) => {
-        const opening = new Opening;
+    if (json["openings"]) {
+        json["openings"].forEach((op) => {
+            const opening = new Opening;
 
-        opening.open = op["open"];
-        opening.close = op["close"];
+            opening.open = op["open"];
+            opening.close = op["close"];
 
-        restaurant.openings.push(opening);
-    });
+            restaurant.openings.push(opening);
+        });
+    }
 
-    restaurant.tags = json["tags"] === null ? [] : json["tags"];
-    restaurant.description = json["description"] === null ? null : json["description"];
+    restaurant.tags = json["tags"] ? json["tags"] : [];
+    restaurant.description = json["description"] ? json["description"] : null;
 
     restaurant.menus = [];
-    json["menus"].forEach((me) => {
-        restaurant.menus.push(deserializeMenu(me));
-    });
+    if (json["menus"]) {
+        json["menus"].forEach((me) => {
+            restaurant.menus.push(deserializeMenu(me));
+        });
+    }
     
     return restaurant;
 };
@@ -99,23 +176,23 @@ deserializeMenu = function(json) {
     const image = new Image;
     const price = new Price;
     
-    const menuImage = json["image"] === null ? null : json["image"];
+    const menuImage = json["image"] ? json["image"] : null;
     if (menuImage) {
-        image.url = menuImage["url"] === null ? null : menuImage["url"];
-        image.alt = menuImage["alt"] === null ? null : menuImage["alt"];
+        image.url = menuImage["url"] ? menuImage["url"] : null;
+        image.alt = menuImage["alt"] ? menuImage["alt"] : null;
     }
 
-    const menuPrice = json["price"] === null ? null : json["price"];
+    const menuPrice = json["price"] ? json["price"] : null;
     if (menuPrice) {
-        price.value = menuPrice["value"] === null ? null : menuPrice["value"];
-        price.currency = menuPrice["currency"] === null ? null : menuPrice["currency"];
+        price.value = menuPrice["value"] ? menuPrice["value"] : null;
+        price.currency = menuPrice["currency"] ? menuPrice["currency"] : null;
     }
 
-    menu.name = json["name"] === null ? null : json["name"];
+    menu.name = json["name"] ? json["name"] : null;
     menu.image = image;
     menu.price = price;
 
-    menu.items = json["items"] === null ? [] : json["items"];
+    menu.items = json["items"] ? json["items"] : [];
     
     return menu;
 };

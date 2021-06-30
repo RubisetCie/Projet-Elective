@@ -17,9 +17,9 @@ class Restaurant {
         const json = {};
         
         json["name"] = this.name;
-        json["address"] = this.address === null ? null : this.address.toJson();
+        json["address"] = this.address ? this.address.toJson() : null;
         json["status"] = this.status;
-        json["image"] = this.image === null ? null : this.image.toJson();
+        json["image"] = this.image ? this.image.toJson() : null;
         
         json["openings"] = [];
         this.openings.forEach((obj) => {

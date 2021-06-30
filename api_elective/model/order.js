@@ -18,10 +18,10 @@ class Order {
         
         json["clientId"] = this.clientId;
         json["restaurantId"] = this.restaurantId;
-        json["address"] = this.address === null ? null : this.address.toJson();
+        json["address"] = this.address ? this.address.toJson() : null;
         json["date"] = this.date.toString();
         json["status"] = this.status;
-        json["taxes"] = this.taxes === null ? null : this.taxes.toJson();
+        json["taxes"] = this.taxes ? this.taxes.toJson() : null;
         
         json["menus"] = [];
         this.menus.forEach((obj) => {

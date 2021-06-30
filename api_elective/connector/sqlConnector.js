@@ -92,7 +92,7 @@ module.exports.selectUserById = function(id) {
     
     request.on("row", function(columns) {
         columns.forEach(function(column) {
-          if (column.value === null) {  
+          if (!column.value) {  
             console.log('NULL');  
           } else {  
             result+= column.value + " ";  
@@ -123,8 +123,8 @@ deserializeUser = function(rows) {
     user.usertype = firstRow[1].value;
     user.email = firstRow[2].value;
     user.password = firstRow[3].value;
-    user.firstname = firstRow[4].value === null ? null : firstRow[4].value;
-    user.lastname = firstRow[5].value === null ? null : firstRow[5].value;
+    user.firstname = firstRow[4].value ? firstRow[4].value : null;
+    user.lastname = firstRow[5].value ? firstRow[5].value : null;
 
     // Multiple attributes
     rows.forEach((row) => {
@@ -137,8 +137,8 @@ deserializeUser = function(rows) {
 
             address.country = row[7].value;
             address.zipcode = row[8].value;
-            address.city = row[9].value === null ? null : row[9].value;
-            address.address = row[10].value === null ? null : row[10].value;
+            address.city = row[9].value ? row[9].value : null;
+            address.address = row[10].value ? row[10].value : null;
 
             user.address.push(address);
         }
@@ -147,9 +147,9 @@ deserializeUser = function(rows) {
         if (!userBillings.includes(row[11].value)) {
             userBillings.push(row[11].value);
 
-            billing.number = row[12].value === null ? null : row[12].value;
-            billing.crypto = row[13].value === null ? null : row[13].value;
-            billing.owner = row[14].value === null ? null : row[14].value;
+            billing.number = row[12].value ? row[12].value : null;
+            billing.crypto = row[13].value ? row[13].value : null;
+            billing.owner = row[14].value ? row[14].value : null;
 
             user.billing.push(billing);
         }
