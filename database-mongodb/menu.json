@@ -1,7 +1,7 @@
 {
 	"_id": 1,
 	"name": "Menu Burger Raclette",
-	"image": { "url": "okdzq", "alt": "dqz" },
+	"image": { "url": "https://media.gqmagazine.fr/photos/5f1ffee00bc2e326afb66dc7/16:9/w_976,h_549,c_limit/Capture%20d%E2%80%99e%CC%81cran%202020-07-28%20a%CC%80%2012.32.53.png", "alt": "Alt" },
 	"price": { "value": 8.00, "currency": "EUR" },
 	"items": [
 		"Burger Raclette",
@@ -13,8 +13,8 @@
 {
 	"_id": 2,
 	"name": "Menu Salade Vegane",
+	"image": { "url": "https://i.f1g.fr/media/madame/1900x1900/sites/default/files/img/2016/08/regime-photo-12.jpg", "alt": "Alt" },
 	"price": { "value": 14.00, "currency": "EUR" },
-	"image": { "url": "okdzq", "alt": "dqz" },
 	"items": [
 		"Salade Vegane",
 		"Eau"
