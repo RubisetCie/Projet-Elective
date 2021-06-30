@@ -120,6 +120,130 @@ module.exports.selectRestaurant = function(limit, offset, status) {
     });
 };
 
+// Select menu by ID
+module.exports.selectMenuById = function(id) {
+    return new Promise((resolve, reject) => {
+        const db = client.db(DATABASE);
+        const query = { _id: id };
+        
+        db.collection("menus").findOne(query, function(err, result) {
+            try {
+                if (err)
+                    throw err;
+                
+                const menu = deserializeMenu(result);
+                
+                console.log("Request finished");
+
+                resolve(menu);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+};
+
+// Select menu by restaurant ID
+module.exports.selectMenuByRestaurantId = function(id) {
+    return new Promise((resolve, reject) => {
+        const db = client.db(DATABASE);
+        const query = [
+            {
+                $match: { _id: id }
+            },
+            {
+                $lookup: {
+                    from: "menus",
+                    localField: "menus._id",
+                    foreignField: "_id",
+                    as: "menus"
+                }
+            },
+            {
+                
+            },
+            {
+                $sort: { _id: 1 }
+            }
+        ];
+        
+        // Filter by status
+        if (status) {
+            const statusFilter = [];
+            status.forEach((s) => {statusFilter.push({ status: s });});
+            query.unshift({
+                $match: {
+                    $or: statusFilter
+                }
+            });
+        }
+        
+        // Offset handling
+        if (offset)
+            query.push({ $skip: offset });
+
+        // Limit handling
+        if (limit)
+            query.push({ $limit: limit });
+        
+        db.collection("restaurants").aggregate(query, async function(err, result) {
+            try {
+                if (err)
+                    throw err;
+                
+                const restaurants = [];
+                var count = 0;  // Counter for retrieved rows
+
+                while (await result.hasNext())
+                {
+                    restaurants.push(deserializeRestaurant(await result.next()));
+                    count++;
+                }
+                
+                console.log(count + " rows returned");
+
+                resolve(restaurants);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+};
+
+// Select menu
+module.exports.selectMenu = function(limit, offset) {
+    return new Promise((resolve, reject) => {
+        const db = client.db(DATABASE);
+        
+        db.collection("menus").find(async function(err, result) {
+            try {
+                if (err)
+                    throw err;
+                
+                // Offset handling
+                if (offset)
+                    result.skip(offset);
+
+                // Limit handling
+                if (limit)
+                    result.limit(limit);
+                
+                const menus = [];
+                const count = await result.count(true);
+
+                while (await result.hasNext())
+                    menus.push(deserializeMenu(await result.next()));
+                
+                console.log(count + " rows returned");
+
+                resolve(menus);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+};
+
 // Creates a Restaurant object from JSON
 deserializeRestaurant = function(json) {
     const restaurant = new Restaurant;
