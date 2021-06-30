@@ -4,6 +4,7 @@
  */
 
 const express = require("express");
+const bodyParser = require("body-parser");
 const cors = require("cors");
 const swaggerUi = require("swagger-ui-express");
 
@@ -26,6 +27,7 @@ const swaggerOptions = {
     explorer: false
 };
 
+app.use(bodyParser.json());
 app.use(cors());
 
 // Documentation URL
