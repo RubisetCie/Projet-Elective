@@ -154,7 +154,7 @@ axios.defaults.baseURL = 'localhost:3000';
       this.order = response.data;
     },
     selector() {
-      if (this.$route.name === 'Menus') {
+      if (this.$route.name === 'Menu') {
         this.queryMenu();
         this.mode = 1;
       } else if (this.$route.name === 'Commande') {
