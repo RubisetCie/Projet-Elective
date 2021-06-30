@@ -28,14 +28,26 @@ const client = new MongoClient(HOST, {
 module.exports.selectRestaurantById = function(id) {
     return new Promise((resolve, reject) => {
         const db = client.db(DATABASE);
-        const query = { _id: id };
+        const query = [
+            {
+                $match: { _id: id }
+            },
+            {
+                $lookup: {
+                    from: "menus",
+                    localField: "menus._id",
+                    foreignField: "_id",
+                    as: "menus"
+                }
+            }
+        ];
         
-        db.collection("restaurants").findOne(query, function(err, result) {
+        db.collection("restaurants").aggregate(query, async function(err, result) {
             try {
                 if (err)
                     throw err;
                 
-                const restaurant = deserializeRestaurant(result);
+                const restaurant = deserializeRestaurant(await result.next());
                 
                 console.log("Request finished");
 
@@ -51,36 +63,52 @@ module.exports.selectRestaurantById = function(id) {
 module.exports.selectRestaurant = function(limit, offset, status) {
     return new Promise((resolve, reject) => {
         const db = client.db(DATABASE);
-        const query = {};
+        const query = [
+            {
+                $lookup: {
+                    from: "menus",
+                    localField: "menus._id",
+                    foreignField: "_id",
+                    as: "menus"
+                }
+            },
+            {
+                $sort: { _id: 1 }
+            }
+        ];
         
         // Filter by status
         if (status) {
             const statusFilter = [];
             status.forEach((s) => {statusFilter.push({ status: s });});
-            query["$or"] = statusFilter;
+            query.unshift({
+                $match: {
+                    $or: statusFilter
+                }
+            });
         }
         
-        db.collection("restaurants").find(query, async function(err, result) {
+        // Offset handling
+        if (offset)
+            query.push({ $skip: offset });
+
+        // Limit handling
+        if (limit)
+            query.push({ $limit: limit });
+        
+        db.collection("restaurants").aggregate(query, async function(err, result) {
             try {
                 if (err)
                     throw err;
                 
-                // Sorting
-                result.sort({ _id : 1 });
-                
-                // Offset handling
-                if (offset)
-                    result.skip(offset);
-
-                // Limit handling
-                if (limit)
-                    result.limit(limit);
-                
-                const count = await result.count(true);
                 const restaurants = [];
+                var count = 0;  // Counter for retrieved rows
 
                 while (await result.hasNext())
+                {
                     restaurants.push(deserializeRestaurant(await result.next()));
+                    count++;
+                }
                 
                 console.log(count + " rows returned");
 
@@ -118,22 +146,26 @@ deserializeRestaurant = function(json) {
     restaurant.image = image;
 
     restaurant.openings = [];
-    json["openings"].forEach((op) => {
-        const opening = new Opening;
+    if (json["openings"]) {
+        json["openings"].forEach((op) => {
+            const opening = new Opening;
 
-        opening.open = op["open"];
-        opening.close = op["close"];
+            opening.open = op["open"];
+            opening.close = op["close"];
 
-        restaurant.openings.push(opening);
-    });
+            restaurant.openings.push(opening);
+        });
+    }
 
     restaurant.tags = json["tags"] ? json["tags"] : [];
     restaurant.description = json["description"] ? json["description"] : null;
 
     restaurant.menus = [];
-    json["menus"].forEach((me) => {
-        restaurant.menus.push(deserializeMenu(me));
-    });
+    if (json["menus"]) {
+        json["menus"].forEach((me) => {
+            restaurant.menus.push(deserializeMenu(me));
+        });
+    }
     
     return restaurant;
 };
