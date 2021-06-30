@@ -106,6 +106,20 @@
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
+
+            <v-divider inset></v-divider>
+
+            <v-list-item>
+              <v-list-item-action>
+                <v-icon>mdi-account-multiple</v-icon>
+              </v-list-item-action>
+
+              <v-list-item-content>
+                <v-list-item-title>
+                  Code parrainage : {{ sponsorship }}
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
           </div>
 
           <div v-if='editMod'>
@@ -188,6 +202,7 @@ axios.defaults.baseURL = 'localhost:3000';
       editMod: false,
       seeMod: true,
       phoneNumber: '06 62 72 49 06',
+      sponsorship: 'RX0013',
       new_name: null,
       new_lastname: null,
       new_phoneNumber: null,
