@@ -1,15 +1,93 @@
 <template>
-  <div class="dashboard"></div>
+  <div class='dashboard'>
+    <v-data-table
+      :headers='headers'
+      :items='action'
+      :items-per-page='5'
+      class='elevation-1'
+    ></v-data-table>
+    nombre de connexion :
+    <v-sparkline
+      :value='value'
+      :gradient='gradient'
+      :smooth='radius || false'
+      :padding='padding'
+      :line-width='width'
+      :stroke-linecap='lineCap'
+      :gradient-direction='gradientDirection'
+      :fill='fill'
+      :type='type'
+      :auto-line-width='autoLineWidth'
+      auto-draw
+    ></v-sparkline>
+  </div>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
 import Options from 'vue-class-component';
 import Vue from 'vue';
 
-@Options({
-  components: {
+const gradients = [
+  ['#222'],
+  ['#42b3f4'],
+  ['red', 'orange', 'yellow'],
+  ['purple', 'violet'],
+  ['#00c6ff', '#F0F', '#FF0'],
+  ['#f72047', '#ffd200', '#1feaea'],
+];
 
-  },
+@Options({
+  components: {},
+  data: () => ({
+    width: 2,
+    radius: 10,
+    padding: 8,
+    lineCap: 'round',
+    gradient: gradients[5],
+    value: [0, 2, 5, 9, 5, 10, 3, 5, 0, 0, 1, 8, 2, 9, 0],
+    gradientDirection: 'top',
+    gradients,
+    fill: false,
+    type: 'trend',
+    autoLineWidth: false,
+    headers: [
+      {
+        text: 'Utilisateur',
+        align: 'start',
+        sortable: false,
+        value: 'user',
+      },
+      { text: 'Requette', value: 'request' },
+      { text: 'Page', value: 'page' },
+    ],
+    action: [
+      {
+        user: 'michel dupon',
+        request: 'get...',
+        page: 'account',
+      },
+      {
+        user: 'silevie marcar',
+        request: 'get...',
+        page: 'account',
+      },
+      {
+        user: 'silevie marcar',
+        request: 'get...',
+        page: 'account',
+      },
+      {
+        user: 'silevie marcar',
+        request: 'get...',
+        page: 'account',
+      },
+      {
+        user: 'silevie marcar',
+        request: 'get...',
+        page: 'account',
+      },
+    ],
+  }),
 })
 export default class Dashboard extends Vue {}
 </script>
