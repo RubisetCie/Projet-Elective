@@ -12,6 +12,11 @@ const handleError = require("../utils/apiUtils").handleError;
 // Importing the ApiError exception class
 const ApiError = require("../exception/apiError");
 
+// Importing the models
+const User = require("../model/user");
+const Address = require("../model/address");
+const Billing = require("../model/billing");
+
 // Retrieving user data by ID
 module.exports.getById = function(req, res) {
     try {
@@ -30,3 +35,123 @@ module.exports.getById = function(req, res) {
         handleError(err, res, "retrieving user");
     }
 };
+
+// Create a new user
+module.exports.post = function(req, res) {
+    try {
+        const user = new User;
+        const address = new Address;
+        const billing = new Billing;
+        
+        // Parameters reading
+        if (!req.body)
+            throw new ApiError("Request body is undefined", 400);
+        
+        const userAddress = req.body["address"];
+        if (userAddress) {
+            address.country = userAddress["country"] ? userAddress["country"] : null;
+            address.zipcode = userAddress["zipcode"] ? userAddress["zipcode"] : null;
+            address.city = userAddress["city"] ? userAddress["city"] : null;
+            address.address = userAddress["address"] ? userAddress["address"] : null;
+        }
+        
+        const userBilling = req.body["billing"];
+        if (userBilling) {
+            billing.number = userBilling["number"] ? userBilling["number"] : null;
+            billing.crypto = userBilling["crypto"] ? userBilling["crypto"] : null;
+            billing.owner = userBilling["owner"] ? userBilling["owner"] : null;
+        }
+        
+        user.username = req.body["username"] ? req.body["username"] : null;
+        user.usertype = req.body["usertype"] ? parseInt(req.body["usertype"]) : null;
+        user.email = req.body["email"] ? req.body["email"] : null;
+        user.password = req.body["password"] ? req.body["password"] : null;
+        user.firstname = req.body["firstname"] ? req.body["firstname"] : null;
+        user.lastname = req.body["lastname"] ? req.body["lastname"] : null;
+        user.address = address;
+        user.billing = billing;
+
+        // Paramters verification
+        if (!user.username)         throw new ApiError("Missing mandatory parameter: username", 400);
+        if (!user.usertype)         throw new ApiError("Missing mandatory parameter: usertype", 400);
+        if (isNaN(user.usertype))   throw new ApiError("Parameter type not recognized: usertype", 400);
+        if (!user.email)            throw new ApiError("Missing mandatory parameter: email", 400);
+        if (!user.password)         throw new ApiError("Missing mandatory parameter: password", 400);
+        
+        if (!address.country)       throw new ApiError("Missing mandatory parameter: country", 400);
+        if (!address.zipcode)       throw new ApiError("Missing mandatory parameter: zipcode", 400);
+
+        service.post(user).then(() => {
+            res.status(204).send();
+        }).catch((error) => {
+            handleError(error, res, "creating user");
+        });
+    } catch (err) {
+        handleError(err, res, "creating user");
+    }
+};
+
+// Update a new user
+/*module.exports.post = function(req, res) {
+    try {
+        const user = new User;
+        const addresses = [];
+        const billings = [];
+        
+        // Parameters reading
+        if (!req.body)
+            throw new ApiError("Request body is undefined", 400);
+        
+        if (req.body["address"] && Array.isArray(req.body["address"])) {
+            req.body["address"].forEach((addr) => {
+                const address = new Address;
+                
+                address.country = addr["country"] ? addr["country"] : null;
+                address.zipcode = addr["zipcode"] ? addr["zipcode"] : null;
+                address.city = addr["city"] ? addr["city"] : null;
+                address.address = addr["address"] ? addr["address"] : null;
+                
+                if (!address.country)   throw new ApiError("Missing mandatory parameter: country", 400);
+                if (!address.zipcode)   throw new ApiError("Missing mandatory parameter: zipcode", 400);
+                
+                addresses.push(address);
+            });
+        }
+        
+        if (req.body["billing"] && Array.isArray(req.body["billing"])) {
+            req.body["billing"].forEach((bill) => {
+                const billing = new Billing;
+                
+                billing.number = bill["number"] ? bill["number"] : null;
+                billing.crypto = bill["crypto"] ? bill["crypto"] : null;
+                billing.owner = bill["owner"] ? bill["owner"] : null;
+                
+                billings.push(billing);
+            });
+        }
+        
+        user.username = req.body["username"] ? req.body["username"] : null;
+        user.usertype = req.body["usertype"] ? parseInt(req.body["usertype"]) : null;
+        user.email = req.body["email"] ? req.body["email"] : null;
+        user.password = req.body["password"] ? req.body["password"] : null;
+        user.firstname = req.body["firstname"] ? req.body["firstname"] : null;
+        user.lastname = req.body["lastname"] ? req.body["lastname"] : null;
+        user.address = addresses;
+        user.billing = billings;
+
+        // Paramters verification
+        if (!user.username)         throw new ApiError("Missing mandatory parameter: username", 400);
+        if (!user.usertype)         throw new ApiError("Missing mandatory parameter: usertype", 400);
+        if (isNaN(user.usertype))   throw new ApiError("Parameter type not recognized: usertype", 400);
+        if (!user.email)            throw new ApiError("Missing mandatory parameter: email", 400);
+        if (!user.password)         throw new ApiError("Missing mandatory parameter: password", 400);
+
+        service.post(user).then(() => {
+            res.status(204).send();
+        }).catch((error) => {
+            handleError(error, res, "creating user");
+        });
+    } catch (err) {
+        handleError(err, res, "creating user");
+    }
+};*/

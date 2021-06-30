@@ -57,14 +57,9 @@ module.exports.getByRestaurantId = function(req, res) {
 // Retrieving multiple menu data by filter
 module.exports.getAll = function(req, res) {
     try {
-        var limit = null;
-        var offset = null;
-        
         // Parameters reading
-        if (req.query) {
-            limit = req.query["limit"] ? parseInt(req.query["limit"]) : null;
-            offset = req.query["offset"] ? parseInt(req.query["offset"]) : null;
-        }
+        const limit = req.query["limit"] ? parseInt(req.query["limit"]) : null;
+        const offset = req.query["offset"] ? parseInt(req.query["offset"]) : null;
         
         // Paramters verification
         if (limit) {
