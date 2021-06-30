@@ -9,6 +9,9 @@ const router = require("express").Router();
 const controller = require("../controller/userController");
 
 // Retrieving user data by ID
-router.get('/:id', controller.getById);
+router.get("/:id", controller.getById);
+
+// Create a new user
+router.post("/", controller.post);
 
 module.exports = router;

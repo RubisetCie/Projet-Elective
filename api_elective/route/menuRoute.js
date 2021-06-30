@@ -9,12 +9,12 @@ const router = require("express").Router();
 const controller = require("../controller/menuController");
 
 // Retrieving multiple menu data by filter
-router.get('/', controller.getAll);
+router.get("/", controller.getAll);
 
 // Retrieving multiple menu data by restaurant ID
-router.get('/restaurant/:id', controller.getByRestaurantId);
+router.get("/restaurant/:id", controller.getByRestaurantId);
 
 // Retrieving menu data by ID
-router.get('/:id', controller.getById);
+router.get("/:id", controller.getById);
 
 module.exports = router;
