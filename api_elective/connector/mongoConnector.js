@@ -160,49 +160,40 @@ module.exports.selectMenuByRestaurantId = function(id) {
                 }
             },
             {
-                
+		$unwind: "$menus"
+            },
+            {
+		$project:
+		{
+                    _id: "$menus._id",
+                    name: "$menus.name",
+                    image: "$menus.image",
+                    price: "$menus.price",
+                    items: "$menus.items"
+		}
             },
             {
                 $sort: { _id: 1 }
             }
         ];
         
-        // Filter by status
-        if (status) {
-            const statusFilter = [];
-            status.forEach((s) => {statusFilter.push({ status: s });});
-            query.unshift({
-                $match: {
-                    $or: statusFilter
-                }
-            });
-        }
-        
-        // Offset handling
-        if (offset)
-            query.push({ $skip: offset });
-
-        // Limit handling
-        if (limit)
-            query.push({ $limit: limit });
-        
         db.collection("restaurants").aggregate(query, async function(err, result) {
             try {
                 if (err)
                     throw err;
                 
-                const restaurants = [];
+                const menus = [];
                 var count = 0;  // Counter for retrieved rows
 
                 while (await result.hasNext())
                 {
-                    restaurants.push(deserializeRestaurant(await result.next()));
+                    menus.push(deserializeMenu(await result.next()));
                     count++;
                 }
                 
                 console.log(count + " rows returned");
 
-                resolve(restaurants);
+                resolve(menus);
             } catch (err) {
                 reject(err);
             }
@@ -264,6 +255,7 @@ deserializeRestaurant = function(json) {
         image.alt = restaurantImage["alt"] ? restaurantImage["alt"] : null;
     }
 
+    restaurant.id = json["_id"];
     restaurant.name = json["name"] ? json["name"] : null;
     restaurant.address = address;
     restaurant.status = json["status"] ? json["status"] : null;
@@ -312,6 +304,7 @@ deserializeMenu = function(json) {
         price.currency = menuPrice["currency"] ? menuPrice["currency"] : null;
     }
 
+    menu.id = json["_id"];
     menu.name = json["name"] ? json["name"] : null;
     menu.image = image;
     menu.price = price;
