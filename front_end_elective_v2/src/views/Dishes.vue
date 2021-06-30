@@ -11,7 +11,7 @@
           <OrderCard :info='ords' />
         </div>
       </div>
-      <v-card :loading='loading' class='mx-12 my-12' max-width='374'>
+      <v-card class='mx-12 my-12' max-width='374'>
       <template slot='progress'>
         <v-progress-linear
           color='deep-purple'
@@ -155,7 +155,7 @@ axios.defaults.baseURL = 'localhost:3000';
     },
     selector() {
       if (this.$route.name === 'Menus') {
-        // this.queryMenu();
+        this.queryMenu();
         this.mode = 1;
       } else if (this.$route.name === 'Commande') {
         // this.queryOrder();

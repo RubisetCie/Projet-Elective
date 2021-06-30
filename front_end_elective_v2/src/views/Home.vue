@@ -23,7 +23,7 @@ import Vue from 'vue';
 import axios from 'axios';
 import RestoCard from '../components/UI/Home/RestoCard.vue';
 
-axios.defaults.baseURL = 'localhost:3000';
+axios.defaults.baseURL = 'http://localhost:3000';
 
 export default Vue.extend({
   name: 'Home',
@@ -33,36 +33,37 @@ export default Vue.extend({
   },
   data() {
     return {
-      restaurants: [
-        {
-          name: 'Istanbul Grill',
-          restaurantId: 'istanbul_4242',
-          address: '12 rue de la gare, Nanterre 92000',
-          status: 'open',
-          image: { url: 'https://www.telerama.fr/sites/tr_master/files/styles/simplecrop1000/public/fauves13_0.jpg?itok=SAX57ak4', name: 'dqz' },
-          tags: ['kebab', 'grec', 'pas cher'],
-          opening: [{ open: '09:04:16+00:00', close: '22:04:16+00:00' }],
-          description: 'au kebab du soleil :)',
-        },
-        {
-          name: 'Grace Neo Pizza',
-          restaurantId: 'neo_4242',
-          address: '24 rue de la port, Marseille 92000',
-          status: 'open',
-          image: { url: 'https://www.lesfilsamaman.com/wp-content/uploads/restaurant-a-orlean-1.jpg', name: 'dqz' },
-          opening: [{ open: '09:04:16+00:00', close: '22:04:16+00:00' }],
-        },
-      ],
+      restaurants: null,
+      // [
+      //   {
+      //     name: 'Istanbul Grill',
+      //     restaurantId: 'istanbul_4242',
+      //     address: '12 rue de la gare, Nanterre 92000',
+      //     status: 'open',
+      //     image: { url: 'https://www.telerama.fr/sites/tr_master/files/styles/simplecrop1000/public/fauves13_0.jpg?itok=SAX57ak4', name: 'dqz' },
+      //     tags: ['kebab', 'grec', 'pas cher'],
+      //     opening: [{ open: '09:04:16+00:00', close: '22:04:16+00:00' }],
+      //     description: 'au kebab du soleil :)',
+      //   },
+      //   {
+      //     name: 'Grace Neo Pizza',
+      //     restaurantId: 'neo_4242',
+      //     address: '24 rue de la port, Marseille 92000',
+      //     status: 'open',
+      //     image: { url: 'https://www.lesfilsamaman.com/wp-content/uploads/restaurant-a-orlean-1.jpg', name: 'dqz' },
+      //     opening: [{ open: '09:04:16+00:00', close: '22:04:16+00:00' }],
+      //   },
+      // ],
     };
   },
   methods: {
     async queryResto() {
-      const response = await axios.get('/restorant?limit=10');
+      const response = await axios.get('/restaurant');
       this.restaurants = response.data;
     },
   },
   async created() {
-    // this.queryResto();
+    this.queryResto();
   },
 });
 </script>
