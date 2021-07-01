@@ -11,6 +11,11 @@ module.exports.getById = function(id) {
     return connector.selectUserById(id);
 };
 
+// Retrieving a single user by filter
+module.exports.getOne = function(email) {
+    return connector.selectOneUser(email);
+};
+
 // Create a new user
 module.exports.post = function(user) {
     return connector.insertUser(user);

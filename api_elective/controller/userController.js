@@ -36,6 +36,22 @@ module.exports.getById = function(req, res) {
     }
 };
 
+// Retrieving a single user by filter
+module.exports.getOne = function(req, res) {
+    try {
+        // Parameters reading
+        const email = req.query["email"];
+    
+        service.getOne(email).then((result) => {
+            res.json(result.toJson());
+        }).catch((error) => {
+            handleError(error, res, "retrieving user");
+        });
+    } catch (err) {
+        handleError(err, res, "retrieving user");
+    }
+};
+
 // Create a new user
 module.exports.post = function(req, res) {
     try {

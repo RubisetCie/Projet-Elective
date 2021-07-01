@@ -79,6 +79,36 @@ module.exports.selectUserById = function(id) {
     });
 };
 
+// Select user by email
+module.exports.selectOneUser = function(email) {
+    return new Promise((resolve, reject) => {
+        const query = 'SELECT dbo.users.id AS "id", "username", "usertype", "email", "password", "firstname", "lastname", "addressid", "country", "zipcode", "city", "address", "billingid", "number", "crypto", "owner" FROM dbo.users INNER JOIN dbo.useraddress ON dbo.useraddress.userid = dbo.users.id INNER JOIN dbo.address ON dbo.address.id = dbo.useraddress.addressid INNER JOIN dbo.userbilling ON dbo.userbilling.userid = dbo.users.id INNER JOIN dbo.billing ON dbo.billing.id = dbo.userbilling.billingid WHERE dbo.users.email LIKE @email';
+
+        const request = new Request(query, function(err, rowCount, rows) {
+            try {
+                if (err)
+                    throw err;
+                
+                if (rowCount <= 0)
+                    throw new ApiError("Query returned no rows", 400);
+
+                const user = deserializeUser(rows);
+
+                console.log(rowCount + " rows returned");
+
+                resolve(user);
+            } catch (err) {
+                reject(err);
+            }
+        });
+        
+        // Request parameters
+        request.addParameter("email", Types.VarChar, email ? email : "%");
+
+        connection.execSql(request);
+    });
+};
+
 // Insert user
 module.exports.insertUser = function(user) {
     return new Promise((resolve, reject) => {

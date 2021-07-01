@@ -8,6 +8,9 @@ const router = require("express").Router();
 // Importing the associated controller
 const controller = require("../controller/userController");
 
+// Retrieving a single user by filter
+router.get("/one/", controller.getOne);
+
 // Retrieving user data by ID
 router.get("/:id", controller.getById);
 
