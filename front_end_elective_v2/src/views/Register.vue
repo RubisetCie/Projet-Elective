@@ -162,7 +162,7 @@ axios.defaults.baseURL = 'http://localhost:3000';
       ],
       passwordRules: [
         (v) => (!!v) || 'Un mot de passe est requis',
-        (v) => (v && v.length <= 10) || "Un mot de passe doit étre d'au moins 10 charaters",
+        (v) => (v && v.length >= 10) || "Un mot de passe doit étre d'au moins 10 charaters",
       ],
       emailRules: [
         (v) => (!!v) || 'Un E-mail est requis',

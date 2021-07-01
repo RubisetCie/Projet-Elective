@@ -69,6 +69,18 @@ axios.defaults.baseURL = 'http://localhost:3000';
       ],
     };
   },
+  beforeMount() {
+    if (this.getUserId.usertype === 1
+    || this.getUserId.usertype === 3
+    || this.getUserId.usertype === 5) {
+      this.$router.push('/');
+    }
+  },
+  computed: {
+    getUserId() {
+      return this.$store.getters.getUser;
+    },
+  },
 })
 export default class DeliveryMan extends Vue {}
 </script>

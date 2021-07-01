@@ -294,7 +294,6 @@ const gradients = [
     && this.getUserId.usertype !== 2
     && this.getUserId.usertype !== 6) {
       this.$router.push('/');
-      console.log('test test ets tets');
     }
   },
   computed: {

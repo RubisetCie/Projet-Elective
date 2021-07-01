@@ -19,7 +19,16 @@
               </v-list-item-action>
 
               <v-list-item-content>
-                <v-text-field v-model='new_password' label='Mot de passe'></v-text-field>
+                <v-text-field
+                  v-model='new_password'
+                  label='Mot de passe'
+                  :rules="passwordRules"
+                  :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                  :type="show ? 'text' : 'password'"
+                  @click:append="show = !show"
+                  required
+                  >
+                </v-text-field>
               </v-list-item-content>
             </v-list-item>
           </div>
@@ -78,6 +87,9 @@ axios.defaults.baseURL = 'http://localhost:3000';
       know: true,
       new_email: null,
       new_password: null,
+      passwordRules: [
+        (v) => (!!v) || 'Un mot de passe est requis',
+      ],
     };
   },
   components: {
