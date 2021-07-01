@@ -130,7 +130,7 @@ module.exports.insertUser = function(user) {
             }
         });
         
-        // Request parameters (@username, @usertype, @email, @password, @firstname, @lastname)
+        // Request parameters
         request.addParameter("username", Types.VarChar, user.username);
         request.addParameter("usertype", Types.TinyInt, user.usertype);
         request.addParameter("email", Types.VarChar, user.email);
@@ -144,6 +144,77 @@ module.exports.insertUser = function(user) {
         request.addParameter("number", Types.Char, user.billing.number);
         request.addParameter("crypto", Types.Char, user.billing.crypto);
         request.addParameter("owner", Types.VarChar, user.billing.owner);
+
+        connection.execSql(request);
+    });
+};
+
+// Update user
+module.exports.updateUser = function(user) {
+    return new Promise((resolve, reject) => {
+        var statement = 'UPDATE dbo.users';
+        var set = 0;
+        
+        // Set the columns
+        if (user.username) {
+            if (set === 0)  statement += ' SET';
+            statement += (set > 0 ? ',' : '') + ' "username" = @username';
+            set++;
+        }
+        
+        if (user.usertype || user.usertype === 0) {
+            if (set === 0)  statement += ' SET';
+            statement += (set > 0 ? ',' : '') + ' "usertype" = @usertype';
+            set++;
+        }
+        
+        if (user.email) {
+            if (set === 0)  statement += ' SET';
+            statement += (set > 0 ? ',' : '') + ' "email" = @email';
+            set++;
+        }
+        
+        if (user.password) {
+            if (set === 0)  statement += ' SET';
+            statement += (set > 0 ? ',' : '') + ' "password" = @password';
+            set++;
+        }
+
+        if (user.firstname) {
+            if (set === 0)  statement += ' SET';
+            statement += (set > 0 ? ',' : '') + ' "firstname" = @firstname';
+            set++;
+        }
+        
+        if (user.lastname) {
+            if (set === 0)  statement += ' SET';
+            statement += (set > 0 ? ',' : '') + ' "lastname" = @lastname';
+            set++;
+        }
+            
+        statement += ' WHERE dbo.users.id = @id;';
+
+        const request = new Request(statement, function(err) {
+            try {
+                if (err)
+                    throw err;
+                
+                console.log("Request finished");
+
+                resolve();
+            } catch (err) {
+                reject(err);
+            }
+        });
+        
+        // Request parameters
+        request.addParameter("id", Types.BigInt, user.id);
+        request.addParameter("username", Types.VarChar, user.username);
+        request.addParameter("usertype", Types.TinyInt, user.usertype);
+        request.addParameter("email", Types.VarChar, user.email);
+        request.addParameter("password", Types.VarChar, user.password);
+        request.addParameter("firstname", Types.VarChar, user.firstname);
+        request.addParameter("lastname", Types.VarChar, user.lastname);
 
         connection.execSql(request);
     });

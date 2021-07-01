@@ -20,3 +20,8 @@ module.exports.getOne = function(email) {
 module.exports.post = function(user) {
     return connector.insertUser(user);
 };
+
+// Updates an existing user
+module.exports.put = function(user) {
+    return connector.updateUser(user);
+};

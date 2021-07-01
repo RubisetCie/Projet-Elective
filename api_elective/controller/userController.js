@@ -79,7 +79,7 @@ module.exports.post = function(req, res) {
         }
         
         user.username = req.body["username"] ? req.body["username"] : null;
-        user.usertype = req.body["usertype"] ? parseInt(req.body["usertype"]) : null;
+        user.usertype = (req.body["usertype"] || req.body["usertype"] === 0) ? parseInt(req.body["usertype"]) : null;
         user.email = req.body["email"] ? req.body["email"] : null;
         user.password = req.body["password"] ? req.body["password"] : null;
         user.firstname = req.body["firstname"] ? req.body["firstname"] : null;
@@ -104,6 +104,37 @@ module.exports.post = function(req, res) {
         });
     } catch (err) {
         handleError(err, res, "creating user");
+    }
+};
+
+// Updates an existing user
+module.exports.put = function(req, res) {
+    try {
+        const user = new User;
+        
+        // Parameters reading
+        if (!req.body)
+            throw new ApiError("Request body is undefined", 400);
+        
+        user.id = (req.body["id"] || req.body["id"] === 0) ? req.body["id"] : null;
+        user.username = req.body["username"] ? req.body["username"] : null;
+        user.usertype = (req.body["usertype"] || req.body["usertype"] === 0) ? parseInt(req.body["usertype"]) : null;
+        user.email = req.body["email"] ? req.body["email"] : null;
+        user.password = req.body["password"] ? req.body["password"] : null;
+        user.firstname = req.body["firstname"] ? req.body["firstname"] : null;
+        user.lastname = req.body["lastname"] ? req.body["lastname"] : null;
+
+        // Paramters verification
+        if (!user.id)
+            throw new ApiError("Missing mandatory parameter: id", 400);
+
+        service.put(user).then(() => {
+            res.status(204).send();
+        }).catch((error) => {
+            handleError(error, res, "updating user");
+        });
+    } catch (err) {
+        handleError(err, res, "updating user");
     }
 };
 
