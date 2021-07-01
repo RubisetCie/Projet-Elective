@@ -158,8 +158,8 @@ module.exports.post = function(req, res) {
         if (isNaN(order.clientId))      throw new ApiError("Parameter type not recognized: clientId", 400);
         if (!order.restaurantId)        throw new ApiError("Missing mandatory parameter: restaurantId", 400);
         if (isNaN(order.restaurantId))  throw new ApiError("Parameter type not recognized: restaurantId", 400);
-        if (!order.date)                throw new ApiError("Parameter type not recognized: date", 400);
-        if (!order.status)              throw new ApiError("Parameter type not recognized: status", 400);
+        if (!order.date)                throw new ApiError("Missing mandatory parameter: date", 400);
+        if (!order.status)              throw new ApiError("Missing mandatory parameter: status", 400);
         
         if (!address.country)           throw new ApiError("Missing mandatory parameter: address country", 400);
         if (!address.zipcode)           throw new ApiError("Missing mandatory parameter: address zipcode", 400);
