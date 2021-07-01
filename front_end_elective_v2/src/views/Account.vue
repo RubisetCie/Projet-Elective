@@ -1,6 +1,6 @@
 <template>
   <v-row justify='center' style='margin: 80px'>
-    <v-col cols='12' sm='8'>
+    <v-col cols='12' sm='8' v-if="userInfo">
       <v-card>
         <v-card-title class='cyan darken-1'>
           <span class='text-h5 white--text'>
@@ -212,29 +212,30 @@ axios.defaults.baseURL = 'localhost:3000';
 
       userId: null,
 
-      userInfo: {
-        username: 'dupontmark',
-        usertype: 0,
-        email: 'mark.dupont@yopmail.com',
-        password: 'bcrypt',
-        firstname: 'Dupont',
-        lastname: 'Mark',
-        address: [
-          {
-            country: 'France',
-            zipcode: 75003,
-            city: 'Paris',
-            address: '42 rue du General de Gaule',
-          },
-        ],
-        billing: [
-          {
-            number: '4242424242424242',
-            crypto: '042',
-            owner: 'Mohamed Belgacem',
-          },
-        ],
-      },
+      userInfo: null,
+      //  {
+      //   username: 'dupontmark',
+      //   usertype: 0,
+      //   email: 'mark.dupont@yopmail.com',
+      //   password: 'bcrypt',
+      //   firstname: 'Dupont',
+      //   lastname: 'Mark',
+      //   address: [
+      //     {
+      //       country: 'France',
+      //       zipcode: 75003,
+      //       city: 'Paris',
+      //       address: '42 rue du General de Gaule',
+      //     },
+      //   ],
+      //   billing: [
+      //     {
+      //       number: '4242424242424242',
+      //       crypto: '042',
+      //       owner: 'Mohamed Belgacem',
+      //     },
+      //   ],
+      // },
     };
   },
   methods: {
@@ -260,18 +261,18 @@ axios.defaults.baseURL = 'localhost:3000';
       this.userInfo.address[0].address = this.new_address;
       this.userInfo.billing[0].number = this.new_billingNumber;
 
-      // const response = await axios.put('user/', {
-      //   id: await this.userId,
-      //   firstname: this.userInfo.firstname,
-      //   lastname: this.userInfo.lastname,
-      //   email: this.userInfo.email,
-      //   address: this.userInfo.address,
-      //   billing: this.userInfo.billing,
-      // });
+      const response = await axios.put('user/', {
+        id: await this.userId,
+        firstname: this.userInfo.firstname,
+        lastname: this.userInfo.lastname,
+        email: this.userInfo.email,
+        address: this.userInfo.address,
+        billing: this.userInfo.billing,
+      });
 
-      // if (response.status === 200){
-      //   console.log("update")
-      // }
+      if (response.status === 200) {
+        console.log('update');
+      }
     },
     editCard() {
       console.log('editer la carte');
@@ -293,9 +294,10 @@ axios.defaults.baseURL = 'localhost:3000';
     },
   },
   async created() {
-    this.setDataforEdit();
     this.userId = await this.$store.getters.getUser.userId;
-    // this.queryResto();
+    this.queryAccount().then(() => {
+      this.setDataforEdit();
+    });
   },
 })
 export default class Account extends Vue {}
