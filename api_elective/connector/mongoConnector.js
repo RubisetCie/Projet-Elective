@@ -235,13 +235,164 @@ module.exports.selectMenu = function(limit, offset) {
     });
 };
 
+// Select order by client ID
+module.exports.selectOrderByClientId = function(id) {
+    return new Promise((resolve, reject) => {
+        const db = client.db(DATABASE);
+        const query = [
+            {
+                $match: { clientId: id }
+            },
+            {
+                $lookup: {
+                    from: "menus",
+                    localField: "menus._id",
+                    foreignField: "_id",
+                    as: "menus"
+                }
+            },
+            {
+                $sort: { clientId: 1 }
+            }
+        ];
+        
+        db.collection("orders").aggregate(query, async function(err, result) {
+            try {
+                if (err)
+                    throw err;
+                
+                const orders = [];
+                var count = 0;  // Counter for retrieved rows
+
+                while (await result.hasNext())
+                {
+                    orders.push(deserializeOrder(await result.next()));
+                    count++;
+                }
+                
+                console.log(count + " rows returned");
+
+                resolve(orders);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+};
+
+// Select order by restaurant ID
+module.exports.selectOrderByRestaurantId = function(id) {
+    return new Promise((resolve, reject) => {
+        const db = client.db(DATABASE);
+        const query = [
+            {
+                $match: { restaurantId: id }
+            },
+            {
+                $lookup: {
+                    from: "menus",
+                    localField: "menus._id",
+                    foreignField: "_id",
+                    as: "menus"
+                }
+            },
+            {
+                $sort: { restaurantId: 1 }
+            }
+        ];
+        
+        db.collection("orders").aggregate(query, async function(err, result) {
+            try {
+                if (err)
+                    throw err;
+                
+                const orders = [];
+                var count = 0;  // Counter for retrieved rows
+
+                while (await result.hasNext())
+                {
+                    orders.push(deserializeOrder(await result.next()));
+                    count++;
+                }
+                
+                console.log(count + " rows returned");
+
+                resolve(orders);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+};
+
+// Select order
+module.exports.selectOrder = function(limit, offset, status) {
+    return new Promise((resolve, reject) => {
+        const db = client.db(DATABASE);
+        const query = [
+            {
+                $lookup: {
+                    from: "menus",
+                    localField: "menus._id",
+                    foreignField: "_id",
+                    as: "menus"
+                }
+            },
+            {
+                $sort: { _id: 1 }
+            }
+        ];
+        
+        // Filter by status
+        if (status) {
+            const statusFilter = [];
+            status.forEach((s) => {statusFilter.push({ status: s });});
+            query.unshift({
+                $match: {
+                    $or: statusFilter
+                }
+            });
+        }
+        
+        // Offset handling
+        if (offset)
+            query.push({ $skip: offset });
+
+        // Limit handling
+        if (limit)
+            query.push({ $limit: limit });
+        
+        db.collection("orders").aggregate(query, async function(err, result) {
+            try {
+                if (err)
+                    throw err;
+                
+                const orders = [];
+                var count = 0;  // Counter for retrieved rows
+
+                while (await result.hasNext())
+                {
+                    orders.push(deserializeOrder(await result.next()));
+                    count++;
+                }
+                
+                console.log(count + " rows returned");
+
+                resolve(orders);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+};
+
 // Creates a Restaurant object from JSON
 deserializeRestaurant = function(json) {
     const restaurant = new Restaurant;
     const address = new Address;
     const image = new Image;
             
-    const restaurantAddress = json["address"] ? null : json["address"];
+    const restaurantAddress = json["address"];
     if (restaurantAddress) {
         address.country = restaurantAddress["country"] ? restaurantAddress["country"] : null;
         address.zipcode = restaurantAddress["zipcode"] ? restaurantAddress["zipcode"] : null;
@@ -249,7 +400,7 @@ deserializeRestaurant = function(json) {
         address.country = restaurantAddress["address"] ? restaurantAddress["address"] : null;
     }
 
-    const restaurantImage = json["image"] ? json["image"] : null;
+    const restaurantImage = json["image"];
     if (restaurantImage) {
         image.url = restaurantImage["url"] ? restaurantImage["url"] : null;
         image.alt = restaurantImage["alt"] ? restaurantImage["alt"] : null;
@@ -292,13 +443,13 @@ deserializeMenu = function(json) {
     const image = new Image;
     const price = new Price;
     
-    const menuImage = json["image"] ? json["image"] : null;
+    const menuImage = json["image"];
     if (menuImage) {
         image.url = menuImage["url"] ? menuImage["url"] : null;
         image.alt = menuImage["alt"] ? menuImage["alt"] : null;
     }
 
-    const menuPrice = json["price"] ? json["price"] : null;
+    const menuPrice = json["price"];
     if (menuPrice) {
         price.value = menuPrice["value"] ? menuPrice["value"] : null;
         price.currency = menuPrice["currency"] ? menuPrice["currency"] : null;
@@ -312,6 +463,45 @@ deserializeMenu = function(json) {
     menu.items = json["items"] ? json["items"] : [];
     
     return menu;
+};
+
+// Creates an Order object from JSON
+deserializeOrder = function(json) {
+    const order = new Order;
+    const address = new Address;
+    const taxes = new Price;
+            
+    const orderAddress = json["address"];
+    if (orderAddress) {
+        address.country = orderAddress["country"] ? orderAddress["country"] : null;
+        address.zipcode = orderAddress["zipcode"] ? orderAddress["zipcode"] : null;
+        address.city = orderAddress["city"] ? orderAddress["city"] : null;
+        address.country = orderAddress["address"] ? orderAddress["address"] : null;
+    }
+    
+    const orderTaxes = json["taxes"];
+    if (orderTaxes) {
+        taxes.value = orderTaxes["value"] ? orderTaxes["value"] : null;
+        taxes.currency = orderTaxes["currency"] ? orderTaxes["currency"] : null;
+    }
+    
+    order.clientId = json["clientId"];
+    order.restaurantId = json["restaurantId"];
+    order.address = address;
+    order.date = json["date"] ? json["date"] : null;
+    order.status = json["status"] ? json["status"] : null;
+    order.taxes = taxes;
+    order.menus = [];
+    order.assign = json["assign"] ? json["assign"] : null;
+    
+    order.menus = [];
+    if (json["menus"] && Array.isArray(json["menus"])) {
+        json["menus"].forEach((me) => {
+            order.menus.push(deserializeMenu(me));
+        });
+    }
+    
+    return order;
 };
 
 // Trigger connection
