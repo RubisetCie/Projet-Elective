@@ -17,4 +17,7 @@ router.get("/client/:id", controller.getByClientId);
 // Retrieving multiple order data by restaurant ID
 router.get("/restaurant/:id", controller.getByRestaurantId);
 
+// Create an order
+router.post("/", controller.post);
+
 module.exports = router;

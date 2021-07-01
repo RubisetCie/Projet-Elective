@@ -20,3 +20,8 @@ module.exports.getByRestaurantId = function(id) {
 module.exports.getAll = function(limit, offset, clientId, status) {
     return connector.selectOrder(limit, offset, clientId, status);
 };
+
+// Create an order
+module.exports.post = function(order) {
+    return connector.insertOrder(order);
+};

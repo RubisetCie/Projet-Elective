@@ -398,6 +398,26 @@ module.exports.selectOrder = function(limit, offset, clientId, status) {
     });
 };
 
+// Insert order
+module.exports.insertOrder = function(order) {
+    return new Promise((resolve, reject) => {
+        const db = client.db(DATABASE);
+        
+        db.collection("orders").insertOne(order.toJson(), function(err) {
+            try {
+                if (err)
+                    throw err;
+                
+                console.log("Request finished");
+
+                resolve();
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+};
+
 // Creates a Restaurant object from JSON
 deserializeRestaurant = function(json) {
     const restaurant = new Restaurant;
@@ -501,7 +521,7 @@ deserializeOrder = function(json) {
     order.clientId = json["clientId"];
     order.restaurantId = json["restaurantId"];
     order.address = address;
-    order.date = json["date"] ? json["date"] : null;
+    order.date = json["date"] ? new Date(json["date"]) : null;
     order.status = json["status"] ? json["status"] : null;
     order.taxes = taxes;
     order.menus = [];
