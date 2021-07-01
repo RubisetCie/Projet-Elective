@@ -193,8 +193,6 @@ import Options from 'vue-class-component';
 import Vue from 'vue';
 import axios from 'axios';
 
-axios.defaults.baseURL = 'localhost:3000';
-
 @Options({
   components: {},
   data() {

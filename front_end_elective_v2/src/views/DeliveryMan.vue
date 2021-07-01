@@ -35,8 +35,6 @@ import Vue from 'vue';
 import axios from 'axios';
 import DeliveryCard from '../components/UI/DeliveryMan/DeliveryCard.vue';
 
-axios.defaults.baseURL = 'http://localhost:3000';
-
 @Options({
   components: {
     DeliveryCard,
