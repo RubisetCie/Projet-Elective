@@ -56,7 +56,7 @@
       </v-card-text>
 
       <v-card-actions>
-        <v-btn color='deep-purple lighten-2' text @click='reserve(info.restaurantId)'>
+        <v-btn color='deep-purple lighten-2' text @click='reserve(info.id)'>
           Commander
         </v-btn>
       </v-card-actions>
@@ -82,7 +82,6 @@ import Vue from 'vue';
   },
   methods: {
     reserve(restoId) {
-      console.log('test test test test');
       this.$router.push(`/menu/${restoId}`);
       // this.loading = true
       // setTimeout(() => (this.loading = false), 2000)

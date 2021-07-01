@@ -1,8 +1,8 @@
 <template>
-  <!-- <div class='dishes' v-if='resto || order'> -->
+  <div class='dishes' v-if='resto || order'>
     <div class="d-flex align-content-start flex-wrap justify-space-around">
       <div v-if='mode === 1'>
-        <div v-for='menu in resto.menu' :key='menu.restaurantId'>
+        <div v-for='menu in resto.menus' :key='menu.id'>
           <PlatCard :info='menu' />
         </div>
       </div>
@@ -38,7 +38,8 @@
           </div>
         </v-row>
 
-        <div class='my-4 text-subtitle-1'>$ • Italian, Cafe</div>
+        <div class='my-4 text-subtitle-1'>$ •<span v-for="t of resto.tags" :key="t"> {{t}}</span>
+        </div>
 
         <div>
             {{resto.description}}
@@ -46,7 +47,7 @@
       </v-card-text>
     </v-card>
     </div>
-  <!-- </div> -->
+  </div>
 </template>
 
 <script>
@@ -57,7 +58,7 @@ import axios from 'axios';
 import PlatCard from '@/components/UI/Dishes/PlatCard.vue';
 import OrderCard from '@/components/UI/Dishes/OrderCard.vue';
 
-axios.defaults.baseURL = 'localhost:3000';
+axios.defaults.baseURL = 'http://localhost:3000';
 
 @Options({
   components: {
@@ -132,7 +133,7 @@ axios.defaults.baseURL = 'localhost:3000';
         },
       ],
       mode: 0,
-      id: 0, // this.$route.params.id,
+      id: this.$route.params.id,
     };
   },
   methods: {
@@ -168,8 +169,6 @@ axios.defaults.baseURL = 'localhost:3000';
   },
   async created() {
     this.selector();
-    console.log(this.$route.name);
-    console.log(this.mode);
     this.$watch(() => this.$route, this.selector);
   },
 })

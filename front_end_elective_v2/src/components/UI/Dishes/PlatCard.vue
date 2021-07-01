@@ -26,13 +26,13 @@
       </v-list-item>
 
       <v-card-actions>
-        <v-btn outlined rounded text @click="reserve()"> Ajouter </v-btn>
+        <v-btn outlined rounded text @click="reserve(info.id)"> Ajouter </v-btn>
       </v-card-actions>
     </v-card>
   </div>
 </template>
 
-<script lang='ts'>
+<script>
 import Options from 'vue-class-component';
 import Vue from 'vue';
 
@@ -41,10 +41,10 @@ import Vue from 'vue';
     info: Object,
   },
   methods: {
-    reserve() {
-      return 0;
-
-      // TA MERE VUE X
+    reserve(id) {
+      const basket = this.$store.getters.getBasket;
+      basket.push(id);
+      this.$store.dispatch('fetchBasket', basket);
     },
   },
 })
