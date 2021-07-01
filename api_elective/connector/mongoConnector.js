@@ -326,7 +326,7 @@ module.exports.selectOrderByRestaurantId = function(id) {
 };
 
 // Select order
-module.exports.selectOrder = function(limit, offset, status) {
+module.exports.selectOrder = function(limit, offset, clientId, status) {
     return new Promise((resolve, reject) => {
         const db = client.db(DATABASE);
         const query = [
@@ -343,13 +343,25 @@ module.exports.selectOrder = function(limit, offset, status) {
             }
         ];
         
+        const filter = [];
+        
+        // Filter by clientId
+        if (clientId) {
+            filter.push({clientId: clientId});
+        }
+        
         // Filter by status
         if (status) {
             const statusFilter = [];
             status.forEach((s) => {statusFilter.push({ status: s });});
+            filter.push({ $or: statusFilter });
+        }
+        
+        // Applying the filter
+        if (filter.length !== 0) {
             query.unshift({
                 $match: {
-                    $or: statusFilter
+                    $and: filter
                 }
             });
         }
@@ -379,6 +391,57 @@ module.exports.selectOrder = function(limit, offset, status) {
                 console.log(count + " rows returned");
 
                 resolve(orders);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+};
+
+// Insert order
+module.exports.insertOrder = function(order) {
+    return new Promise((resolve, reject) => {
+        const db = client.db(DATABASE);
+        
+        db.collection("orders").insertOne(order.toJson(), function(err) {
+            try {
+                if (err)
+                    throw err;
+                
+                console.log("Request finished");
+
+                resolve();
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+};
+
+// Insert order
+module.exports.updateOrder = function(order) {
+    return new Promise((resolve, reject) => {
+        const db = client.db(DATABASE);
+        const query = { _id: order.id };
+        const update = {};
+        
+        if (order.clientId)     update["clientId"] = order.clientId;
+        if (order.restaurantId) update["restaurantId"] = order.restaurantId;
+        if (order.address)      update["address"] = order.address;
+        if (order.date)         update["date"] = order.date;
+        if (order.status)       update["status"] = order.status;
+        if (order.taxes)        update["taxes"] = order.taxes;
+        if (order.menus)        update["menus"] = order.menus;
+        if (order.assign)       update["assign"] = order.assign;
+        
+        db.collection("orders").updateOne(query, {$set: update}, function(err) {
+            try {
+                if (err)
+                    throw err;
+                
+                console.log("Request finished");
+
+                resolve();
             } catch (err) {
                 reject(err);
             }
@@ -489,7 +552,7 @@ deserializeOrder = function(json) {
     order.clientId = json["clientId"];
     order.restaurantId = json["restaurantId"];
     order.address = address;
-    order.date = json["date"] ? json["date"] : null;
+    order.date = json["date"] ? new Date(json["date"]) : null;
     order.status = json["status"] ? json["status"] : null;
     order.taxes = taxes;
     order.menus = [];

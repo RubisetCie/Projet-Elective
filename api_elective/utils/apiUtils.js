@@ -10,9 +10,9 @@ const ApiError = require("../exception/apiError");
 module.exports.handleError = function(err, res, action) {
     if (err instanceof ApiError) {
         console.error("Error caught while " + action + ":", err);
-        res.status(err.code).send();
+        res.status(err.code).send(err.message);
     } else {
         console.error("Unexpected error caught while " + action + ":", err);
-        res.status(500).send();
+        res.status(500).send(err.message);
     }
 };
