@@ -79,19 +79,52 @@ module.exports.selectUserById = function(id) {
     });
 };
 
-// Insert user
-module.exports.insertUser = function(user) {
+// Select user by email
+module.exports.selectOneUser = function(email) {
     return new Promise((resolve, reject) => {
-        const statement = 'EXECUTE dbo.createUser @username, @usertype, @email, @password, @firstname, @lastname, @country, @zipcode, @city, @address, @number, @crypto, @owner;';
+        const query = 'SELECT dbo.users.id AS "id", "username", "usertype", "email", "password", "firstname", "lastname", "addressid", "country", "zipcode", "city", "address", "billingid", "number", "crypto", "owner" FROM dbo.users INNER JOIN dbo.useraddress ON dbo.useraddress.userid = dbo.users.id INNER JOIN dbo.address ON dbo.address.id = dbo.useraddress.addressid INNER JOIN dbo.userbilling ON dbo.userbilling.userid = dbo.users.id INNER JOIN dbo.billing ON dbo.billing.id = dbo.userbilling.billingid WHERE dbo.users.email LIKE @email';
 
-        const request = new Request(statement, function(err) {
+        const request = new Request(query, function(err, rowCount, rows) {
             try {
                 if (err)
                     throw err;
+                
+                if (rowCount <= 0)
+                    throw new ApiError("Query returned no rows", 400);
 
+                const user = deserializeUser(rows);
+
+                console.log(rowCount + " rows returned");
+
+                resolve(user);
+            } catch (err) {
+                reject(err);
+            }
+        });
+        
+        // Request parameters
+        request.addParameter("email", Types.VarChar, email ? email : "%");
+
+        connection.execSql(request);
+    });
+};
+
+// Insert user
+module.exports.insertUser = function(user) {
+    return new Promise((resolve, reject) => {
+        const statement = 'DECLARE @return_id INT; EXECUTE @return_id = dbo.createUser @username, @usertype, @email, @password, @firstname, @lastname, @country, @zipcode, @city, @address, @number, @crypto, @owner; SELECT "Return" = @return_id;';
+
+        const request = new Request(statement, function(err, rowCount, rows) {
+            try {
+                if (err)
+                    throw err;
+                
+                if (rowCount <= 0)
+                    throw new ApiError("Statement returned no rows", 400);
+                
                 console.log("Request finished");
 
-                resolve();
+                resolve(rows[0][0].value);
             } catch (err) {
                 reject(err);
             }
@@ -135,6 +168,10 @@ deserializeUser = function(rows) {
 
     // Multiple attributes
     rows.forEach((row) => {
+        // Check the user ID
+        if (row[0].value !== user.id)
+            return;
+        
         const address = new Address;
         const billing = new Billing;
 
