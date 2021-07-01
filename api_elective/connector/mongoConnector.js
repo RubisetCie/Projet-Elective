@@ -326,7 +326,7 @@ module.exports.selectOrderByRestaurantId = function(id) {
 };
 
 // Select order
-module.exports.selectOrder = function(limit, offset, status) {
+module.exports.selectOrder = function(limit, offset, clientId, status) {
     return new Promise((resolve, reject) => {
         const db = client.db(DATABASE);
         const query = [
@@ -343,13 +343,25 @@ module.exports.selectOrder = function(limit, offset, status) {
             }
         ];
         
+        const filter = [];
+        
+        // Filter by clientId
+        if (clientId) {
+            filter.push({clientId: clientId});
+        }
+        
         // Filter by status
         if (status) {
             const statusFilter = [];
             status.forEach((s) => {statusFilter.push({ status: s });});
+            filter.push({ $or: statusFilter });
+        }
+        
+        // Applying the filter
+        if (filter.length !== 0) {
             query.unshift({
                 $match: {
-                    $or: statusFilter
+                    $and: filter
                 }
             });
         }
@@ -379,6 +391,26 @@ module.exports.selectOrder = function(limit, offset, status) {
                 console.log(count + " rows returned");
 
                 resolve(orders);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+};
+
+// Insert order
+module.exports.insertOrder = function(order) {
+    return new Promise((resolve, reject) => {
+        const db = client.db(DATABASE);
+        
+        db.collection("orders").insertOne(order.toJson(), function(err) {
+            try {
+                if (err)
+                    throw err;
+                
+                console.log("Request finished");
+
+                resolve();
             } catch (err) {
                 reject(err);
             }
@@ -489,7 +521,7 @@ deserializeOrder = function(json) {
     order.clientId = json["clientId"];
     order.restaurantId = json["restaurantId"];
     order.address = address;
-    order.date = json["date"] ? json["date"] : null;
+    order.date = json["date"] ? new Date(json["date"]) : null;
     order.status = json["status"] ? json["status"] : null;
     order.taxes = taxes;
     order.menus = [];
