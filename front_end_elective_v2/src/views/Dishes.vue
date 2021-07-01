@@ -5,47 +5,48 @@
         <div v-for='menu in resto.menus' :key='menu.id'>
           <PlatCard :info='menu' />
         </div>
+        <v-card class='mx-12 my-12' max-width='374'>
+          <template slot='progress'>
+            <v-progress-linear
+              color='deep-purple'
+              height='10'
+              indeterminate
+            ></v-progress-linear>
+          </template>
+
+          <v-card-title>{{resto.name}}</v-card-title>
+
+          <v-card-text>
+            <v-row align='center' class='mx-0'>
+              <v-rating
+                :value='resto.rating'
+                color='amber'
+                dense
+                half-increments
+                readonly
+                size='14'
+              ></v-rating>
+
+              <div class='grey--text ms-4'>
+                {{resto.rating}} ({{Math.round(Math.random() * 2000)}})
+              </div>
+            </v-row>
+
+            <div class='my-4 text-subtitle-1'>
+              $ •<span v-for="t of resto.tags" :key="t"> {{t}}</span>
+            </div>
+
+            <div>
+                {{resto.description}}
+            </div>
+          </v-card-text>
+        </v-card>
       </div>
-      <div v-else-if="mode > 1">
+      <div v-else-if="mode > 1 && orderAvailable">
         <div v-for='ords in order' :key='ords.date'>
           <OrderCard :info='ords' />
         </div>
       </div>
-      <v-card class='mx-12 my-12' max-width='374'>
-      <template slot='progress'>
-        <v-progress-linear
-          color='deep-purple'
-          height='10'
-          indeterminate
-        ></v-progress-linear>
-      </template>
-
-      <v-card-title>{{resto.name}}</v-card-title>
-
-      <v-card-text>
-        <v-row align='center' class='mx-0'>
-          <v-rating
-            :value='resto.rating'
-            color='amber'
-            dense
-            half-increments
-            readonly
-            size='14'
-          ></v-rating>
-
-          <div class='grey--text ms-4'>
-            {{resto.rating}} ({{Math.round(Math.random() * 2000)}})
-          </div>
-        </v-row>
-
-        <div class='my-4 text-subtitle-1'>$ •<span v-for="t of resto.tags" :key="t"> {{t}}</span>
-        </div>
-
-        <div>
-            {{resto.description}}
-        </div>
-      </v-card-text>
-    </v-card>
     </div>
   </div>
 </template>
@@ -132,6 +133,7 @@ axios.defaults.baseURL = 'http://localhost:3000';
           assign: 'xmax_pas_les_feu_42',
         },
       ],
+      orderAvailable: false,
       mode: 0,
       id: this.$route.params.id,
     };
@@ -144,31 +146,35 @@ axios.defaults.baseURL = 'http://localhost:3000';
     },
     async queryOrder() {
       const response = await axios.get(
-        `/order/${this.id}?status[]=open,preparing,delevering`,
+        '/order/?status=open;preparing;delevering',
       );
       this.order = response.data;
+      this.orderAvailable = true;
     },
     async queryCloseOrder() {
       const response = await axios.get(
-        `/order/${this.id}?status[]=close,reviewing`,
+        '/order/?status=close;reviewing',
       );
       this.order = response.data;
+      this.orderAvailable = true;
     },
     selector() {
+      this.orderAvailable = false;
       if (this.$route.name === 'Menu') {
         this.queryMenu();
         this.mode = 1;
       } else if (this.$route.name === 'Commande') {
-        // this.queryOrder();
+        this.queryOrder();
         this.mode = 2;
       } else if (this.$route.name === 'Commande Terminée') {
-        // this.queryCloseOrder();
+        this.queryCloseOrder();
         this.mode = 3;
       }
     },
   },
   async created() {
     this.selector();
+    this.$watch(() => this.$route, this.selector);
     this.$watch(() => this.$route, this.selector);
   },
 })
