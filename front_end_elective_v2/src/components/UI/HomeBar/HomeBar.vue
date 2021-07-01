@@ -70,18 +70,27 @@
           </template>
 
           <v-list>
-            <v-list-item @click='redirect("/account")'>
+            <v-list-item
+              @click='redirect("/account")'
+              v-if='getUserId.loginStatus === true'
+            >
               <v-list-item-title>Mon compte</v-list-item-title>
             </v-list-item>
-            <v-list-item @click='redirect("/login")'>
+            <v-list-item
+              @click='redirect("/login")'
+              v-if='getUserId.loginStatus === false'
+            >
               <v-list-item-title>Connexion</v-list-item-title>
             </v-list-item>
-            <v-list-item @click='redirect("/register")'>
+            <v-list-item
+              @click='redirect("/register")'
+              v-if='getUserId.loginStatus === false'
+            >
               <v-list-item-title>Inscription</v-list-item-title>
             </v-list-item>
             <v-list-item
               @click='redirect("/dashboard")'
-              v-if='getUserId.userType ===0'
+              v-if='getUserId.userType === 0'
               >
               <v-list-item-title>Tableau de bord</v-list-item-title>
             </v-list-item>
