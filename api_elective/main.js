@@ -5,7 +5,9 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const morgan = require("morgan");
 const cors = require("cors");
+const fs = require("fs");
 
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("yamljs").load("./swagger/swagger.yaml");
@@ -34,6 +36,9 @@ app.use(cors());
 
 // Documentation URL
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument, swaggerOptions));
+
+// Logging middleware
+app.use(morgan("common", {stream: fs.createWriteStream(__dirname + "/access.log", { flags: "a" })}));
 
 // Login URL
 app.post("/login", authenticationController.login);
