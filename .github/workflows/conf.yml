@@ -41,7 +41,8 @@ jobs:
         # deploy to Azure Web App.
         npm  --prefix front_end_elective_v2 install
         npm  --prefix front_end_elective_v2 run build --if-present
-        npm  --prefix front_end_elective_v2 run test --if-present
+        npm i -g serve
+        serve ./front_end_elective_v2/dist
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v2
       with:
