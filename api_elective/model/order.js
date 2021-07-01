@@ -4,6 +4,7 @@
  */
 
 class Order {
+    id;
     clientId;
     restaurantId;
     address;        // Reference to an Address object
@@ -16,6 +17,7 @@ class Order {
     toJson = function() {
         const json = {};
         
+        json["id"] = this.id;
         json["clientId"] = this.clientId;
         json["restaurantId"] = this.restaurantId;
         json["address"] = this.address ? this.address.toJson() : null;

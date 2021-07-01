@@ -485,6 +485,7 @@ deserializeOrder = function(json) {
         taxes.currency = orderTaxes["currency"] ? orderTaxes["currency"] : null;
     }
     
+    order.id = json["_id"];
     order.clientId = json["clientId"];
     order.restaurantId = json["restaurantId"];
     order.address = address;
