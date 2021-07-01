@@ -3,7 +3,8 @@
  * Author	: Rubisetcie
  */
 
-const ObjectID = require('mongodb').ObjectID;
+// Importing the connector components
+const ObjectID = require("mongodb").ObjectID;
 
 // Importing the associated service
 const service = require("../service/orderService");
@@ -45,10 +46,10 @@ module.exports.getByClientId = function(req, res) {
 // Retrieving multiple order data by restaurant ID
 module.exports.getByRestaurantId = function(req, res) {
     try {
-        const id = parseInt(req.params.id, 10);
+        const id = req.params.id ? new ObjectID(req.params.id) : null;
         
         // Paramters verification
-        if (isNaN(id))
+        if (!id)
             throw new ApiError("Parameter not recognized: id", 400);
         
         service.getByRestaurantId(id).then((result) => {
@@ -145,7 +146,7 @@ module.exports.post = function(req, res) {
         }
         
         order.clientId = (req.body["clientId"] || req.body["clientId"] === 0) ? parseInt(req.body["clientId"]) : null;
-        order.restaurantId = (req.body["restaurantId"] || req.body["restaurantId"] === 0) ? parseInt(req.body["restaurantId"]) : null;
+        order.restaurantId = req.body["restaurantId"] ? new ObjectID(req.body["restaurantId"]) : null;
         order.address = address;
         order.date = req.body["date"] ? new Date(Date.parse(req.body["date"])) : null;
         order.status = req.body["status"] ? req.body["status"] : null;
@@ -157,9 +158,8 @@ module.exports.post = function(req, res) {
         if (!order.clientId)            throw new ApiError("Missing mandatory parameter: clientId", 400);
         if (isNaN(order.clientId))      throw new ApiError("Parameter type not recognized: clientId", 400);
         if (!order.restaurantId)        throw new ApiError("Missing mandatory parameter: restaurantId", 400);
-        if (isNaN(order.restaurantId))  throw new ApiError("Parameter type not recognized: restaurantId", 400);
-        if (!order.date)                throw new ApiError("Parameter type not recognized: date", 400);
-        if (!order.status)              throw new ApiError("Parameter type not recognized: status", 400);
+        if (!order.date)                throw new ApiError("Missing mandatory parameter: date", 400);
+        if (!order.status)              throw new ApiError("Missing mandatory parameter: status", 400);
         
         if (!address.country)           throw new ApiError("Missing mandatory parameter: address country", 400);
         if (!address.zipcode)           throw new ApiError("Missing mandatory parameter: address zipcode", 400);
@@ -217,7 +217,7 @@ module.exports.put = function(req, res) {
         
         order.id = req.body["id"] ? new ObjectID(req.body["id"]) : null;
         order.clientId = (req.body["clientId"] || req.body["clientId"] === 0) ? parseInt(req.body["clientId"]) : null;
-        order.restaurantId = (req.body["restaurantId"] || req.body["restaurantId"] === 0) ? parseInt(req.body["restaurantId"]) : null;
+        order.restaurantId = req.body["restaurantId"] ? new ObjectID(req.body["restaurantId"]) : null;
         order.address = address;
         order.date = req.body["date"] ? new Date(Date.parse(req.body["date"])) : null;
         order.status = req.body["status"] ? req.body["status"] : null;

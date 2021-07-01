@@ -3,6 +3,9 @@
  * Author	: Rubisetcie
  */
 
+// Importing the connector components
+const ObjectID = require("mongodb").ObjectID;
+
 // Importing the associated service
 const service = require("../service/menuService");
 
@@ -15,10 +18,10 @@ const ApiError = require("../exception/apiError");
 // Retrieving menu data by ID
 module.exports.getById = function(req, res) {
     try {
-        const id = parseInt(req.params.id, 10);
+        const id = req.params.id ? new ObjectID(req.params.id) : null;
 
         // Paramters verification
-        if (isNaN(id))
+        if (!id)
             throw new ApiError("Parameter not recognized: id", 400);
         
         service.getById(id).then((result) => {
@@ -34,10 +37,10 @@ module.exports.getById = function(req, res) {
 // Retrieving multiple menu data by restaurant ID
 module.exports.getByRestaurantId = function(req, res) {
     try {
-        const id = parseInt(req.params.id, 10);
+        const id = req.params.id ? new ObjectID(req.params.id) : null;
         
         // Paramters verification
-        if (isNaN(id))
+        if (!id)
             throw new ApiError("Parameter not recognized: id", 400);
         
         service.getByRestaurantId(id).then((result) => {
