@@ -64,6 +64,7 @@ module.exports.getAll = function(req, res) {
         // Parameters reading
         const limit = (req.query["limit"] || req.query["limit"] === 0) ? parseInt(req.query["limit"]) : null;
         const offset = (req.query["offset"] || req.query["offset"] === 0) ? parseInt(req.query["offset"]) : null;
+        const clientId = (req.query["client"] || req.query["client"] === 0) ? parseInt(req.query["client"]) : null;
         const status = req.query["status"] ? req.query["status"].split(';') : null;
         
         // Paramters verification
@@ -76,13 +77,18 @@ module.exports.getAll = function(req, res) {
             if (isNaN(offset))  throw new ApiError("Parameter type not recognized: offset", 400);
             if (offset < 1)     throw new ApiError("Parameter below accepted value: offset below 1", 400);
         }
+
+        if (clientId) {
+            if (isNaN(clientId))
+                throw new ApiError("Parameter type not recognized: clientId", 400);
+        }
         
         if (status) {
             if (!Array.isArray(status))
                 throw new ApiError("Parameter type not recognized: status", 400);
         }
         
-        service.getAll(limit, offset, status).then((result) => {
+        service.getAll(limit, offset, clientId, status).then((result) => {
             const json = [];
             result.forEach((r) => {
                 json.push(r.toJson());
