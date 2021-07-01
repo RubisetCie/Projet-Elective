@@ -219,8 +219,8 @@ axios.defaults.baseURL = 'localhost:3000';
   computed: {
     getUserId() {
       if (this.$store.getters.getUser.loginStatus === false) {
-        if (this.$route.path !== '/login') {
-          this.$router.push('/login').catch();
+        if (this.$route.path !== '/login' && this.$route.path !== '/register') {
+          // this.$router.push('/login').catch();
         }
       }
       return this.$store.getters.getUser;
