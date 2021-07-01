@@ -57,7 +57,7 @@
           style='margin-top: 20px'
           v-if='mode === 2 && orderAvailable'
         >
-          <v-btn color='success' dark large> Livraison </v-btn>
+          <v-btn color='success' dark large @click='redirect("/delivery")'> Livraison </v-btn>
         </div>
       </v-col>
     </v-row>
@@ -152,6 +152,9 @@ axios.defaults.baseURL = 'http://localhost:3000';
     };
   },
   methods: {
+    redirect(path) {
+      this.$router.push(path).catch();
+    },
     async queryMenu() {
       const response = await axios.get(`/restaurant/${this.id}`);
       console.log(response.data);
