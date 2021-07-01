@@ -418,6 +418,37 @@ module.exports.insertOrder = function(order) {
     });
 };
 
+// Insert order
+module.exports.updateOrder = function(order) {
+    return new Promise((resolve, reject) => {
+        const db = client.db(DATABASE);
+        const query = { _id: order.id };
+        const update = {};
+        
+        if (order.clientId)     update["clientId"] = order.clientId;
+        if (order.restaurantId) update["restaurantId"] = order.restaurantId;
+        if (order.address)      update["address"] = order.address;
+        if (order.date)         update["date"] = order.date;
+        if (order.status)       update["status"] = order.status;
+        if (order.taxes)        update["taxes"] = order.taxes;
+        if (order.menus)        update["menus"] = order.menus;
+        if (order.assign)       update["assign"] = order.assign;
+        
+        db.collection("orders").updateOne(query, {$set: update}, function(err) {
+            try {
+                if (err)
+                    throw err;
+                
+                console.log("Request finished");
+
+                resolve();
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+};
+
 // Creates a Restaurant object from JSON
 deserializeRestaurant = function(json) {
     const restaurant = new Restaurant;
