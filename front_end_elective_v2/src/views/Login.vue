@@ -10,7 +10,7 @@
               </v-list-item-action>
 
               <v-list-item-content>
-                <v-text-field label='Identifiant'></v-text-field>
+                <v-text-field v-model='new_email' label='Identifiant'></v-text-field>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
@@ -19,7 +19,7 @@
               </v-list-item-action>
 
               <v-list-item-content>
-                <v-text-field label='Mot de passe'></v-text-field>
+                <v-text-field v-model='new_password' label='Mot de passe'></v-text-field>
               </v-list-item-content>
             </v-list-item>
           </div>
@@ -76,8 +76,8 @@ axios.defaults.baseURL = 'http://localhost:3000';
   data() {
     return {
       know: true,
+      new_email: null,
       new_password: null,
-      userEmail: null,
     };
   },
   components: {
@@ -88,13 +88,14 @@ axios.defaults.baseURL = 'http://localhost:3000';
       this.$router.push(path).catch();
     },
     async validate() {
-      const response = await axios.get(`/user/${this.userEmail}}`);
+      const response = await axios.get(`/user/one/?email=${this.new_email}`);
       if (response.data.password) {
         const pswv = await bcrypt.compare(this.new_password, response.data.password);
 
         if (pswv) {
           this.$store.dispatch('fetchProfil', { loginStatus: true, userId: response.data.id, usertype: response.data.usertype });
           this.$router.push('/');
+          console.log(response.data);
         }
       }
     },
