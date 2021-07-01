@@ -27,7 +27,7 @@ export default new Vuex.Store({
         userId: '',
         usertype: 5,
         token: '',
-        // refresh: '',
+        refresh: '',
       };
     },
   },
