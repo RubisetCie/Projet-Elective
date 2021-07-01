@@ -269,8 +269,8 @@ axios.defaults.baseURL = 'localhost:3000';
         billing: this.userInfo.billing,
       });
 
-      if (response.status === 200){
-        console.log("update")
+      if (response.status === 200) {
+        console.log('update');
       }
     },
     editCard() {
