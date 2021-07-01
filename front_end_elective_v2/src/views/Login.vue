@@ -84,6 +84,7 @@ axios.defaults.baseURL = 'http://localhost:3000';
 @Options({
   data() {
     return {
+      show: false,
       know: true,
       new_email: null,
       new_password: null,
