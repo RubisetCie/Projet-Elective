@@ -15,6 +15,9 @@ const Address = require("../model/address");
 const Price = require("../model/price");
 const Image = require("../model/image");
 
+// Importing the ApiError exception class
+const ApiError = require("../exception/apiError");
+
 // Connection constants
 const HOST = process.env.MONGO_HOST;
 const DATABASE = process.env.MONGO_DATABASE;
@@ -46,6 +49,9 @@ module.exports.selectRestaurantById = function(id) {
             try {
                 if (err)
                     throw err;
+                
+                if (!await result.hasNext())
+                    throw new ApiError("Query returned nothing", 400);
                 
                 const restaurant = deserializeRestaurant(await result.next());
                 
