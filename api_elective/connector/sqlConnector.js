@@ -168,6 +168,10 @@ deserializeUser = function(rows) {
 
     // Multiple attributes
     rows.forEach((row) => {
+        // Check the user ID
+        if (row[0].value !== user.id)
+            return;
+        
         const address = new Address;
         const billing = new Billing;
 
