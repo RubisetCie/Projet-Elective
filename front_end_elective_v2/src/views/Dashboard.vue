@@ -1,136 +1,142 @@
 <template>
   <div class='dashboard'>
-    <v-row align='center' no-gutters style='height: 150px v-block'>
-      <v-col>
-        <v-banner>Logs :</v-banner>
-      </v-col>
-      <v-col>
-        <v-banner>Notifications :</v-banner>
-      </v-col>
-    </v-row>
-    <v-row align='center' no-gutters style='height: 150px v-block'>
-      <v-col>
+    <div
+      v-if="'getUserId.userType === 1' ||
+      'getUserId.userType === 2' ||
+      'getUserId.userType === 6'"
+    >
+      <v-row align='center' no-gutters style='height: 150px v-block'>
+        <v-col>
+          <v-banner>Logs :</v-banner>
+        </v-col>
+        <v-col>
+          <v-banner>Notifications :</v-banner>
+        </v-col>
+      </v-row>
+      <v-row align='center' no-gutters style='height: 150px v-block'>
+        <v-col>
+          <v-data-table
+            :headers='headers'
+            :items='action'
+            :items-per-page='5'
+            class='elevation-1'
+          ></v-data-table>
+        </v-col>
+        <v-col>
+          <!-- notification -->
+          <v-card>
+            <v-form>
+              <v-container>
+                <v-row>
+                  <v-col style='padding-bottom: 0px; margin-bottom: -16px;'>
+                    <v-text-field
+                      v-model='message'
+                      append-outer-icon='mdi-send'
+                      filled
+                      clear-icon='mdi-close-circle'
+                      clearable
+                      label='Envoyer une notification'
+                      type='text'
+                      @click:append-outer='sendMessage'
+                      @click:clear='clearMessage'
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-form>
+
+            <v-list subheader two-line flat>
+              <v-list-item-group multiple>
+                <v-list-item>
+                  <template v-slot:default='{ active }'>
+                    <v-list-item-action>
+                      <v-checkbox
+                        :input-value='active'
+                        color='primary'
+                      ></v-checkbox>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                      <v-list-item-title>Clients</v-list-item-title>
+                    </v-list-item-content>
+                  </template>
+                </v-list-item>
+
+                <v-list-item>
+                  <template v-slot:default='{ active }'>
+                    <v-list-item-action>
+                      <v-checkbox
+                        :input-value='active'
+                        color='primary'
+                      ></v-checkbox>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                      <v-list-item-title>Livreurs</v-list-item-title>
+                    </v-list-item-content>
+                  </template>
+                </v-list-item>
+
+                <v-list-item>
+                  <template v-slot:default='{ active }'>
+                    <v-list-item-action>
+                      <v-checkbox
+                        :input-value='active'
+                        color='primary'
+                      ></v-checkbox>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                      <v-list-item-title>Restaurateurs</v-list-item-title>
+                    </v-list-item-content>
+                  </template>
+                </v-list-item>
+
+                <v-list-item>
+                  <template v-slot:default='{ active }'>
+                    <v-list-item-action>
+                      <v-checkbox
+                        :input-value='active'
+                        color='primary'
+                      ></v-checkbox>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                      <v-list-item-title>Admins / developeurs</v-list-item-title>
+                    </v-list-item-content>
+                  </template>
+                </v-list-item>
+              </v-list-item-group>
+            </v-list>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row align='center' no-gutters style='height: 150px v-block'>
+        <v-col>
+          <v-banner>Nombre de Connexion :</v-banner>
+        </v-col>
+      </v-row>
+      <v-row>
         <v-data-table
-          :headers='headers'
-          :items='action'
+          :headers='headers2'
+          :items='logins'
           :items-per-page='5'
           class='elevation-1'
+          style='width: -webkit-fill-available;'
         ></v-data-table>
-      </v-col>
-      <v-col>
-        <!-- notification -->
-        <v-card>
-          <v-form>
-            <v-container>
-              <v-row>
-                <v-col style='padding-bottom: 0px; margin-bottom: -16px;'>
-                  <v-text-field
-                    v-model='message'
-                    append-outer-icon='mdi-send'
-                    filled
-                    clear-icon='mdi-close-circle'
-                    clearable
-                    label='Envoyer une notification'
-                    type='text'
-                    @click:append-outer='sendMessage'
-                    @click:clear='clearMessage'
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-form>
-
-          <v-list subheader two-line flat>
-            <v-list-item-group multiple>
-              <v-list-item>
-                <template v-slot:default='{ active }'>
-                  <v-list-item-action>
-                    <v-checkbox
-                      :input-value='active'
-                      color='primary'
-                    ></v-checkbox>
-                  </v-list-item-action>
-                  <v-list-item-content>
-                    <v-list-item-title>Clients</v-list-item-title>
-                  </v-list-item-content>
-                </template>
-              </v-list-item>
-
-              <v-list-item>
-                <template v-slot:default='{ active }'>
-                  <v-list-item-action>
-                    <v-checkbox
-                      :input-value='active'
-                      color='primary'
-                    ></v-checkbox>
-                  </v-list-item-action>
-                  <v-list-item-content>
-                    <v-list-item-title>Livreurs</v-list-item-title>
-                  </v-list-item-content>
-                </template>
-              </v-list-item>
-
-              <v-list-item>
-                <template v-slot:default='{ active }'>
-                  <v-list-item-action>
-                    <v-checkbox
-                      :input-value='active'
-                      color='primary'
-                    ></v-checkbox>
-                  </v-list-item-action>
-                  <v-list-item-content>
-                    <v-list-item-title>Restaurateurs</v-list-item-title>
-                  </v-list-item-content>
-                </template>
-              </v-list-item>
-
-              <v-list-item>
-                <template v-slot:default='{ active }'>
-                  <v-list-item-action>
-                    <v-checkbox
-                      :input-value='active'
-                      color='primary'
-                    ></v-checkbox>
-                  </v-list-item-action>
-                  <v-list-item-content>
-                    <v-list-item-title>Admins / developeurs</v-list-item-title>
-                  </v-list-item-content>
-                </template>
-              </v-list-item>
-            </v-list-item-group>
-          </v-list>
-        </v-card>
-      </v-col>
-    </v-row>
-    <v-row align='center' no-gutters style='height: 150px v-block'>
-      <v-col>
-        <v-banner>Nombre de Connexion :</v-banner>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-data-table
-        :headers='headers2'
-        :items='logins'
-        :items-per-page='5'
-        class='elevation-1'
-        style='width: -webkit-fill-available;'
-      ></v-data-table>
-    </v-row>
-    <v-row>
-      <v-sparkline
-        :value='value'
-        :gradient='gradient'
-        :smooth='radius || false'
-        :padding='padding'
-        :line-width='width'
-        :stroke-linecap='lineCap'
-        :gradient-direction='gradientDirection'
-        :fill='fill'
-        :type='type'
-        :auto-line-width='autoLineWidth'
-        auto-draw
-      ></v-sparkline>
-    </v-row>
+      </v-row>
+      <v-row>
+        <v-sparkline
+          :value='value'
+          :gradient='gradient'
+          :smooth='radius || false'
+          :padding='padding'
+          :line-width='width'
+          :stroke-linecap='lineCap'
+          :gradient-direction='gradientDirection'
+          :fill='fill'
+          :type='type'
+          :auto-line-width='autoLineWidth'
+          auto-draw
+        ></v-sparkline>
+      </v-row>
+    </div>
   </div>
 </template>
 
@@ -291,6 +297,9 @@ const gradients = [
   computed: {
     icon() {
       return this.icons[this.iconIndex];
+    },
+    getUserId() {
+      return this.$store.getters.getUser;
     },
   },
 })

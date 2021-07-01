@@ -17,7 +17,7 @@
           </template>
           <v-list>
             <v-list-item>
-              <v-list-item-title>un truc t'attend</v-list-item-title>
+              <v-list-item-title> un truc t'attend </v-list-item-title>
             </v-list-item>
             <v-list-item>
               <v-list-item-title>un autre truc t'attend</v-list-item-title>
@@ -79,7 +79,10 @@
             <v-list-item @click='redirect("/register")'>
               <v-list-item-title>Inscription</v-list-item-title>
             </v-list-item>
-            <v-list-item @click='redirect("/dashboard")'>
+            <v-list-item
+              @click='redirect("/dashboard")'
+              v-if='getUserId.userType ===0'
+              >
               <v-list-item-title>Tableau de bord</v-list-item-title>
             </v-list-item>
           </v-list>
@@ -176,6 +179,12 @@ axios.defaults.baseURL = 'localhost:3000';
     },
     showSearchBar() {
       this.searchBar = !this.searchBar;
+    },
+  },
+  computed: {
+    getUserId() {
+      console.log(this.$store.getters.getUser);
+      return this.$store.getters.getUser;
     },
   },
 })
