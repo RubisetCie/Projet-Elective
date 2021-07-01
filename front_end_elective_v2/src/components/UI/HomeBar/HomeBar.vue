@@ -41,7 +41,7 @@
           </v-text-field>
           <div class='result__div' v-if='result && searchBar'>
             <v-list three-line>
-              <router-link :to="'/menue' + rep.restaurantId"
+              <router-link :to="'/menu/' + rep.restaurantId"
               v-for='rep in result' :key='rep.restaurantId'>
               <!-- v-for='(rep, index) in result' :key='rep.restaurantId'> -->
                 <v-list-item :key='rep.name'>
@@ -81,6 +81,12 @@
               v-if='getUserId.loginStatus === false'
             >
               <v-list-item-title>Connexion</v-list-item-title>
+            </v-list-item>
+            <v-list-item
+              @click='$store.dispatch("disconect"), redirect("/login")'
+              v-if='getUserId.loginStatus === true'
+              >
+              <v-list-item-title>Deconnexion</v-list-item-title>
             </v-list-item>
             <v-list-item
               @click='redirect("/register")'
@@ -131,6 +137,17 @@
               </v-list-item-icon>
               <v-list-item-title>Panier</v-list-item-title>
             </v-list-item>
+
+            <v-list-item
+            v-if='this.getUserId.usertype === 4
+            || this.getUserId.usertype === 3
+            || this.getUserId.usertype === 6'
+            @click='redirect("/deliveryman")'>
+              <v-list-item-icon>
+                <v-icon>mdi-bike-fast</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Mes livraisons</v-list-item-title>
+            </v-list-item>
           </v-list-item-group>
         </v-list>
       </v-navigation-drawer>
@@ -157,7 +174,9 @@ import axios from 'axios';
   }),
   methods: {
     redirect(path) {
-      this.$router.push(path).catch();
+      if (this.$route.path !== path) {
+        this.$router.push(path).catch();
+      }
     },
     async search(e) {
       // const response = await axios.get(`/research?match=${this.restoId}`);
@@ -197,7 +216,11 @@ import axios from 'axios';
   },
   computed: {
     getUserId() {
-      console.log(this.$store.getters.getUser);
+      if (this.$store.getters.getUser.loginStatus === false) {
+        if (this.$route.path !== '/login') {
+          this.$router.push('/login').catch();
+        }
+      }
       return this.$store.getters.getUser;
     },
   },

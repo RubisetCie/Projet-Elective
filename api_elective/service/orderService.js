@@ -25,3 +25,8 @@ module.exports.getAll = function(limit, offset, clientId, status) {
 module.exports.post = function(order) {
     return connector.insertOrder(order);
 };
+
+// Update an order
+module.exports.put = function(order) {
+    return connector.updateOrder(order);
+};

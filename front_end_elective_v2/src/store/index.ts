@@ -21,6 +21,15 @@ export default new Vuex.Store({
     SET_BASKET(state, itemId) {
       state.basket = itemId;
     },
+    RESET_USER(state) {
+      state.user = {
+        loginStatus: false,
+        userId: '',
+        usertype: 5,
+        token: '',
+        // refresh: '',
+      };
+    },
   },
   actions: {
     fetchProfil(context, payload) {
@@ -28,6 +37,9 @@ export default new Vuex.Store({
     },
     fetchBasket(context, payload) {
       context.commit('SET_BASKET', payload);
+    },
+    disconect(context) {
+      context.commit('RESET_USER');
     },
   },
   modules: {

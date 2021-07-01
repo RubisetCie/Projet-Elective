@@ -3,6 +3,8 @@
  * Author	: Rubisetcie
  */
 
+const ObjectID = require('mongodb').ObjectID;
+
 // Importing the associated service
 const service = require("../service/orderService");
 
@@ -175,5 +177,64 @@ module.exports.post = function(req, res) {
         });
     } catch (err) {
         handleError(err, res, "creating order");
+    }
+};
+
+// Update an order
+module.exports.put = function(req, res) {
+    try {
+        const order = new Order;
+        const address = new Address;
+        const taxes = new Price;
+        const menus = [];
+        
+        // Parameters reading
+        if (!req.body)
+            throw new ApiError("Request body is undefined", 400);
+        
+        const orderAddress = req.body["address"];
+        if (orderAddress) {
+            address.country = orderAddress["country"] ? orderAddress["country"] : null;
+            address.zipcode = orderAddress["zipcode"] ? orderAddress["zipcode"] : null;
+            address.city = orderAddress["city"] ? orderAddress["city"] : null;
+            address.address = orderAddress["address"] ? orderAddress["address"] : null;
+        }
+        
+        const orderTaxes = req.body["taxes"];
+        if (orderTaxes) {
+            taxes.value = (orderTaxes["value"] || orderTaxes["value"] === 0) ? parseInt(orderTaxes["value"]) : null;
+            taxes.currency = orderTaxes["currency"] ? orderTaxes["currency"] : null;
+        }
+        
+        const orderMenus = req.body["menus"];
+        if (orderMenus) {
+            if (Array.isArray(orderMenus)) {
+                orderMenus.forEach((menu) => {
+                    menus.push({ _id: menu });
+                });
+            }
+        }
+        
+        order.id = req.body["id"] ? new ObjectID(req.body["id"]) : null;
+        order.clientId = (req.body["clientId"] || req.body["clientId"] === 0) ? parseInt(req.body["clientId"]) : null;
+        order.restaurantId = (req.body["restaurantId"] || req.body["restaurantId"] === 0) ? parseInt(req.body["restaurantId"]) : null;
+        order.address = address;
+        order.date = req.body["date"] ? new Date(Date.parse(req.body["date"])) : null;
+        order.status = req.body["status"] ? req.body["status"] : null;
+        order.taxes = taxes;
+        order.menus = menus;
+        order.assign = req.body["assign"] ? req.body["assign"] : null;
+
+        // Paramters verification
+        if (!order.id)
+            throw new ApiError("Missing mandatory parameter: id", 400);
+
+        service.put(order).then(() => {
+            res.status(204).send();
+        }).catch((error) => {
+            handleError(error, res, "updating order");
+        });
+    } catch (err) {
+        handleError(err, res, "updating order");
     }
 };

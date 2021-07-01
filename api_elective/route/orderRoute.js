@@ -20,4 +20,7 @@ router.get("/restaurant/:id", controller.getByRestaurantId);
 // Create an order
 router.post("/", controller.post);
 
+// Update an order
+router.put("/", controller.put);
+
 module.exports = router;

@@ -238,7 +238,9 @@ import axios from 'axios';
   },
   methods: {
     redirect(path) {
-      this.$router.push(path).catch();
+      if (this.$route.path !== path) {
+        this.$router.push(path).catch();
+      }
     },
     switchMod() {
       if (this.seeMod) {

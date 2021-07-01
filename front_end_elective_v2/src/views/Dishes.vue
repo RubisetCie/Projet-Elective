@@ -1,53 +1,66 @@
 <template>
   <div class='dishes' v-if='resto || order'>
-    <div class="d-flex align-content-start flex-wrap justify-space-around">
-      <div v-if='mode === 1'>
-        <div v-for='menu in resto.menus' :key='menu.id'>
-          <PlatCard :info='menu' />
-        </div>
-        <v-card class='mx-12 my-12' max-width='374'>
-          <template slot='progress'>
-            <v-progress-linear
-              color='deep-purple'
-              height='10'
-              indeterminate
-            ></v-progress-linear>
-          </template>
+    <v-row align='center' no-gutters style='height: 150px v-block'>
+      <v-col>
+        <div v-if='mode === 1'>
+          <div v-for='menu in resto.menus' :key='menu.id'>
+            <PlatCard :info='menu' />
+          </div>
+          <v-card class='mx-12 my-12' max-width='374'>
+            <template slot='progress'>
+              <v-progress-linear
+                color='deep-purple'
+                height='10'
+                indeterminate
+              ></v-progress-linear>
+            </template>
 
-          <v-card-title>{{resto.name}}</v-card-title>
+            <v-card-title>{{ resto.name }}</v-card-title>
 
-          <v-card-text>
-            <v-row align='center' class='mx-0'>
-              <v-rating
-                :value='resto.rating'
-                color='amber'
-                dense
-                half-increments
-                readonly
-                size='14'
-              ></v-rating>
+            <v-card-text>
+              <v-row align='center' class='mx-0'>
+                <v-rating
+                  :value='resto.rating'
+                  color='amber'
+                  dense
+                  half-increments
+                  readonly
+                  size='14'
+                ></v-rating>
 
-              <div class='grey--text ms-4'>
-                {{resto.rating}} ({{Math.round(Math.random() * 2000)}})
+                <div class='grey--text ms-4'>
+                  {{ resto.rating }} ({{ Math.round(Math.random() * 2000) }})
+                </div>
+              </v-row>
+
+              <div class='my-4 text-subtitle-1'>
+                $ •<span v-for='t of resto.tags' :key='t'> {{ t }}</span>
               </div>
-            </v-row>
 
-            <div class='my-4 text-subtitle-1'>
-              $ •<span v-for="t of resto.tags" :key="t"> {{t}}</span>
-            </div>
-
-            <div>
-                {{resto.description}}
-            </div>
-          </v-card-text>
-        </v-card>
-      </div>
-      <div v-else-if="mode > 1 && orderAvailable">
-        <div v-for='ords in order' :key='ords.date'>
-          <OrderCard :info='ords' />
+              <div>
+                {{ resto.description }}
+              </div>
+            </v-card-text>
+          </v-card>
         </div>
-      </div>
-    </div>
+        <div v-else-if='mode > 1 && orderAvailable'>
+          <div v-for='ords in order' :key='ords.date'>
+            <OrderCard :info='ords' />
+          </div>
+        </div>
+      </v-col>
+    </v-row>
+    <v-row align='center' no-gutters>
+      <v-col>
+        <div
+          class='d-flex justify-center'
+          style='margin-top: 20px'
+          v-if='mode === 2 && orderAvailable'
+        >
+          <v-btn color='success' dark large @click='redirect("/delivery")'> Livraison </v-btn>
+        </div>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -137,6 +150,11 @@ import OrderCard from '@/components/UI/Dishes/OrderCard.vue';
     };
   },
   methods: {
+    redirect(path) {
+      if (this.$route.path !== path) {
+        this.$router.push(path).catch();
+      }
+    },
     async queryMenu() {
       const response = await axios.get(`/restaurant/${this.id}`);
       console.log(response.data);
@@ -150,9 +168,7 @@ import OrderCard from '@/components/UI/Dishes/OrderCard.vue';
       this.orderAvailable = true;
     },
     async queryCloseOrder() {
-      const response = await axios.get(
-        '/order/?status=close;reviewing',
-      );
+      const response = await axios.get('/order/?status=close;reviewing');
       this.order = response.data;
       this.orderAvailable = true;
     },
