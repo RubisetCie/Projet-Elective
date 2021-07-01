@@ -172,7 +172,9 @@ axios.defaults.baseURL = 'http://localhost:3000';
   },
   methods: {
     redirect(path) {
-      this.$router.push(path).catch();
+      if (this.$route.path !== path) {
+        this.$router.push(path).catch();
+      }
     },
     async validate() {
       this.$refs.form.validate();

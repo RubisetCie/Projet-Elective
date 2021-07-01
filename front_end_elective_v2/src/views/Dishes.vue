@@ -153,7 +153,9 @@ axios.defaults.baseURL = 'http://localhost:3000';
   },
   methods: {
     redirect(path) {
-      this.$router.push(path).catch();
+      if (this.$route.path !== path) {
+        this.$router.push(path).catch();
+      }
     },
     async queryMenu() {
       const response = await axios.get(`/restaurant/${this.id}`);

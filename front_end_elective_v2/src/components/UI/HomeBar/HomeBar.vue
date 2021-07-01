@@ -176,7 +176,9 @@ axios.defaults.baseURL = 'localhost:3000';
   }),
   methods: {
     redirect(path) {
-      this.$router.push(path).catch();
+      if (this.$route.path !== path) {
+        this.$router.push(path).catch();
+      }
     },
     async search(e) {
       // const response = await axios.get(`/research?match=${this.restoId}`);
@@ -216,7 +218,11 @@ axios.defaults.baseURL = 'localhost:3000';
   },
   computed: {
     getUserId() {
-      console.log(this.$store.getters.getUser);
+      if (this.$store.getters.getUser.loginStatus === false) {
+        if (this.$route.path !== '/login') {
+          this.$router.push('/login').catch();
+        }
+      }
       return this.$store.getters.getUser;
     },
   },
