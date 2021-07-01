@@ -93,7 +93,9 @@ axios.defaults.baseURL = 'http://localhost:3000';
         const pswv = await bcrypt.compare(this.new_password, response.data.password);
 
         if (pswv) {
-          this.$store.dispatch('fetchProfil', { loginStatus: true, userId: response.data.id, usertype: response.data.usertype });
+          this.$store.dispatch('fetchProfil', {
+            loginStatus: true, userId: response.data.id, usertype: response.data.usertype, token: '',
+          });
           this.$router.push('/');
           console.log(response.data);
         }
