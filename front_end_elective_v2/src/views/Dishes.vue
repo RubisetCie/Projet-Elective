@@ -72,8 +72,6 @@ import axios from 'axios';
 import PlatCard from '@/components/UI/Dishes/PlatCard.vue';
 import OrderCard from '@/components/UI/Dishes/OrderCard.vue';
 
-axios.defaults.baseURL = 'http://localhost:3000';
-
 @Options({
   components: {
     PlatCard,

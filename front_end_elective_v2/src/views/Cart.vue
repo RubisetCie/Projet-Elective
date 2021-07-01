@@ -33,8 +33,6 @@ import axios from 'axios';
 import OrderInCart from '../components/UI/Cart/OrderInCart.vue';
 import DeliveryInfos from '../components/UI/Cart/DeliveryInfos.vue';
 
-axios.defaults.baseURL = 'http://localhost:3000';
-
 @Options({
   components: {
     OrderInCart,

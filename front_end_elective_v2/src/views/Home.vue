@@ -23,8 +23,6 @@ import Vue from 'vue';
 import axios from 'axios';
 import RestoCard from '../components/UI/Home/RestoCard.vue';
 
-axios.defaults.baseURL = 'http://localhost:3000';
-
 export default Vue.extend({
   name: 'Home',
 

@@ -103,17 +103,29 @@ axios.defaults.baseURL = 'http://localhost:3000';
       }
     },
     async validate() {
-      const response = await axios.get(`/user/one/?email=${this.new_email}`);
-      if (response.data.password) {
-        const pswv = await bcrypt.compare(this.new_password, response.data.password);
+      const d = await axios.post('/login', {
+        email: this.new_email,
+        password: this.new_password,
+      });
+      console.log(d);
+      if (d.status === 200) {
+        this.dataToken = d.data.accessToken;
+        axios.defaults.headers.common.Authorization = `Bearer ${d.data.accessToken}`;
+        const response = await axios.get(`/user/one/?email=${this.new_email}`);
+        // if (response.data.password) {
+        //   const pswv = await bcrypt.compare(this.new_password, response.data.password);
 
-        if (pswv) {
-          this.$store.dispatch('fetchProfil', {
-            loginStatus: true, userId: response.data.id, usertype: response.data.usertype, token: '',
-          });
-          this.$router.push('/');
-          console.log(response.data);
-        }
+        // if (pswv) {
+        this.$store.dispatch('fetchProfil', {
+          loginStatus: true,
+          userId: response.data.id,
+          usertype: response.data.usertype,
+          token: d.data.accessToken,
+          refresh: d.data.refreshToken,
+        });
+        this.$router.push('/');
+        //   }
+        // }
       }
     },
     changePassword() {
