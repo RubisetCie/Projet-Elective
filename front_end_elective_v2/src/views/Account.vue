@@ -210,6 +210,8 @@ axios.defaults.baseURL = 'localhost:3000';
       new_address: null,
       new_billingNumber: null,
 
+      userId: null,
+
       userInfo: {
         username: 'dupontmark',
         usertype: 0,
@@ -258,13 +260,18 @@ axios.defaults.baseURL = 'localhost:3000';
       this.userInfo.address[0].address = this.new_address;
       this.userInfo.billing[0].number = this.new_billingNumber;
 
-      // const response = await axios.put('user/0', {
-      //   firstname: this.userInfo.firstname,
-      //   lastname: this.userInfo.lastname,
-      //   email: this.userInfo.email,
-      //   address: this.userInfo.address,
-      //   billing: this.userInfo.billing,
-      // });
+      const response = await axios.put('user/', {
+        id: await this.userId,
+        firstname: this.userInfo.firstname,
+        lastname: this.userInfo.lastname,
+        email: this.userInfo.email,
+        address: this.userInfo.address,
+        billing: this.userInfo.billing,
+      });
+
+      if (response.status === 200){
+        console.log("update")
+      }
     },
     editCard() {
       console.log('editer la carte');
@@ -273,7 +280,7 @@ axios.defaults.baseURL = 'localhost:3000';
       console.log('editer le mot de passe');
     },
     async queryAccount() {
-      const response = await axios.get('user/0');
+      const response = await axios.get(`user/${this.userId}`);
       this.userInfo = response.data;
     },
     setDataforEdit() {
@@ -287,6 +294,7 @@ axios.defaults.baseURL = 'localhost:3000';
   },
   async created() {
     this.setDataforEdit();
+    this.userId = await this.$store.getters.getUser.userId;
     // this.queryResto();
   },
 })
