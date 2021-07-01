@@ -176,7 +176,9 @@ axios.defaults.baseURL = 'localhost:3000';
   }),
   methods: {
     redirect(path) {
-      this.$router.push(path).catch();
+      if (this.$route.path !== path) {
+        this.$router.push(path).catch();
+      }
     },
     async search(e) {
       // const response = await axios.get(`/research?match=${this.restoId}`);
