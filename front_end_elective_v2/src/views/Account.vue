@@ -260,18 +260,18 @@ axios.defaults.baseURL = 'localhost:3000';
       this.userInfo.address[0].address = this.new_address;
       this.userInfo.billing[0].number = this.new_billingNumber;
 
-      const response = await axios.put('user/', {
-        id: await this.userId,
-        firstname: this.userInfo.firstname,
-        lastname: this.userInfo.lastname,
-        email: this.userInfo.email,
-        address: this.userInfo.address,
-        billing: this.userInfo.billing,
-      });
+      // const response = await axios.put('user/', {
+      //   id: await this.userId,
+      //   firstname: this.userInfo.firstname,
+      //   lastname: this.userInfo.lastname,
+      //   email: this.userInfo.email,
+      //   address: this.userInfo.address,
+      //   billing: this.userInfo.billing,
+      // });
 
-      if (response.status === 200){
-        console.log("update")
-      }
+      // if (response.status === 200){
+      //   console.log("update")
+      // }
     },
     editCard() {
       console.log('editer la carte');
