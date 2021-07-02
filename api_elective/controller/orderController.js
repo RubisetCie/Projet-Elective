@@ -132,7 +132,7 @@ module.exports.post = function(req, res) {
         
         const orderTaxes = req.body["taxes"];
         if (orderTaxes) {
-            taxes.value = (orderTaxes["value"] || orderTaxes["value"] === 0) ? parseInt(orderTaxes["value"]) : null;
+            taxes.value = (orderTaxes["value"] || orderTaxes["value"] === 0) ? parseFloat(orderTaxes["value"]) : null;
             taxes.currency = orderTaxes["currency"] ? orderTaxes["currency"] : null;
         }
         

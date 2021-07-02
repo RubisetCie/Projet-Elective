@@ -466,7 +466,7 @@ deserializeRestaurant = function(json) {
         address.country = restaurantAddress["country"] ? restaurantAddress["country"] : null;
         address.zipcode = restaurantAddress["zipcode"] ? restaurantAddress["zipcode"] : null;
         address.city = restaurantAddress["city"] ? restaurantAddress["city"] : null;
-        address.country = restaurantAddress["address"] ? restaurantAddress["address"] : null;
+        address.address = restaurantAddress["address"] ? restaurantAddress["address"] : null;
     }
 
     const restaurantImage = json["image"];
@@ -545,7 +545,7 @@ deserializeOrder = function(json) {
         address.country = orderAddress["country"] ? orderAddress["country"] : null;
         address.zipcode = orderAddress["zipcode"] ? orderAddress["zipcode"] : null;
         address.city = orderAddress["city"] ? orderAddress["city"] : null;
-        address.country = orderAddress["address"] ? orderAddress["address"] : null;
+        address.address = orderAddress["address"] ? orderAddress["address"] : null;
     }
     
     const orderTaxes = json["taxes"];
