@@ -159,6 +159,17 @@
               </v-list-item-icon>
               <v-list-item-title>Créer un menu</v-list-item-title>
             </v-list-item>
+
+            <v-list-item
+            v-if='this.getUserId.usertype === 3
+            || this.getUserId.usertype === 0
+            || this.getUserId.usertype === 6'
+            @click='redirect("/createmenu")'>
+              <v-list-item-icon>
+                <v-icon>mdi-hamburger</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>editer un menu</v-list-item-title>
+            </v-list-item>
           </v-list-item-group>
         </v-list>
       </v-navigation-drawer>
