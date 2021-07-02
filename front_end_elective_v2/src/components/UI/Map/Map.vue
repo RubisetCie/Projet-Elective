@@ -1,6 +1,5 @@
 <template>
   <div>
-    status de la commande : ok
     <l-map
       :center='center'
       :zoom='zoom'
@@ -47,8 +46,8 @@ export default {
         {
           id: 3,
           imageUrl:
-            'https://img.icons8.com/material-sharp/24/26e07f/restaurant-on-site.png',
-          coordinates: [48.903635505430934, 2.192584180083284],
+            'https://img.icons8.com/material-sharp/24/00/restaurant-on-site.png',
+          coordinates: [48.89661696921462, 2.2125147140911126],
         },
       ],
     };

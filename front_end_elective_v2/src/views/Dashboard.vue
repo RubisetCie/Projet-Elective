@@ -215,7 +215,7 @@ const gradients = [
     ],
     logins: [
       {
-        temps: '2021-02-07/14:25',
+        temps: '2021-02-07/13:25',
         clients: 1,
         livreurs: 0,
         restaurateurs: 0,
@@ -225,7 +225,7 @@ const gradients = [
         total: 2,
       },
       {
-        temps: '2021-02-07/14:24',
+        temps: '2021-02-07/13:24',
         clients: 1,
         livreurs: 2,
         restaurateurs: 0,
@@ -235,7 +235,7 @@ const gradients = [
         total: 4,
       },
       {
-        temps: '2021-02-07/14:23',
+        temps: '2021-02-07/13:23',
         clients: 2,
         livreurs: 2,
         restaurateurs: 0,
@@ -245,7 +245,7 @@ const gradients = [
         total: 6,
       },
       {
-        temps: '2021-02-07/14:22',
+        temps: '2021-02-07/13:22',
         clients: 1,
         livreurs: 1,
         restaurateurs: 0,
@@ -255,7 +255,7 @@ const gradients = [
         total: 3,
       },
       {
-        temps: '2021-02-07/14:21',
+        temps: '2021-02-07/13:21',
         clients: 2,
         livreurs: 1,
         restaurateurs: 1,
@@ -265,7 +265,7 @@ const gradients = [
         total: 5,
       },
       {
-        temps: '2021-01-07/14:20',
+        temps: '2021-01-07/13:20',
         clients: 2,
         livreurs: 1,
         restaurateurs: 0,

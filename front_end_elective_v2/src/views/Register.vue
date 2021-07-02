@@ -2,7 +2,7 @@
   <v-row justify='center' style='margin: 80px'>
     <v-col cols='12' sm='8'>
       <v-form
-        ref="form"
+        ref='form'
         lazy-validation
       >
         <v-card>
@@ -13,7 +13,6 @@
                 label='Nom'
                 v-model='new_name'
                 required
-                :rules="otherRules"
                 class='text-h5'
               ></v-text-field>
               <v-text-field
@@ -21,7 +20,6 @@
                 label='Prénom'
                 v-model='new_lastname'
                 class='text-h5'
-                :rules="otherRules"
                 required
               ></v-text-field>
             </span>
@@ -39,7 +37,7 @@
                   label='Numéro de téléphone'
                   v-model='new_phoneNumber'
                   required
-                  :rules="otherRules"
+                  :rules='otherRules'
                 ></v-text-field>
               </v-list-item-content>
             </v-list-item>
@@ -51,7 +49,7 @@
 
               <v-list-item-content>
                 <v-text-field label='Email'
-                :rules="emailRules"
+                :rules='emailRules'
                 v-model='new_email'
                 required>
               </v-text-field>
@@ -66,10 +64,10 @@
                 <v-text-field
                 label='Mot de passe'
                 v-model='new_password'
-                :rules="passwordRules"
+                :rules='passwordRules'
                 :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                 :type="show ? 'text' : 'password'"
-                @click:append="show = !show"
+                @click:append='show = !show'
                 required
                 > </v-text-field>
               </v-list-item-content>
@@ -83,10 +81,10 @@
                 <v-text-field
                   label='Confirmer mot de passe'
                   v-model='new_password_check'
-                  :rules="passwordRules"
+                  :rules='passwordRules'
                   :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                   :type="show ? 'text' : 'password'"
-                  @click:append="show = !show"
+                  @click:append='show = !show'
                   required
                 ></v-text-field>
               </v-list-item-content>
@@ -100,7 +98,7 @@
                 <v-text-field
                   label='Addresse'
                   v-model='new_address'
-                  :rules="otherRules"
+                  :rules='otherRules'
                   required
                 ></v-text-field>
               </v-list-item-content>
@@ -158,7 +156,7 @@ axios.defaults.baseURL = 'http://localhost:3000';
       data: null,
       otherRules: [
         (v) => (!!v) || 'Requis',
-        (v) => (v && v.length >= 10) || "Doit étre d'au moins 10 charaters",
+        (v) => (v && v.length >= 10) || 'Veuiller mettre une donnée valide',
       ],
       passwordRules: [
         (v) => (!!v) || 'Un mot de passe est requis',

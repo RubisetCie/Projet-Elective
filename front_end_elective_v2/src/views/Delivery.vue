@@ -1,7 +1,9 @@
 <template>
   <div class='delivery'>
-    <img alt='Vue logo' src='../assets/logo.png' />
     <Map />
+    <v-alert dense type='info'>
+      Statu de la commande <strong>En cuisine</strong>
+    </v-alert>
   </div>
 </template>
 

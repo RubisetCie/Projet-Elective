@@ -117,29 +117,30 @@ axios.defaults.baseURL = 'localhost:3000';
       }
     },
     async validate() {
-      this.$refs.form.validate();
-      if (
-        this.new_menu_name != null
-        && this.new_image_path != null
-        && this.new_element1 != null
-        && this.new_price != null
-      ) {
-        this.data = {
-          name: this.new_name,
-          image: {
-            url: this.new_image_path,
-            name: 'dqz',
-          },
-          price: this.new_price,
-          item: [
-            this.new_element1,
-            this.new_element2,
-            this.new_element3,
-          ],
-        };
-        // this.new_phoneNumber;
-        this.postNewAccount(this.data);
-      }
+      this.redirect('/account');
+      // this.$refs.form.validate();
+      // if (
+      //   this.new_menu_name != null
+      //   && this.new_image_path != null
+      //   && this.new_element1 != null
+      //   && this.new_price != null
+      // ) {
+      //   this.data = {
+      //     name: this.new_name,
+      //     image: {
+      //       url: this.new_image_path,
+      //       name: 'dqz',
+      //     },
+      //     price: this.new_price,
+      //     item: [
+      //       this.new_element1,
+      //       this.new_element2,
+      //       this.new_element3,
+      //     ],
+      //   };
+      //   // this.new_phoneNumber;
+      //   this.postNewAccount(this.data);
+      // }
     },
     async postNewAccount(data) {
       // const response = await axios.post('/user/', data);
