@@ -217,7 +217,7 @@ import axios from 'axios';
   computed: {
     getUserId() {
       if (this.$store.getters.getUser.loginStatus === false) {
-        if (this.$route.path !== '/login') {
+        if (this.$route.path !== '/login' && this.$route.path !== '/register') {
           this.$router.push('/login').catch();
         }
       }
