@@ -21,14 +21,14 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Delivery.vue'),
   },
   {
+    path: '/deliveryman',
+    name: 'Mes livraisons',
+    component: () => import('../views/DeliveryMan.vue'),
+  },
+  {
     path: '/register',
     name: 'Inscription',
     component: () => import('../views/Register.vue'),
-  },
-  {
-    path: '/notification',
-    name: 'Notification',
-    component: () => import('../views/Notification.vue'),
   },
   {
     path: '/dishes',

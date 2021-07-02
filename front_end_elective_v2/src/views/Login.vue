@@ -10,7 +10,7 @@
               </v-list-item-action>
 
               <v-list-item-content>
-                <v-text-field label='Identifiant'></v-text-field>
+                <v-text-field v-model='new_email' label='Identifiant'></v-text-field>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
@@ -19,7 +19,16 @@
               </v-list-item-action>
 
               <v-list-item-content>
-                <v-text-field label='Mot de passe'></v-text-field>
+                <v-text-field
+                  v-model='new_password'
+                  label='Mot de passe'
+                  :rules="passwordRules"
+                  :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                  :type="show ? 'text' : 'password'"
+                  @click:append="show = !show"
+                  required
+                  >
+                </v-text-field>
               </v-list-item-content>
             </v-list-item>
           </div>
@@ -75,9 +84,13 @@ axios.defaults.baseURL = 'http://localhost:3000';
 @Options({
   data() {
     return {
+      show: false,
       know: true,
+      new_email: null,
       new_password: null,
-      userEmail: null,
+      passwordRules: [
+        (v) => (!!v) || 'Un mot de passe est requis',
+      ],
     };
   },
   components: {
@@ -85,17 +98,34 @@ axios.defaults.baseURL = 'http://localhost:3000';
   },
   methods: {
     redirect(path) {
-      this.$router.push(path).catch();
+      if (this.$route.path !== path) {
+        this.$router.push(path).catch();
+      }
     },
     async validate() {
-      const response = await axios.get(`/user/${this.userEmail}}`);
-      if (response.data.password) {
-        const pswv = await bcrypt.compare(this.new_password, response.data.password);
+      const d = await axios.post('/login', {
+        email: this.new_email,
+        password: this.new_password,
+      });
+      console.log(d);
+      if (d.status === 200) {
+        this.dataToken = d.data.accessToken;
+        axios.defaults.headers.common.Authorization = `Bearer ${d.data.accessToken}`;
+        const response = await axios.get(`/user/one/?email=${this.new_email}`);
+        // if (response.data.password) {
+        //   const pswv = await bcrypt.compare(this.new_password, response.data.password);
 
-        if (pswv) {
-          this.$store.dispatch('fetchProfil', { loginStatus: true, userId: response.data.id, usertype: response.data.usertype });
-          this.$router.push('/');
-        }
+        // if (pswv) {
+        this.$store.dispatch('fetchProfil', {
+          loginStatus: true,
+          userId: response.data.id,
+          usertype: response.data.usertype,
+          token: d.data.accessToken,
+          refresh: d.data.refreshToken,
+        });
+        this.$router.push('/');
+        //   }
+        // }
       }
     },
     changePassword() {

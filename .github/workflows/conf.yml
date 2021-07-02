@@ -22,7 +22,7 @@ on:
 env:
   AZURE_WEBAPP_NAME: api-elective   # set this to your application's name
   AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
-  NODE_VERSION: '10.x'                # set this to the node version to use
+  NODE_VERSION: '14.x'                # set this to the node version to use
 
 jobs:
   build-and-deploy:
@@ -39,12 +39,14 @@ jobs:
       run: |
         # Build and test the project, then
         # deploy to Azure Web App.
-        npm install
-        npm run build --if-present
-        npm run test --if-present
+        npm  --prefix front_end_elective_v2 install
+        npm  --prefix front_end_elective_v2 run build --if-present
+        npm i -g serve
+        serve -s ./front_end_elective_v2/dist
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v2
       with:
-        app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+        app-name: 'Elective'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_e73bee8533b5435bb394903a9c9e3342 }}
+        package: .

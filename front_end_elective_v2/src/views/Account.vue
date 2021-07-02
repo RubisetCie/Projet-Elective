@@ -1,6 +1,6 @@
 <template>
   <v-row justify='center' style='margin: 80px'>
-    <v-col cols='12' sm='8'>
+    <v-col cols='12' sm='8' v-if="userInfo">
       <v-card>
         <v-card-title class='cyan darken-1'>
           <span class='text-h5 white--text'>
@@ -193,8 +193,6 @@ import Options from 'vue-class-component';
 import Vue from 'vue';
 import axios from 'axios';
 
-axios.defaults.baseURL = 'localhost:3000';
-
 @Options({
   components: {},
   data() {
@@ -210,34 +208,39 @@ axios.defaults.baseURL = 'localhost:3000';
       new_address: null,
       new_billingNumber: null,
 
-      userInfo: {
-        username: 'dupontmark',
-        usertype: 0,
-        email: 'mark.dupont@yopmail.com',
-        password: 'bcrypt',
-        firstname: 'Dupont',
-        lastname: 'Mark',
-        address: [
-          {
-            country: 'France',
-            zipcode: 75003,
-            city: 'Paris',
-            address: '42 rue du General de Gaule',
-          },
-        ],
-        billing: [
-          {
-            number: '4242424242424242',
-            crypto: '042',
-            owner: 'Mohamed Belgacem',
-          },
-        ],
-      },
+      userId: null,
+
+      userInfo: null,
+      //  {
+      //   username: 'dupontmark',
+      //   usertype: 0,
+      //   email: 'mark.dupont@yopmail.com',
+      //   password: 'bcrypt',
+      //   firstname: 'Dupont',
+      //   lastname: 'Mark',
+      //   address: [
+      //     {
+      //       country: 'France',
+      //       zipcode: 75003,
+      //       city: 'Paris',
+      //       address: '42 rue du General de Gaule',
+      //     },
+      //   ],
+      //   billing: [
+      //     {
+      //       number: '4242424242424242',
+      //       crypto: '042',
+      //       owner: 'Mohamed Belgacem',
+      //     },
+      //   ],
+      // },
     };
   },
   methods: {
     redirect(path) {
-      this.$router.push(path).catch();
+      if (this.$route.path !== path) {
+        this.$router.push(path).catch();
+      }
     },
     switchMod() {
       if (this.seeMod) {
@@ -258,13 +261,18 @@ axios.defaults.baseURL = 'localhost:3000';
       this.userInfo.address[0].address = this.new_address;
       this.userInfo.billing[0].number = this.new_billingNumber;
 
-      // const response = await axios.put('user/0', {
-      //   firstname: this.userInfo.firstname,
-      //   lastname: this.userInfo.lastname,
-      //   email: this.userInfo.email,
-      //   address: this.userInfo.address,
-      //   billing: this.userInfo.billing,
-      // });
+      const response = await axios.put('user/', {
+        id: await this.userId,
+        firstname: this.userInfo.firstname,
+        lastname: this.userInfo.lastname,
+        email: this.userInfo.email,
+        address: this.userInfo.address,
+        billing: this.userInfo.billing,
+      });
+
+      if (response.status === 200) {
+        console.log('update');
+      }
     },
     editCard() {
       console.log('editer la carte');
@@ -273,7 +281,7 @@ axios.defaults.baseURL = 'localhost:3000';
       console.log('editer le mot de passe');
     },
     async queryAccount() {
-      const response = await axios.get('user/0');
+      const response = await axios.get(`user/${this.userId}`);
       this.userInfo = response.data;
     },
     setDataforEdit() {
@@ -286,8 +294,10 @@ axios.defaults.baseURL = 'localhost:3000';
     },
   },
   async created() {
-    this.setDataforEdit();
-    // this.queryResto();
+    this.userId = await this.$store.getters.getUser.userId;
+    this.queryAccount().then(() => {
+      this.setDataforEdit();
+    });
   },
 })
 export default class Account extends Vue {}

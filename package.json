@@ -9,7 +9,7 @@
         "browser"
     ],
     "scripts": {
-        "g-start": "prod.cmd",
+        "g-start": "concurrently --kill-others \"npm run  --prefix api_elective dev-api\" \"npm run --prefix front_end_elective_v2 build\"",
         "g-dev": "concurrently --kill-others \"npm run  --prefix api_elective dev-api\" \"npm run --prefix front_end_elective_v2 dev-front\"",
         "g-env": "env.cmd"
     },

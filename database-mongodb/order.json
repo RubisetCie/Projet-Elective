@@ -1,5 +1,4 @@
 {
-	"_id": 3,
     "clientId": 0,
 	"restaurantId": { "$oid": "60de1250cf2ab4e2d89b0ea2" },
     "address":

@@ -3,7 +3,11 @@
  * Author	: Rubisetcie
  */
 
+// Importing the models
+const Menu = require("../model/menu");
+
 class Order {
+    id;
     clientId;
     restaurantId;
     address;        // Reference to an Address object
@@ -16,16 +20,21 @@ class Order {
     toJson = function() {
         const json = {};
         
+        if (this.id)    json["id"] = this.id;
+        
         json["clientId"] = this.clientId;
         json["restaurantId"] = this.restaurantId;
         json["address"] = this.address ? this.address.toJson() : null;
-        json["date"] = this.date.toString();
+        json["date"] = this.date ? this.date : null;
         json["status"] = this.status;
         json["taxes"] = this.taxes ? this.taxes.toJson() : null;
         
         json["menus"] = [];
         this.menus.forEach((obj) => {
-            json["menus"].push(obj.toJson());
+            if (obj instanceof Menu)
+                obj = obj.toJson();
+            
+            json["menus"].push(obj);
         });
         
         json["assign"] = this.assign;
