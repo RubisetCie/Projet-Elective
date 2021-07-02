@@ -10,7 +10,10 @@
               </v-list-item-action>
 
               <v-list-item-content>
-                <v-text-field v-model='new_email' label='Identifiant'></v-text-field>
+                <v-text-field
+                  v-model='new_email'
+                  label='Identifiant'
+                ></v-text-field>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
@@ -22,12 +25,12 @@
                 <v-text-field
                   v-model='new_password'
                   label='Mot de passe'
-                  :rules="passwordRules"
+                  :rules='passwordRules'
                   :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                   :type="show ? 'text' : 'password'"
-                  @click:append="show = !show"
+                  @click:append='show = !show'
                   required
-                  >
+                >
                 </v-text-field>
               </v-list-item-content>
             </v-list-item>
@@ -45,9 +48,7 @@
           </div>
         </v-row>
         <div class='d-flex justify-space-around' style='padding-bottom: 15px'>
-          <v-btn outlined rounded text @click='validate()'>
-            Valider
-          </v-btn>
+          <v-btn outlined rounded text @click='validate()'> Valider </v-btn>
         </div>
         <v-row
           align='center'
@@ -55,7 +56,7 @@
           style='padding-bottom: 15px'
         >
           <div class='my-2'>
-            <v-btn x-small color='blue' @click='redirect("/register")'>
+            <v-btn x-small color='blue' @click="redirect('/register')">
               Créer un compte
             </v-btn>
           </div>
@@ -84,13 +85,12 @@ axios.defaults.baseURL = 'http://localhost:3000';
 @Options({
   data() {
     return {
+      alert: false,
       show: false,
       know: true,
       new_email: null,
       new_password: null,
-      passwordRules: [
-        (v) => (!!v) || 'Un mot de passe est requis',
-      ],
+      passwordRules: [(v) => !!v || 'Un mot de passe est requis'],
     };
   },
   components: {
@@ -114,7 +114,6 @@ axios.defaults.baseURL = 'http://localhost:3000';
         const response = await axios.get(`/user/one/?email=${this.new_email}`);
         // if (response.data.password) {
         //   const pswv = await bcrypt.compare(this.new_password, response.data.password);
-
         // if (pswv) {
         this.$store.dispatch('fetchProfil', {
           loginStatus: true,

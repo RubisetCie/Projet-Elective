@@ -14,9 +14,6 @@ router.get("/one/", controller.getOne);
 // Retrieving user data by ID
 router.get("/:id", controller.getById);
 
-// Create a new user
-router.post("/", controller.post);
-
 // Updates an existing user
 router.put("/", controller.put);
 

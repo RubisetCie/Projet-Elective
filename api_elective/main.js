@@ -24,6 +24,7 @@ const userRouter = require("./route/userRoute");
 const restaurantRouter = require("./route/restaurantRoute");
 const menuRouter = require("./route/menuRoute");
 const orderRouter = require("./route/orderRoute");
+const userController = require("./controller/userController");
 const authenticationController = require("./controller/authenticationController");
 
 // Options for the documentation
@@ -44,6 +45,9 @@ app.use(morgan("common", {stream: fs.createWriteStream(__dirname + "/access.log"
 app.post("/login", authenticationController.login);
 app.post("/logout", authenticationController.logout);
 app.post("/token", authenticationController.token);
+
+// Add the route to create a new user before the authentication middleware
+app.post("/user/", userController.post);
 
 // Authentication handling for the API
 app.use(authenticationController.authentication);
