@@ -47,7 +47,7 @@ import axios from 'axios';
     };
   },
   props: {
-    menuId: Number,
+    menuId: String,
   },
   methods: {
     remove(id) {
@@ -57,7 +57,8 @@ import axios from 'axios';
       // d
     },
     async getMenuByID() {
-      const response = await axios.get(`/menu/${this.menuId}}`);
+      console.log(this.menuId);
+      const response = await axios.get(`/menu/${this.menuId}`);
       this.resumeMenu = response.data;
     },
   },

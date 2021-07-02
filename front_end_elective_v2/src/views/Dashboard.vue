@@ -188,34 +188,34 @@ const gradients = [
     ],
     action: [
       {
-        user: 'michel dupon',
-        request: 'get...',
+        user: 'julien hugo',
+        request: 'post',
+        page: 'cart',
+      },
+      {
+        user: 'marc amon',
+        request: 'get',
         page: 'account',
       },
       {
         user: 'silevie marcar',
-        request: 'get...',
-        page: 'account',
+        request: 'get',
+        page: 'delivery',
+      },
+      {
+        user: 'batien picard',
+        request: 'put',
+        page: 'Menu',
       },
       {
         user: 'silevie marcar',
-        request: 'get...',
-        page: 'account',
-      },
-      {
-        user: 'silevie marcar',
-        request: 'get...',
-        page: 'account',
-      },
-      {
-        user: 'silevie marcar',
-        request: 'get...',
+        request: 'get',
         page: 'account',
       },
     ],
     logins: [
       {
-        temps: '2021-01-07/12:20:20',
+        temps: '2021-02-07/14:25',
         clients: 1,
         livreurs: 0,
         restaurateurs: 0,
@@ -225,7 +225,7 @@ const gradients = [
         total: 2,
       },
       {
-        temps: '2021-01-07/12:20:24',
+        temps: '2021-02-07/14:24',
         clients: 1,
         livreurs: 2,
         restaurateurs: 0,
@@ -235,7 +235,7 @@ const gradients = [
         total: 4,
       },
       {
-        temps: '2021-01-07/12:20:23',
+        temps: '2021-02-07/14:23',
         clients: 2,
         livreurs: 2,
         restaurateurs: 0,
@@ -245,7 +245,7 @@ const gradients = [
         total: 6,
       },
       {
-        temps: '2021-01-07/12:22',
+        temps: '2021-02-07/14:22',
         clients: 1,
         livreurs: 1,
         restaurateurs: 0,
@@ -255,7 +255,7 @@ const gradients = [
         total: 3,
       },
       {
-        temps: '2021-01-07/12:21',
+        temps: '2021-02-07/14:21',
         clients: 2,
         livreurs: 1,
         restaurateurs: 1,
@@ -265,7 +265,7 @@ const gradients = [
         total: 5,
       },
       {
-        temps: '2021-01-07/12:20',
+        temps: '2021-01-07/14:20',
         clients: 2,
         livreurs: 1,
         restaurateurs: 0,
