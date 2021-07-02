@@ -158,7 +158,7 @@ axios.defaults.baseURL = 'http://localhost:3000';
       data: null,
       otherRules: [
         (v) => (!!v) || 'Requis',
-        (v) => (v && v.length <= 10) || "Doit étre d'au moins 10 charaters",
+        (v) => (v && v.length >= 10) || "Doit étre d'au moins 10 charaters",
       ],
       passwordRules: [
         (v) => (!!v) || 'Un mot de passe est requis',
@@ -210,7 +210,8 @@ axios.defaults.baseURL = 'http://localhost:3000';
     },
     async postNewAccount(data) {
       const response = await axios.post('/user/', data);
-      if (response.status === 204) {
+      console.log(response.status);
+      if (response.status === 200) {
         this.redirect('/login');
       }
     },
