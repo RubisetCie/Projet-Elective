@@ -42,32 +42,43 @@ import DeliveryInfos from '../components/UI/Cart/DeliveryInfos.vue';
     return {
       Orders: null,
       data: null,
+      error: null,
+      clientId: null,
     };
   },
   methods: {
     pay() {
       this.data = {
-        clientId: '4548',
-        address: '42 rue du General de Gaule, Paris 75003',
-        date: '28/06/2021', // il faut que je regarde la ISO 8601 ou un truc du genre
+        clientId: this.clientId.userId,
+        address: {
+          country: 'France',
+          zipcode: '75000',
+          city: 'Paris',
+          address: '24 rue de mont martre',
+        },
+        date: '2021-07-02T08:28:32.738Z', // il faut que je regarde la ISO 8601 ou un truc du genre
         status: 'open',
-        taxes: '0.20',
-        items: [
-          { id: 'burger_8556', price: '8.00' },
-          { id: 'vegan_salade_6156460', price: '14.00' },
+        taxes: { value: 20, currency: 'EUR' },
+        menus: [
+          // { id: 'burger_8556', price: '8.00' },
+          // { id: 'vegan_salade_6156460', price: '14.00' },
         ],
-        restaurantId: 'istanbull_4242',
-        assign: null,
+        restaurantId: '60de1250cf2ab4e2d89b0ea2',
+        // assign:,
       };
       this.validate(this.data);
     },
     loadBasket() {
       this.Orders = this.$store.getters.getBasket;
+      this.clientId = this.$store.getters.getUser;
+      console.log(this.Orders);
     },
     async validate(data) {
-      const response = await axios.post('/order/', data);
+      console.log(data);
+      const response = await axios.post('/order/', data).catch(() => { this.error = true; });
       if (response.status === 204) {
-        this.redirect('/order');
+        this.$router.push('/order');
+        this.$store.dispatch('ClearBasket');
       }
     },
   },

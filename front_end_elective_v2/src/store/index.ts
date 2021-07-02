@@ -30,6 +30,9 @@ export default new Vuex.Store({
         refresh: '',
       };
     },
+    RESET_BASKET(state) {
+      state.basket = [];
+    },
   },
   actions: {
     fetchProfil(context, payload) {
@@ -40,6 +43,9 @@ export default new Vuex.Store({
     },
     disconect(context) {
       context.commit('RESET_USER');
+    },
+    ClearBasket(context) {
+      context.commit('RESET_BASKET');
     },
   },
   modules: {
