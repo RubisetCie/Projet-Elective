@@ -140,13 +140,35 @@
 
             <v-list-item
             v-if='this.getUserId.usertype === 4
-            || this.getUserId.usertype === 3
+            || this.getUserId.usertype === 0
             || this.getUserId.usertype === 6'
             @click='redirect("/deliveryman")'>
               <v-list-item-icon>
                 <v-icon>mdi-bike-fast</v-icon>
               </v-list-item-icon>
               <v-list-item-title>Mes livraisons</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item
+            v-if='this.getUserId.usertype === 3
+            || this.getUserId.usertype === 0
+            || this.getUserId.usertype === 6'
+            @click='redirect("/createmenu")'>
+              <v-list-item-icon>
+                <v-icon>mdi-hamburger</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Créer un menu</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item
+            v-if='this.getUserId.usertype === 3
+            || this.getUserId.usertype === 0
+            || this.getUserId.usertype === 6'
+            @click='redirect("/createmenu")'>
+              <v-list-item-icon>
+                <v-icon>mdi-hamburger</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>editer un menu</v-list-item-title>
             </v-list-item>
           </v-list-item-group>
         </v-list>
@@ -217,7 +239,7 @@ import axios from 'axios';
   computed: {
     getUserId() {
       if (this.$store.getters.getUser.loginStatus === false) {
-        if (this.$route.path !== '/login') {
+        if (this.$route.path !== '/login' && this.$route.path !== '/register') {
           this.$router.push('/login').catch();
         }
       }
