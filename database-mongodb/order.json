@@ -1,7 +1,7 @@
 {
 	"_id": 3,
     "clientId": 0,
-	"restaurantId": 0,
+	"restaurantId": { "$oid": "60de1250cf2ab4e2d89b0ea2" },
     "address":
 	{
 		"country": "France",
@@ -14,8 +14,8 @@
     "taxes": { "value": 0.20, "currency": "EUR" },
     "menus":
 	[
-		{ "_id": 1 },
-		{ "_id": 2 }
+		{ "_id": { "$oid": "60de11cb6d3391ae45edcc91" }},
+		{ "_id": { "$oid": "60de11d3b04793833aa59622" }}
 	],
     "assign": null
 }
